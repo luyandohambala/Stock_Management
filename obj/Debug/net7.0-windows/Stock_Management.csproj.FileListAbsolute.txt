@@ -20,3 +20,6 @@ I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Stock_Management.pdb
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Stock_Management.genruntimeconfig.cache
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\ref\Stock_Management.dll
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\GeneratedInternalTypeHelper.g.cs
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Home_Page.baml
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Home_Page.g.cs
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Stock_Management.sourcelink.json

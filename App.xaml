@@ -11,20 +11,23 @@
 
         </Style>
         
-        <!-- home screen layout -->
-        <Style x:Key="home page style" TargetType="Page"> <!-- home page -->
-            
+        <!-- screen layout -->
+        <Style x:Key="page style" TargetType="Page"> <!-- page -->
+            <Setter Property="Height" Value="482"/>
+            <Setter Property="Width" Value="889"/>
+            <Setter Property="Background" Value="Transparent"/>
         </Style>
 
         <Style x:Key="frame style" TargetType="Frame"> <!-- dashboard frame style -->
             <Setter Property="NavigationUIVisibility" Value="Hidden"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Background" Value="#eff2f7"/>
-            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Margin" Value="5 20 10 20"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Frame}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="7" BorderBrush="DarkRed" BorderThickness="2">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Background="{TemplateBinding Background}" CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -43,7 +46,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="FontFamily" Value="Micro Sans Serif"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="25"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
 
         </Style>
@@ -52,18 +55,16 @@
         <!-- navigation style -->
         <Style x:Key="header navigation" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Margin" Value="5 0 5 0"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 7 5 0"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Foreground" Value="#4b4b4b"/>
             <Setter Property="FontFamily" Value="./Assets/Font/#Font Awesome 6 Free Solid"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="25"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderThickness="0" Width="37">
+                        <Border Background="{TemplateBinding Background}" Height="40" Margin="7 7" Width="40">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -77,8 +78,8 @@
                     <Setter Property="Foreground">
                         <Setter.Value>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#4b4b4b" Offset="0"/>
-                                <GradientStop Color="Red" Offset="1"/>
+                                <GradientStop Color="Red" Offset=".2"/>
+                                <GradientStop Color="Maroon" Offset=".8"/>
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
@@ -86,7 +87,7 @@
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="30" Duration="0:0:.05"/>
+                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="35" Duration="0:0:.05"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
@@ -94,7 +95,7 @@
                     <Trigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="20" Duration="0:0:.05"/>
+                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="25" Duration="0:0:.05"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
@@ -105,8 +106,8 @@
                     <Setter Property="Foreground">
                         <Setter.Value>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#4b4b4b" Offset="0"/>
-                                <GradientStop Color="Red" Offset="1"/>
+                                <GradientStop Color="Black" Offset=".3"/>
+                                <GradientStop Color="Red" Offset=".8"/>
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
@@ -115,6 +116,7 @@
 
             </Style.Triggers>
         </Style>
+
 
         <Style x:Key="exit logo" TargetType="Button" BasedOn="{StaticResource header navigation}">
 
@@ -130,5 +132,96 @@
         </Style>
         
         
+        <!-- dashboard buttons -->
+        <Style x:Key="dashboard_button_style" TargetType="Button">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Width" Value="166"/>
+            <Setter Property="Margin" Value="20 0 20 0"/>
+            <Setter Property="Height" Value="150"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="White" Offset=".4"/>
+                        <GradientStop Color="White" Offset=".4"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4b4b4b" Offset="0"/>
+                        <GradientStop Color="Red" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="dashboard_border" Background="{TemplateBinding Background}" CornerRadius="15" Padding="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+            <!-- Button behaviour style-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Width" To="190" Duration="0:0:.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Height" To="170" Duration="0:0:.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="20" Duration="0:0:.2"/>
+                                
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                To="#4b4b4b" Duration="0:0:.2"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                                To="Red" Duration="0:0:.2"/>
+                                
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                                        To=".2" Duration="0:0:.4" />
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                                        To="1" Duration="0:0:.4" />
+                                
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Width" To="166" Duration="0:0:.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Height" To="150" Duration="0:0:.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="16" Duration="0:0:.2"/>
+
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                        To="White" Duration="0:0:.4"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                        To="White" Duration="0:0:.4"/>
+
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                                        To=".5" Duration="0:0:.4" />
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                                        To=".5" Duration="0:0:.4" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Application.Resources>
 </Application>

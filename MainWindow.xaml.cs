@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Stock_Management.Assets.Pages;
+using System.ComponentModel;
 using System.Timers;
 using System.Windows;
 
@@ -10,6 +11,7 @@ namespace Stock_Management
         public MainWindow()
         {
             InitializeComponent();
+            Display_Frame.Content = new Home_Page();
         }
     }
 

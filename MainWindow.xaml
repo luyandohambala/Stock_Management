@@ -27,25 +27,30 @@
 
             <TextBlock Grid.Row="1" Margin="30 0 0 0" Text="Welcome User!" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-            <!-- navigation menu -->
-            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                                
-                <Button Name="home_button" Content="&#xe3af;" Style="{StaticResource header navigation}"/>
-                <Button Name="sales_button"  Content="&#xf07a;" Style="{StaticResource header navigation}"/>
-                <Button Name="Stock_button" Content="box" Style="{StaticResource header navigation}"/>
-                <Button Name="Report_button" Content="clipboard" Style="{StaticResource header navigation}"/>
-                <Button Name="Settings_button" Content="gear" Style="{StaticResource header navigation}"/>
-                <Button Name="Logout_button" Content="&#xf2f5;" Style="{StaticResource exit logo}"/>
-             
-            </StackPanel>
-
             <TextBlock Grid.Row="1" Name="Time_Text" Margin="0 0 30 0" Text="{Binding Source = { StaticResource ticker }, Path = Now, Mode = OneWay, StringFormat='h:mm tt'}" Style="{StaticResource Header text}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            
-            <!-- main body content -->
-            <Frame Grid.Row="2" x:Name="Display_Frame" Style="{StaticResource frame style}"/> 
+
+            <DockPanel Grid.Row="2" Margin="2">
+                <!-- navigation menu -->
+                <Border HorizontalAlignment="Left" VerticalAlignment="Stretch" Style="{StaticResource border style}" Margin="9 20 9 20" Background="#eff2f7">
+                    
+                    <DockPanel>
+
+                        <Button DockPanel.Dock="Top" Name="home_button" Content="&#xe3af;" Style="{StaticResource header navigation}"/>
+                        <Button DockPanel.Dock="Top" Name="sales_button"  Content="&#xf07a;" Style="{StaticResource header navigation}"/>
+                        <Button DockPanel.Dock="Top" Name="Stock_button" Content="box" Style="{StaticResource header navigation}"/>
+                        <Button DockPanel.Dock="Top" Name="Report_button" Content="clipboard" Style="{StaticResource header navigation}"/>
+                        <Button DockPanel.Dock="Top" Name="Settings_button" Content="gear" Style="{StaticResource header navigation}"/>
+
+                        <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Name="Logout_button" Content="&#xf2f5;" Style="{StaticResource exit logo}"/>
+                    </DockPanel>
+                </Border>
+                
+                <!-- main body content -->
+                <Frame x:Name="Display_Frame" Style="{StaticResource frame style}"/>
+            </DockPanel>
 
             <!-- footer section -->
-            <TextBlock Grid.Row="3" Margin="10" Text="Copyright 2023 Designed and developed by Luyando Hambala." FontSize="15" Style="{StaticResource Header text}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Margin="10" Text="Copyright © 2023 Designed and developed by Luyando Hambala." FontSize="15" Style="{StaticResource Header text}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>
