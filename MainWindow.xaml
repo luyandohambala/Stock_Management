@@ -27,7 +27,7 @@
 
             <TextBlock Grid.Row="1" Margin="30 0 0 0" Text="Welcome User!" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-            <TextBlock Grid.Row="1" Name="Time_Text" Margin="0 0 30 0" Text="{Binding Source = { StaticResource ticker }, Path = Now, Mode = OneWay, StringFormat='h:mm tt'}" Style="{StaticResource Header text}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Name="Time_Text" FontSize="18" Margin="0 0 30 0" Text="{Binding Source = { StaticResource ticker }, Path = Now, Mode = OneWay, StringFormat='d MMM, yyyy h:mm tt'}" Style="{StaticResource Header text}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
             <DockPanel Grid.Row="2" Margin="2">
                 <!-- navigation menu -->
@@ -50,7 +50,8 @@
             </DockPanel>
 
             <!-- footer section -->
-            <TextBlock Grid.Row="3" Margin="10" Text="Copyright © 2023 Designed and developed by Luyando Hambala." FontSize="15" Style="{StaticResource Header text}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Margin="10" Text="{Binding Source = { StaticResource ticker }, Path = Year, Mode = OneWay, StringFormat={}Copyright © 2023 - {0} Developed by Luyando Hambala.}" 
+                       FontSize="15" Style="{StaticResource Header text}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>

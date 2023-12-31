@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "mbkfQeaB7DoZT3ASi1iDWr9wHDdnZ185hWs5Wl48WgemHNDKFrWvtSa+/iTyvcWnLaKP44q4T9ADYLws3GyT7A==",
+  "dgSpecHash": "mvoMlCA9pWswhDJWCFgJhJLhjLqwEBZLggTZjhelqIC1KY2rELu05bfNF1zScPbWLm3z27SUsBP6aP9jEb8JMw==",
   "success": true,
   "projectFilePath": "I:\\j\\c#\\Stock_Management\\Stock_Management.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\TMB CO\\.nuget\\packages\\syncfusion.licensing\\24.1.43\\syncfusion.licensing.24.1.43.nupkg.sha512",
+    "C:\\Users\\TMB CO\\.nuget\\packages\\syncfusion.sfchart.wpf\\24.1.43\\syncfusion.sfchart.wpf.24.1.43.nupkg.sha512"
+  ],
   "logs": []
 }

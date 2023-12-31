@@ -39,6 +39,12 @@
       "frameworks": {
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
+          "dependencies": {
+            "Syncfusion.SfChart.WPF": {
+              "target": "Package",
+              "version": "[24.1.43, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

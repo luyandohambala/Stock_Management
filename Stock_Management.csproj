@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Syncfusion.SfChart.WPF" Version="24.1.43" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\Font\Font Awesome 6 Free-Solid-900.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
