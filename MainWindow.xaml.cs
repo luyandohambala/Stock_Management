@@ -12,7 +12,7 @@ namespace Stock_Management
         {
             InitializeComponent();
             home_button.Focus();
-            Display_Frame.Content = new Home_Page();
+            Display_Frame.Content = new Sales_Page();
         }
     }
 

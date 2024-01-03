@@ -31,7 +31,7 @@
 
             <DockPanel Grid.Row="2" Margin="2">
                 <!-- navigation menu -->
-                <Border HorizontalAlignment="Left" VerticalAlignment="Stretch" Style="{StaticResource border style}" Margin="9 20 9 20" Background="#eff2f7">
+                <Border HorizontalAlignment="Left" Style="{StaticResource border style}" Margin="9 20 9 20" Background="#eff2f7">
                     
                     <DockPanel>
 

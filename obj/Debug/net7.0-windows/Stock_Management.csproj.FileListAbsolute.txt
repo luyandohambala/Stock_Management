@@ -23,3 +23,9 @@ I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\GeneratedInternalTypeHelper.g.
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Home_Page.baml
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Home_Page.g.cs
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Stock_Management.sourcelink.json
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Stock_Management.csproj.AssemblyReference.cache
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Syncfusion.Licensing.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Syncfusion.SfChart.WPF.dll
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Stock_Management.csproj.CopyComplete
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Sales_Page.g.cs
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Sales_Page.baml

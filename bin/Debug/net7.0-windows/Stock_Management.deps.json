@@ -7,8 +7,30 @@
   "targets": {
     ".NETCoreApp,Version=v7.0": {
       "Stock_Management/1.0.0": {
+        "dependencies": {
+          "Syncfusion.SfChart.WPF": "24.1.43"
+        },
         "runtime": {
           "Stock_Management.dll": {}
+        }
+      },
+      "Syncfusion.Licensing/24.1.43": {
+        "runtime": {
+          "lib/net7.0/Syncfusion.Licensing.dll": {
+            "assemblyVersion": "24.1.43.0",
+            "fileVersion": "24.1.43.0"
+          }
+        }
+      },
+      "Syncfusion.SfChart.WPF/24.1.43": {
+        "dependencies": {
+          "Syncfusion.Licensing": "24.1.43"
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.SfChart.WPF.dll": {
+            "assemblyVersion": "24.1.43.0",
+            "fileVersion": "24.1.43.0"
+          }
         }
       }
     }
@@ -18,6 +40,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Syncfusion.Licensing/24.1.43": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MHm8cNWJoiGi3DFgZBEEPFVqJb8TpidetRVrWgl+qYgjI0CfRz+vYJw+s0AUgytxf6sb9PCoENpFPOCigum2dQ==",
+      "path": "syncfusion.licensing/24.1.43",
+      "hashPath": "syncfusion.licensing.24.1.43.nupkg.sha512"
+    },
+    "Syncfusion.SfChart.WPF/24.1.43": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dkL8BtKg+5BE0NvhI2OSWgYygW/Zi1c7cvwPe7mfy5l/+6IPKfOxdKPM2hepP+mo+KEzL691fwbiFtJxUIPcew==",
+      "path": "syncfusion.sfchart.wpf/24.1.43",
+      "hashPath": "syncfusion.sfchart.wpf.24.1.43.nupkg.sha512"
     }
   }
 }
