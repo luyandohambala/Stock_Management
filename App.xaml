@@ -276,18 +276,20 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                        To="#4b4b4b" Duration="0:0:.4" AutoReverse="True"/>
+                                        To="#4b4b4b" Duration="0:0:.25" AutoReverse="True"/>
                                 <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
-                                        To="DarkRed" Duration="0:0:.4" AutoReverse="True"/>
+                                        To="DarkRed" From="Red" Duration="0:0:.25" AutoReverse="True"/>
 
                                 <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
-                                To=".4" Duration="0:0:.4" AutoReverse="True" />
+                                To=".4" From="0" Duration="0:0:.25" AutoReverse="True" />
                                 <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
-                                To=".6" Duration="0:0:.4" AutoReverse="True"/>
+                                To=".6" From="1" Duration="0:0:.25" AutoReverse="True"/>
 
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
+
+                   
                 </Trigger>
 
                 <Trigger Property="IsMouseOver" Value="True">
@@ -306,7 +308,16 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="items_add_button" TargetType="Button">
+        <Style x:Key="add_to_cart" TargetType="Button" BasedOn="{StaticResource purchase_button}">
+            <Setter Property="Margin" Value="15"/>
+            <Setter Property="Content" Value="add"/>
+            <Setter Property="DockPanel.Dock" Value="Bottom"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            
+        </Style>
+
+        <Style x:Key="items_quantity" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="DarkRed"/>
             <Setter Property="FontFamily" Value="./Assets/Font/#Font Awesome 6 Free Solid"/>
@@ -379,7 +390,7 @@
                         <Border CornerRadius="10" Background="{TemplateBinding Background}" Padding="10">
                             <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ContentPresenter DockPanel.Dock="Top" TextBlock.TextAlignment="Center" Margin="10 30 10 5" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                                <Button Margin="15" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource items_add_button}"/>
+                                <Button Style="{StaticResource add_to_cart}"/>
                             </DockPanel>
                         </Border>
                     </ControlTemplate>
