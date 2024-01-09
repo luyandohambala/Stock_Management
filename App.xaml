@@ -68,7 +68,9 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}" Height="40" Margin="7 7" Width="40">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            
                         </Border>
+                        
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -269,59 +271,27 @@
             </Setter>
             
             <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                        To="#4b4b4b" Duration="0:0:.4" AutoReverse="True"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                        To="DarkRed" Duration="0:0:.4" AutoReverse="True"/>
+
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                                To=".4" Duration="0:0:.4" AutoReverse="True" />
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                                To=".6" Duration="0:0:.4" AutoReverse="True"/>
+
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+
                 <Trigger Property="IsMouseOver" Value="True">
-                
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="BorderThickness" Value="0"/>
-
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                    To="#4b4b4b" Duration="0:0:.2"/>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
-                                    To="Red" Duration="0:0:.2"/>
-
-                            <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
-                            To=".2" Duration="0:0:.4" />
-                            <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
-                            To="1" Duration="0:0:.4" />
-
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-                            To="White" Duration="0:0:.4"/>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
-                            To="White" Duration="0:0:.4"/>
-
-                            <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
-                            To=".5" Duration="0:0:.4" />
-                            <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
-                            To=".5" Duration="0:0:.4" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
-
-                <Trigger Property="IsMouseCaptured" Value="True">
-
-                    <Setter Property="BorderThickness" Value="1"/>
-
                     <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="White" Offset=".4"/>
-                                <GradientStop Color="White" Offset=".4"/>
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-
-                    <Setter Property="Foreground">
                         <Setter.Value>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                 <GradientStop Color="#4b4b4b" Offset="0"/>
@@ -330,9 +300,290 @@
                         </Setter.Value>
                     </Setter>
 
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="items_add_button" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="DarkRed"/>
+            <Setter Property="FontFamily" Value="./Assets/Font/#Font Awesome 6 Free Solid"/>
+            <Setter Property="Content" Value="add"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="50" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="1" 
+                                BorderBrush="{TemplateBinding Foreground}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                <GradientStop Color="#4b4b4b" Offset="0"/>
+                                <GradientStop Color="Red" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                
+                                <GradientStop Color="#4b4b4b" Offset="0"/>
+                                <GradientStop Color="DarkRed" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+
+
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="item_button" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="Micro Sans Serif"/>
+            <Setter Property="Height" Value="160"/>
+            <Setter Property="Width" Value="160"/>
+            <Setter Property="Margin" Value="10 10 10 10"/>
+            <Setter Property="Background" Value="White"/>
+            
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4b4b4b" Offset="0"/>
+                        <GradientStop Color="Red" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}" Padding="10">
+                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ContentPresenter DockPanel.Dock="Top" TextBlock.TextAlignment="Center" Margin="10 30 10 5" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                <Button Margin="15" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource items_add_button}"/>
+                            </DockPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        
+        <Style x:Key="category_button" TargetType="Button">
+            <Setter Property="Foreground" Value="#4b4b4b"/>
+            <Setter Property="Padding" Value="15 7 15 7"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                        <GradientStop Color="#eff2f7" Offset=".5"/>
+                        <GradientStop Color="#eff2f7" Offset=".5"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontFamily" Value="Micro Sans Serif"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="7" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+
+                    <Setter Property="Foreground" Value="White"/>
+
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                        To="#4b4b4b" Duration="0:0:.2"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                        To="Red" Duration="0:0:.2"/>
+
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                                        To=".2" Duration="0:0:.4" />
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                                        To="1" Duration="0:0:.4" />
+
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                        To="#eff2f7" Duration="0:0:.4"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                        To="#eff2f7" Duration="0:0:.4"/>
+
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                                        To=".5" Duration="0:0:.4" />
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                                        To=".5" Duration="0:0:.4" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid x:Name="Grid">
+                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto"
+                                       Height="Auto" Fill="Transparent"/>
+                            <Border x:Name="Rectangle1" CornerRadius="5" Margin="0 8 0 10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Width="auto" Height="auto" Background="{TemplateBinding Background}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Tag" Value="Horizontal">
+                                <Setter TargetName="Rectangle1" Property="Width" Value="Auto"/>
+                                <Setter TargetName="Rectangle1" Property="Height" Value="7"/>
+                                
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style> <!-- scrollbar configuration -->
+
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="LightGray" Offset=".5"/>
+                        <GradientStop Color="LightGray" Offset=".5"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="GridRoot" Width="12" Background="{x:Null}">
+                            <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="True" Focusable="False">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}"
+                                        Style="{StaticResource ScrollThumbs}"/>
+                                </Track.Thumb>
+
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False"/>
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False"/>
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger SourceName="Thumb" Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="(Foreground).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                To="#4b4b4b" Duration="0:0:.4"/>
+                                            <ColorAnimation Storyboard.TargetProperty="(Foreground).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                                To="Red" Duration="0:0:.4"/>
+
+                                            <DoubleAnimation Storyboard.TargetProperty="(Foreground).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                                                To="0" Duration="0:0:.5" AutoReverse="True" RepeatBehavior="Forever"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="(Foreground).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                                                To="1" Duration="0:0:.5" AutoReverse="True" RepeatBehavior="Forever"/>
+
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="(Foreground).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                        To="LightGray" Duration="0:0:.4"/>
+                                            <ColorAnimation Storyboard.TargetProperty="(Foreground).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                                        To="LightGray" Duration="0:0:.4"/>
+
+                                            <DoubleAnimation Storyboard.TargetProperty="(Foreground).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                                                        To=".5" Duration="0:0:.4" />
+                                            <DoubleAnimation Storyboard.TargetProperty="(Foreground).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                                                        To=".5" Duration="0:0:.4" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                                
+                            </Trigger>
+                            <Trigger SourceName="Thumb" Property="IsDragging" Value="True">
+                                <Setter TargetName="Thumb" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#4b4b4b" Offset="0"/>
+                                            <GradientStop Color="Red" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Value="Collapsed" TargetName="Thumb" Property="Visibility"/>
+                            </Trigger>
+
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter Property="LayoutTransform" TargetName="GridRoot">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="LayoutTransform" TargetName="PART_Track">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Setter Property="Width" Value="auto"/>
+                                <Setter Property="Height" Value="12"/>
+                                <Setter TargetName="Thumb" Property="Tag" Value="Horizontal"/>
+                                <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand"/>
+                                <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand"/>
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style> <!-- scrollbar configuration -->
 
         <Style x:Key="listview style" TargetType="ListView">
             <Setter Property="Margin" Value="10 5 10 5"/>
@@ -351,17 +602,29 @@
 
         </Style>
 
-        <Style x:Key="clear_items_button" TargetType="TextBlock">
+        <Style x:Key="clear_items_button" TargetType="Button">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="10"/>
 
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="dashboard_border" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
             <Style.Triggers>
                 
-                <Trigger Property="IsMouseOver" Value="True">
+                <Trigger Property="IsMouseCaptured" Value="True">
                     <Setter Property="Foreground" Value="Red"/>
                 </Trigger>
                 
