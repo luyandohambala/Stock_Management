@@ -1,28 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
 namespace Stock_Management.Assets.Pages
 {
-    /// <summary>
-    /// Interaction logic for Sales_Page.xaml
-    /// </summary>
+
     public partial class Sales_Page : Page
     {
         public Sales_Page()
         {
             InitializeComponent();
+
+            List<testing_class> testing_Classes = new List<testing_class>()
+            {
+                new() { item_name = "testing", quantity=1},
+
+                new() { item_name = "testing2", quantity=400}
+            };
+
+            list_items.ItemsSource = testing_Classes;
+
         }
+
     }
+
+    public class testing_class
+    {
+        public testing_class()
+        {
+
+        }
+
+        public string item_name { get; set; }
+        public int quantity { get; set; }
+    }
+
 }

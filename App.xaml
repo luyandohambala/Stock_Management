@@ -317,7 +317,7 @@
             
         </Style>
 
-        <Style x:Key="items_quantity" TargetType="Button">
+        <Style x:Key="items_quantity_plus" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="DarkRed"/>
             <Setter Property="FontFamily" Value="./Assets/Font/#Font Awesome 6 Free Solid"/>
@@ -362,6 +362,10 @@
 
 
             </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="items_quantity_minus" TargetType="Button" BasedOn="{StaticResource items_quantity_plus}">
+            <Setter Property="Content" Value="minus"/>
         </Style>
         
         <Style x:Key="item_button" TargetType="Button">
@@ -599,14 +603,42 @@
         <Style x:Key="listview style" TargetType="ListView">
             <Setter Property="Margin" Value="10 5 10 5"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
             <Setter Property="DockPanel.Dock" Value="Top"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
 
-            <Setter Property="Template">
+            <Setter Property="ItemContainerStyle">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ListView">
-                        <Border HorizontalAlignment="Stretch" CornerRadius="13" VerticalAlignment="Stretch"/>
-                    </ControlTemplate>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate >
+                        <DockPanel Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <TextBlock Text="{Binding item_name}" TextWrapping="Wrap" Style="{StaticResource Header text}" FontSize="14" 
+                                    DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <Button Style="{StaticResource items_quantity_minus}" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                
+                                <Button Style="{StaticResource items_quantity_plus}" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                                <TextBlock Margin="10" Text="{Binding quantity}" Style="{StaticResource Header text}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DockPanel>
+                        </DockPanel>
+                    </DataTemplate>
                 </Setter.Value>
             </Setter>
             
