@@ -31,15 +31,18 @@
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition FocusVisualStyle="{x:Null}" Height="auto"/>
-                        <RowDefinition />
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition FocusVisualStyle="{x:Null}" />
                     </Grid.RowDefinitions>
-                    
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="30 10 10 5" HorizontalAlignment="Stretch">
-                        <Button Content="All" Style="{StaticResource category_button}"/>
-                        <Button Content="Some" Style="{StaticResource category_button}"/>
-                        <Button Content="Many" Style="{StaticResource category_button}"/>
-                    </StackPanel>
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 10 10 5">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                            <Button Content="All" Style="{StaticResource category_button}"/>
+                            <Button Content="Some" Style="{StaticResource category_button}"/>
+                            <Button Content="Many" Style="{StaticResource category_button}"/>
+                            
+                        </StackPanel>
+                    </ScrollViewer>
 
                     <ScrollViewer Grid.Row="1">
                         <WrapPanel x:Name="Item_Panel" FocusVisualStyle="{x:Null}" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20">

@@ -483,9 +483,10 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="Tag" Value="Horizontal">
-                                <Setter TargetName="Rectangle1" Property="Width" Value="Auto"/>
-                                <Setter TargetName="Rectangle1" Property="Height" Value="7"/>
-                                
+                                <Setter TargetName="Rectangle1" Property="Width" Value="auto"/>
+                                <Setter TargetName="Rectangle1" Property="Height" Value="12"/>
+                                <Setter TargetName="Rectangle1" Property="Margin" Value="8 0 10 0"/>
+
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -590,6 +591,7 @@
                                 <Setter Property="Width" Value="auto"/>
                                 <Setter Property="Height" Value="12"/>
                                 <Setter TargetName="Thumb" Property="Tag" Value="Horizontal"/>
+
                                 <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand"/>
                                 <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand"/>
 
