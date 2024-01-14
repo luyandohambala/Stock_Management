@@ -13,12 +13,24 @@
     <Compile Update="Assets\Pages\Sales_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Assets\Pages\Services_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Assets\Pages\stock_page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Assets\Pages\Home_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\Pages\Sales_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\Pages\Services_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\Pages\stock_page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

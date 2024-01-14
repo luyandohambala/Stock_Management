@@ -5,20 +5,40 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Stock_Management.Assets.Pages"
       mc:Ignorable="d" 
-      Style="{StaticResource page style}" Height="486" Width="800"
+      Style="{StaticResource page style}" Height="486" Width="870"
       Title="Sales_Page">
     
     <!-- delete height during runtime -->
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
+
     <Border Style="{StaticResource border style}" Background="#eff2f7" CornerRadius="7">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="9*"/>
             </Grid.RowDefinitions>
 
             <!-- title content-->
-            <TextBlock Margin="10" Text="Product Sales" Style="{StaticResource Header text}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Margin="20 10 10 10" Text="Product Sales" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+
+
+                <Grid Name="Search_Grid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Column="1">
+                    <!--Search icon and textbox -->
+                    <TextBlock Margin="28 0 35 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search by item name" Visibility="{Binding ElementName=TxtSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
+                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    <Label Content="&#xf002;" Style="{StaticResource Icon_Font}" VerticalAlignment="Center" Margin="0 2 20 0" HorizontalAlignment="Right"/>
+                </Grid>
+            </Grid>
 
             <!-- main body -->
             <Grid Grid.Row="1">
@@ -50,11 +70,7 @@
                             <Button Content="Item Name" Style="{StaticResource item_button}"/>
                             <Button Content="Item Name" Style="{StaticResource item_button}"/>
                             <Button Content="Item Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Item Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Item Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Item Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Item Name" Style="{StaticResource item_button}"/>
-
+                            
                         </WrapPanel>
                     </ScrollViewer>
 

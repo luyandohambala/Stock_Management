@@ -37,7 +37,8 @@
 
                         <Button DockPanel.Dock="Top" Name="home_button" Content="&#xe3af;" Style="{StaticResource header navigation}"/>
                         <Button DockPanel.Dock="Top" Name="sales_button"  Content="&#xf07a;" Style="{StaticResource header navigation}"/>
-                        <Button DockPanel.Dock="Top" Name="Stock_button" Content="box" Style="{StaticResource header navigation}"/>
+                        <Button DockPanel.Dock="Top" Name="services_button"  Content="print" Style="{StaticResource header navigation}"/>
+                        <Button DockPanel.Dock="Top" Name="Stock_button" Content="&#xe529;" Style="{StaticResource header navigation}"/>
                         <Button DockPanel.Dock="Top" Name="Report_button" Content="clipboard" Style="{StaticResource header navigation}"/>
                         <Button DockPanel.Dock="Top" Name="Settings_button" Content="gear" Style="{StaticResource header navigation}"/>
 
@@ -50,8 +51,8 @@
             </DockPanel>
 
             <!-- footer section -->
-            <TextBlock Grid.Row="3" Margin="10" Text="{Binding Source = { StaticResource ticker }, Path = Year, Mode = OneWay, StringFormat={}Copyright © 2023 - {0} Developed by Luyando Hambala.}" 
-                       FontSize="15" Style="{StaticResource Header text}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Margin="20 10 0 10" Text="{Binding Source = { StaticResource ticker }, Path = Year, Mode = OneWay, StringFormat={}Copyright © 2023 - {0} Developed by Luyando Hambala.}" 
+                       FontSize="15" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>

@@ -11,9 +11,7 @@ namespace Stock_Management.Assets.Pages
 
             List<testing_class> testing_Classes = new List<testing_class>()
             {
-                new() { item_name = "testing", quantity=1},
-
-                new() { item_name = "testing2", quantity=400}
+                
             };
 
             list_items.ItemsSource = testing_Classes;
