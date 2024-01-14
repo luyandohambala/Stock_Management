@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Stock_Management.Assets.Pages"
       mc:Ignorable="d" 
-                  Style="{StaticResource page style}" Height="487" Width="900"
+                  Style="{StaticResource page style}" Height="487" Width="890"
       Title="stock_Page">
 
     <!-- delete height=487 and width=890 during runtime -->
@@ -63,20 +63,63 @@
                         </StackPanel>
                     </ScrollViewer>
 
-                    <ScrollViewer Grid.Row="1">
-                        <WrapPanel x:Name="Item_Panel" FocusVisualStyle="{x:Null}" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20">
+                    <!-- datagrid (item table) content-->
+                    <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="10" DockPanel.Dock="Top">
+                        <DataGrid ItemsSource="{Binding payment_Models, UpdateSourceTrigger=PropertyChanged}" Margin="10" x:Name="Payment_DataGrid" Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" >
+                            <DataGrid.Columns>
 
-                            <Button Content="Service Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Service Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Service Name" Style="{StaticResource item_button}"/>
+                                <!-- Name -->
+                                <DataGridTextColumn  Header="Name" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
-                        </WrapPanel>
-                    </ScrollViewer>
+                                <!-- type -->
+                                <DataGridTextColumn  Header="Type" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
+                                <!-- category -->
+                                <DataGridTextColumn  Header="Category" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- quantity -->
+                                <DataGridTextColumn  Header="Quantity" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- cost -->
+                                <DataGridTextColumn  Header="Cost" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
                 </Grid>
 
 
-                <!-- add item panel -->
+                <!-- add/edit/remove item panel -->
                 <Border Grid.Column="1" Background="White" Margin="10" CornerRadius="15">
                     <DockPanel Margin="10">
                         <DockPanel Margin="10 10 10 5" VerticalAlignment="Top" DockPanel.Dock="Top">
@@ -85,7 +128,14 @@
                             <Button Content="Clear all" Style="{StaticResource clear_items_button}"/>
                         </DockPanel>
 
-                        <Button HorizontalAlignment="Stretch" Margin="0 10 0 0" Content="Add" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Style="{StaticResource purchase_button}"/>
+                        <Grid Margin="0 10 0 10" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions> 
+                            <Button HorizontalAlignment="Stretch" Content="Add/ Edit" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                            <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Remove" VerticalAlignment="Center" Style="{StaticResource remove}"/>
+                        </Grid>
 
                         <Border Background="#eff2f7" CornerRadius="7">
                             <Grid>
