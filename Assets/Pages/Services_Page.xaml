@@ -5,10 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Stock_Management.Assets.Pages"
       mc:Ignorable="d" 
-            Style="{StaticResource page style}" Height="486" Width="870"
+      Style="{StaticResource page style}"
       Title="Services_Page">
 
-    <!-- delete height during runtime -->
+    <!-- delete height=487 and width=890 during runtime -->
 
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>

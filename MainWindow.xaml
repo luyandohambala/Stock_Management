@@ -39,7 +39,7 @@
                         <Button DockPanel.Dock="Top" Name="sales_button"  Content="&#xf07a;" Style="{StaticResource header navigation}"/>
                         <Button DockPanel.Dock="Top" Name="services_button"  Content="print" Style="{StaticResource header navigation}"/>
                         <Button DockPanel.Dock="Top" Name="Stock_button" Content="&#xe529;" Style="{StaticResource header navigation}"/>
-                        <Button DockPanel.Dock="Top" Name="Report_button" Content="clipboard" Style="{StaticResource header navigation}"/>
+                        <Button DockPanel.Dock="Top" Name="quotation_button" Content="clipboard" Style="{StaticResource header navigation}"/>
                         <Button DockPanel.Dock="Top" Name="Settings_button" Content="gear" Style="{StaticResource header navigation}"/>
 
                         <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Name="Logout_button" Content="&#xf2f5;" Style="{StaticResource exit logo}"/>

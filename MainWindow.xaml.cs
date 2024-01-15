@@ -12,8 +12,33 @@ namespace Stock_Management
         {
             InitializeComponent();
             home_button.Focus();
+            Display_Frame.Content = new Quotation_Page();
+        }
+
+        /*private void home_button_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Display_Frame.Content = new Home_Page();
+        }
+
+        private void sales_button_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Display_Frame.Content = new Sales_Page();
+        }
+
+        private void services_button_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Display_Frame.Content = new Services_Page();
+        }
+
+        private void Stock_button_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
             Display_Frame.Content = new stock_page();
         }
+
+        private void quotation_button_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Display_Frame.Content = new Quotation_Page();
+        }*/
     }
 
     public class Ticker : INotifyPropertyChanged

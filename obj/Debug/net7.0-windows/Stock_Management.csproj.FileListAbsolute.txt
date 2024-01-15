@@ -33,3 +33,5 @@ I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Services_Page.g.c
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\stock_page.g.cs
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Services_Page.baml
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\stock_page.baml
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Quotation_Page.g.cs
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Quotation_Page.baml
