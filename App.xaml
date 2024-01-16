@@ -774,6 +774,28 @@
         
         <Style x:Key="remove" TargetType="Button" BasedOn="{StaticResource purchase_button}">
             <Setter Property="Foreground" Value="red"/>
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                    To="Red" Duration="0:0:.25" AutoReverse="True"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                    To="Red" Duration="0:0:.25" AutoReverse="True"/>
+
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                                    To=".4" From="0" Duration="0:0:.25" AutoReverse="True" />
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                                    To=".6" From="1" Duration="0:0:.25" AutoReverse="True"/>
+
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+
+                </Trigger>
+            </Style.Triggers>
         </Style>
         
 

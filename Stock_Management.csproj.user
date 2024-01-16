@@ -19,6 +19,9 @@
     <Compile Update="Assets\Pages\Services_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Assets\Pages\Settings_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Assets\Pages\stock_page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +37,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\Pages\Services_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\Pages\Settings_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\Pages\stock_page.xaml">

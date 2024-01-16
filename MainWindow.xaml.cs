@@ -12,7 +12,7 @@ namespace Stock_Management
         {
             InitializeComponent();
             home_button.Focus();
-            Display_Frame.Content = new Quotation_Page();
+            Display_Frame.Content = new Settings_Page();
         }
 
         /*private void home_button_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
