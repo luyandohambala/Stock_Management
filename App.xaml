@@ -720,7 +720,7 @@
                 <Setter.Value>
                     <DataTemplate >
                         <DockPanel Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                            <TextBlock Text="{Binding item_name}" TextWrapping="Wrap" Style="{StaticResource Header text}" FontSize="14" 
+                            <TextBlock Text="{Binding name}" TextWrapping="Wrap" Style="{StaticResource Header text}" FontSize="14" 
                                     DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
                                 <Button Style="{StaticResource items_quantity_minus}" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>

@@ -56,22 +56,39 @@
                     </Grid.RowDefinitions>
 
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 10 10 5">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                        <!--
                             <Button Content="All" Style="{StaticResource category_button}"/>
                             <Button Content="Some" Style="{StaticResource category_button}"/>
                             <Button Content="Many" Style="{StaticResource category_button}"/>
+                            -->
                             
-                        </StackPanel>
+                        <ItemsControl Name="category_items" ItemsSource="{Binding category_list}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding button_content}" Style="{StaticResource category_button}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </ScrollViewer>
 
                     <ScrollViewer Grid.Row="1">
-                        <WrapPanel x:Name="Item_Panel" FocusVisualStyle="{x:Null}" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20">
-
-                            <Button Content="Item Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Item Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Item Name" Style="{StaticResource item_button}"/>
-                            
-                        </WrapPanel>
+                        <ItemsControl Name="items_panel" ItemsSource="{Binding items_list}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" FocusVisualStyle="{x:Null}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding button_content}" Style="{StaticResource item_button}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </ScrollViewer>
 
                 </Grid>
