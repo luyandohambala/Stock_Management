@@ -37,3 +37,4 @@ I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Quotation_Page.g.
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Quotation_Page.baml
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Settings_Page.g.cs
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Settings_Page.baml
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\CommunityToolkit.Mvvm.dll

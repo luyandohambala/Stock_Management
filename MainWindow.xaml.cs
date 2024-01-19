@@ -1,4 +1,6 @@
-﻿using Stock_Management.Assets.Pages;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Stock_Management.Assets.Pages;
+using Stock_Management.Assets.ViewModel;
 using System.ComponentModel;
 using System.Timers;
 using System.Windows;
@@ -14,6 +16,7 @@ namespace Stock_Management
             home_button.Focus();
             Display_Frame.Content = new Sales_Page();
         }
+
 
         /*private void home_button_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -41,7 +44,7 @@ namespace Stock_Management
         }*/
     }
 
-    public class Ticker : INotifyPropertyChanged
+    internal class Ticker : ObservableObject
     {
         public Ticker()
         {
@@ -65,11 +68,10 @@ namespace Stock_Management
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Now)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Year)));
+            OnPropertyChanged(nameof(Now));
+            OnPropertyChanged(nameof(Year));
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
     }
 }

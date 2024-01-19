@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Stock_Management.Assets.ViewModel;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,113 +12,69 @@ namespace Stock_Management.Assets.Pages
     public partial class Sales_Page : Page
     {
 
-        //category items list
-
         public Sales_Page()
         {
             InitializeComponent();
 
-            populate();
+            DataContext = new Sales_Page_ViewModel();
+
         }
+    }
 
-        private void populate()
+    //checkout_list class
+    internal partial class checkout_list : ObservableObject
+    {
+        [ObservableProperty]
+        string item_name;
+
+        [ObservableProperty]
+        double item_price;
+
+        [ObservableProperty]
+        int quantity;
+
+
+        public checkout_list(string item_name, double item_price, int quantity)
         {
-            populate_category();
-            populate_items();
-            populate_checkout();
-        }
-
-        private void populate_category()
-        {
-            List<string> strings = new List<string>()
-            {
-                "button1",
-                "button2",
-                "button3",
-                "button4",
-                "button5"
-
-            };
-
-            category_button category_Button = new category_button();
-            foreach (var item in strings)
-            {
-
-                category_Button.category_list.Add(new category_button(item, item));
-
-            }
-            category_items.DataContext = category_Button;
-        }
-
-        private void populate_items()
-        {
-            List<string> strings = new List<string>()
-            {
-                "item1",
-                "item2",
-                "item3",
-                "item4",
-                "item5"
-            };
-
-            items_button items_Button = new items_button();
-            foreach (var item in strings)
-            {
-                items_Button.items_list.Add(new items_button(item, item));
-            }
-
-            items_panel.DataContext = items_Button;
-        }
-
-        private void populate_checkout()
-        {
-            List<checkout_list> checkout_Lists = new List<checkout_list>()
-            {
-                new("item1", 4),
-                new("item2", 6),
-                new("item3", 3),
-                new("item4", 1),
-                new("item5", 6)
-            };
-
-            list_items.ItemsSource = checkout_Lists;
+            Item_name = item_name;
+            Item_price = item_price;
+            Quantity = quantity;
         }
 
     }
 
-    public class checkout_list
+    //items_panel list utilises class below
+    internal partial class items_button : ObservableObject
     {
-        string item_name { get; set; }
+        [ObservableProperty]
+        string? button_content;
 
-        int quantity { get; set; }
+        [ObservableProperty]
+        string? button_price;
 
-        public checkout_list(string item_name, int quantity)
+        [ObservableProperty]
+        string? button_category;
+
+        [ObservableProperty]
+        ObservableCollection<items_button> items_list;
+        
+        [ObservableProperty]
+        ObservableCollection<items_button> price_list;
+
+        public items_button(string button_content, string button_price, string button_category)
         {
-            this.item_name = item_name;
-            this.quantity = quantity;
-        }
-    }
-
-    public class items_button
-    {
-        string? button_name { get; set; }
-
-        public string? button_content { get; set; }
-
-        public ObservableCollection<items_button> items_list { get; set; }
-
-        public items_button(string button_name, string button_content)
-        {
-            this.button_name = button_name;
-            this.button_content = button_content;
-            items_list = new ObservableCollection<items_button>();
+            Button_content = button_content;
+            Button_price = button_price;
+            Button_category = button_category;
+            
         }
         public items_button()
         {
-            items_list = new ObservableCollection<items_button>();
+            
         }
     }
 
+    //category_panel list utilises class below
     public class category_button
     {
         string? button_name { get; set; }
