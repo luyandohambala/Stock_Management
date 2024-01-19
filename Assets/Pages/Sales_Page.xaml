@@ -34,10 +34,14 @@
                 <Grid Name="Search_Grid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Column="1">
                     <!--Search icon and textbox -->
                     <TextBlock Margin="28 0 50 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search by item name" Visibility="{Binding ElementName=TxtSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
-                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                    <Button Content="&#xf002;" Command="{Binding search_for}" CommandParameter="{Binding ElementName=TxtSearch, Path=Text}" Style="{StaticResource search_logo}" 
+                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                             TextChanged="TxtSearch_TextChanged"/>
+                    <Button Name="clear_button" Content="&#xf002;" Command="{Binding clear_txt}" Style="{StaticResource search_logo}" 
                             VerticalAlignment="Center" Margin="0 2 20 0" HorizontalAlignment="Right"/>
                 </Grid>
+
+                <!-- button below is invoked to search items searchtxtbox when filtering using searchbar-->
+                <Button Name="TxtSearch_button" Visibility="Collapsed" IsEnabled="False" Command="{Binding search_for}" CommandParameter="{Binding ElementName=TxtSearch, Path=Text}" />
             </Grid>
 
             <!-- main body -->
@@ -55,14 +59,8 @@
                         <RowDefinition FocusVisualStyle="{x:Null}" />
                     </Grid.RowDefinitions>
 
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 10 10 5">
-                        <!--
-                            <Button Content="All" Style="{StaticResource category_button}"/>
-                            <Button Content="Some" Style="{StaticResource category_button}"/>
-                            <Button Content="Many" Style="{StaticResource category_button}"/>
-                            -->
-                            
-                        <ItemsControl Name="category_items" ItemsSource="{Binding category_list}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 7 10 0">
+                        <ItemsControl x:Name="cat_grid" ItemsSource="{Binding Category_list}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
@@ -70,7 +68,8 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding button_content}" Style="{StaticResource category_button}"/>
+                                    <Button Content="{Binding Button_content}" Style="{StaticResource category_button}" 
+                                        Command="{Binding ElementName=cat_grid, Path=DataContext.search_categ}" CommandParameter="{Binding Button_content}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

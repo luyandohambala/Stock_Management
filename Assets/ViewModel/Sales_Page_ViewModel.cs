@@ -3,6 +3,8 @@ using Stock_Management.Assets.Pages;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 
 namespace Stock_Management.Assets.ViewModel
 {
@@ -21,19 +23,26 @@ namespace Stock_Management.Assets.ViewModel
         public Command_Class reduce => new(reduce_quantity);
         public Command_Class clear_all => new(execute => clear_items());
 
+
         /// <summary>
         /// items panel commands and properties 
         /// </summary>
-
         [ObservableProperty]
         private ObservableCollection<items_button> items_list;
 
         public Command_Class search_for => new(search_items);
 
-
-
-        //item_panel commands
         public Command_Class add => new(add_to_cart);
+
+
+
+        /// <summary>
+        /// category panel commands and properties
+        /// </summary>
+        [ObservableProperty]
+        private ObservableCollection<category_button> category_list;
+
+        public Command_Class search_categ => new(search_category);
 
 
         public Sales_Page_ViewModel()
@@ -43,34 +52,52 @@ namespace Stock_Management.Assets.ViewModel
 
         private void populate()
         {
-            /*populate_category();*/
+            populate_category();
             populate_items();
             populate_checkout();
         }
 
 
-        /*private void populate_category()
+        /// <summary>
+        /// category panel section below
+        /// </summary>
+        private void populate_category()
         {
-            List<string> strings = new List<string>()
+            Category_list = new();
+            category_button category_Button = new();
+            
+            category_Button.Category_list = new()
             {
-                "button1",
-                "button2",
-                "button3",
-                "button4",
-                "button5"
-
+                "Cables",
+                "Keyboards",
+                "Mouse"
             };
 
-            category_button category_Button = new category_button();
-            foreach (var item in strings)
+            //item below added to clear all search filters.
+            Category_list.Add(new("All", "All"));
+            foreach (var item in category_Button.Category_list)
             {
-
-                category_Button.category_list.Add(new category_button(item, item));
-
+                Category_list.Add(new(item, item));
             }
-            category_items.DataContext = category_Button;
+
+            
         }
-        */
+        private void search_category(object content)
+        {
+            if (!String.IsNullOrEmpty(content.ToString()) && content.ToString().Trim() == "All")
+            {
+                populate_items();
+            }
+            else if (!String.IsNullOrEmpty(content.ToString()))
+            {
+                populate_items();
+                Items_list = new(Items_list.Where(x => x.Button_category.ToLower().Trim() == content.ToString().ToLower().Trim()));
+            }
+            else
+            {
+                populate_items();
+            }
+        }
 
 
 
@@ -85,10 +112,10 @@ namespace Stock_Management.Assets.ViewModel
 
             items_Button.Items_list = new ObservableCollection<items_button>()
             {
-                new ("item1", "10.00", "cables"),
-                new ("item2", "14.00", "keyboards"),
-                new ("item3", "15.00", "keyboards"),
-                new ("item4", "20.00", "mouse")
+                new ("item1", "10.00", "Cables"),
+                new ("item2", "14.00", "Keyboards"),
+                new ("item3", "15.00", "Keyboards"),
+                new ("item4", "20.00", "Mouse")
             };
             
             foreach (var item in items_Button.Items_list)
@@ -98,15 +125,17 @@ namespace Stock_Management.Assets.ViewModel
 
         }
 
+        //search list for specific category
         private void search_items(object content)
         {
-            var filteredlist = Items_list.Where(x => x.Button_category == content.ToString());
-
-            Items_list = new();
-            
-            foreach (var item in filteredlist.ToList())
+            if (!String.IsNullOrEmpty(content.ToString()))
             {
-                Items_list.Add(new(item.Button_content, item.Button_price, item.Button_category));
+                populate_items();
+                Items_list = new(Items_list.Where(x => x.Button_content.ToLower().Trim().Contains(content.ToString().ToLower().Trim())));
+            }
+            else
+            {
+                populate_items();
             }
         }
 

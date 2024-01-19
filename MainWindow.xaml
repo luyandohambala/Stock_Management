@@ -23,7 +23,7 @@
             </Grid.RowDefinitions>
 
             <!-- header row content -->
-            <Border Background="Transparent" Width="600" HorizontalAlignment="Center"/> <!-- allow dragability of the window -->
+            <Border Background="Transparent" Width="600" HorizontalAlignment="Center" MouseLeftButtonDown="Border_MouseDown"/> <!-- allow dragability of the window -->
 
             <TextBlock Grid.Row="1" Margin="30 0 0 0" Text="Welcome User!" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
@@ -35,14 +35,14 @@
                     
                     <DockPanel>
 
-                        <Button DockPanel.Dock="Top" Name="home_button" Content="&#xe3af;" Style="{StaticResource header navigation}"/>
-                        <Button DockPanel.Dock="Top" Name="sales_button"  Content="&#xf07a;" Style="{StaticResource header navigation}"/>
-                        <Button DockPanel.Dock="Top" Name="services_button"  Content="print" Style="{StaticResource header navigation}"/>
-                        <Button DockPanel.Dock="Top" Name="Stock_button" Content="&#xe529;" Style="{StaticResource header navigation}"/>
-                        <Button DockPanel.Dock="Top" Name="quotation_button" Content="clipboard" Style="{StaticResource header navigation}"/>
-                        <Button DockPanel.Dock="Top" Name="Settings_button" Content="gear" Style="{StaticResource header navigation}"/>
+                        <Button Click="home_button_Click" DockPanel.Dock="Top" Name="home_button" Content="&#xe3af;" Style="{StaticResource header navigation}"/>
+                        <Button Click="sales_button_Click" DockPanel.Dock="Top" Name="sales_button"  Content="&#xf07a;" Style="{StaticResource header navigation}"/>
+                        <Button Click="services_button_Click" DockPanel.Dock="Top" Name="services_button"  Content="print" Style="{StaticResource header navigation}"/>
+                        <Button Click="Stock_button_Click" DockPanel.Dock="Top" Name="Stock_button" Content="&#xe529;" Style="{StaticResource header navigation}"/>
+                        <Button Click="quotation_button_Click" DockPanel.Dock="Top" Name="quotation_button" Content="clipboard" Style="{StaticResource header navigation}"/>
+                        <Button Click="Settings_button_Click" DockPanel.Dock="Top" Name="Settings_button" Content="gear" Style="{StaticResource header navigation}"/>
 
-                        <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Name="Logout_button" Content="&#xf2f5;" Style="{StaticResource exit logo}"/>
+                        <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Command="{Binding close_app}" Name="Logout_button" Content="&#xf2f5;" Style="{StaticResource exit logo}"/>
                     </DockPanel>
                 </Border>
                 

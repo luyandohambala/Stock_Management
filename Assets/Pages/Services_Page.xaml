@@ -34,9 +34,10 @@
 
                 <Grid Name="Search_Grid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Column="1">
                     <!--Search icon and textbox -->
-                    <TextBlock Margin="28 0 35 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search by service name" Visibility="{Binding ElementName=TxtSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
+                    <TextBlock Margin="28 0 50 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search by service name" Visibility="{Binding ElementName=TxtSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
                     <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                    <Label Content="&#xf002;" Style="{StaticResource Icon_Font}" VerticalAlignment="Center" Margin="0 2 20 0" HorizontalAlignment="Right"/>
+                    <Button Name="clear_button" Content="&#xf002;" Command="{Binding clear_txt}" Style="{StaticResource search_logo}" 
+                        VerticalAlignment="Center" Margin="0 2 20 0" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
 
@@ -55,23 +56,35 @@
                         <RowDefinition FocusVisualStyle="{x:Null}" />
                     </Grid.RowDefinitions>
 
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 10 10 5">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                            <Button Content="All" Style="{StaticResource category_button}"/>
-                            <Button Content="Some" Style="{StaticResource category_button}"/>
-                            <Button Content="Many" Style="{StaticResource category_button}"/>
-
-                        </StackPanel>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 7 10 0">
+                        <ItemsControl x:Name="cat_grid" ItemsSource="{Binding Category_list}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding Button_content}" Style="{StaticResource category_button}" 
+                                    Command="{Binding ElementName=cat_grid, Path=DataContext.search_categ}" CommandParameter="{Binding Button_content}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </ScrollViewer>
 
                     <ScrollViewer Grid.Row="1">
-                        <WrapPanel x:Name="Item_Panel" FocusVisualStyle="{x:Null}" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20">
-
-                            <Button Content="Service Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Service Name" Style="{StaticResource item_button}"/>
-                            <Button Content="Service Name" Style="{StaticResource item_button}"/>
-
-                        </WrapPanel>
+                        <ItemsControl ItemsSource="{Binding Items_list}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel DataContext="{StaticResource Sales_Page_ViewModel}" Orientation="Horizontal" FocusVisualStyle="{x:Null}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding Button_content}" FontSize="18" Style="{StaticResource item_button}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </ScrollViewer>
 
                 </Grid>

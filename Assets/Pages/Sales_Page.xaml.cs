@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection.Emit;
 using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 
 namespace Stock_Management.Assets.Pages
@@ -11,13 +13,33 @@ namespace Stock_Management.Assets.Pages
 
     public partial class Sales_Page : Page
     {
-
+        public Command_Class clear_txt => new(execute => TxtSearch.Clear());
         public Sales_Page()
         {
             InitializeComponent();
 
             DataContext = new Sales_Page_ViewModel();
+            clear_button.DataContext = this;
 
+        }
+
+        private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //invoke search logo command through txtbox txtchanged event
+            if (!String.IsNullOrEmpty(TxtSearch.Text))
+            {
+                TxtSearch_button.IsEnabled = true;
+                clear_button.Content = "\uf00d";
+                ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
+
+            }
+            else
+            {
+                ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
+                clear_button.Content = "\uf002";
+                TxtSearch_button.IsEnabled = false;
+            }
+            
         }
     }
 
@@ -43,6 +65,7 @@ namespace Stock_Management.Assets.Pages
 
     }
 
+
     //items_panel list utilises class below
     internal partial class items_button : ObservableObject
     {
@@ -57,9 +80,6 @@ namespace Stock_Management.Assets.Pages
 
         [ObservableProperty]
         ObservableCollection<items_button> items_list;
-        
-        [ObservableProperty]
-        ObservableCollection<items_button> price_list;
 
         public items_button(string button_content, string button_price, string button_category)
         {
@@ -74,24 +94,25 @@ namespace Stock_Management.Assets.Pages
         }
     }
 
-    //category_panel list utilises class below
-    public class category_button
-    {
-        string? button_name { get; set; }
-        public string? button_content { get; set; }
 
-        public ObservableCollection<category_button> category_list { get; set; }
+    //category_panel list utilises class below
+    internal partial class category_button : ObservableObject
+    {
+
+        [ObservableProperty]
+        string? button_content;
+
+        [ObservableProperty]
+        public ObservableCollection<string> category_list;
 
         public category_button(string button_name, string button_content)
         {
-            this.button_name = button_name;
-            this.button_content = button_content;
-            category_list = new ObservableCollection<category_button>();
+            Button_content = button_content;
         }
 
         public category_button()
         {
-            category_list = new ObservableCollection<category_button>();
+            
         }
 
     }
