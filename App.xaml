@@ -8,6 +8,7 @@
     <Application.Resources>
 
         <local:Sales_Page_ViewModel x:Key="Sales_Page_ViewModel"/>
+        <local:Services_Page_ViewModel x:Key="Services_Page_ViewModel"/>
         <local:Convertor_Class x:Key="convertor_class"/>
         <local1:Sales_Page x:Key="sales_page"/>
 
@@ -474,8 +475,9 @@
                         <Border CornerRadius="10" Background="{TemplateBinding Background}" Padding="10">
                             <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                                    <ContentPresenter Name="content_presenter" DockPanel.Dock="Top" TextBlock.TextAlignment="Center" Margin="10 15 0 0" Content="{TemplateBinding Content}" HorizontalAlignment="left" VerticalAlignment="Center"/>
-
+                                    <TextBlock Name="content_presenter" FontSize="18" Text="{TemplateBinding Content}" TextAlignment="Left" TextWrapping="Wrap"  DockPanel.Dock="Top" Margin="10 15 0 0" Style="{StaticResource Header text}" 
+                                         HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    
                                     <TextBlock Name="button_price_block" Text="{Binding Button_price}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
                                          HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 </DockPanel>
@@ -483,7 +485,7 @@
                                 <Button DataContext="{StaticResource Sales_Page_ViewModel}" Command="{Binding add}" Style="{StaticResource add_to_cart}">
                                     <Button.CommandParameter>
                                         <MultiBinding Converter="{StaticResource convertor_class}">
-                                            <Binding Path="Content" ElementName="content_presenter"/>
+                                            <Binding Path="Text" ElementName="content_presenter"/>
                                             <Binding Path="Text" ElementName="button_price_block"/>
                                         </MultiBinding>
                                     </Button.CommandParameter>
@@ -503,8 +505,8 @@
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
-                        <GradientStop Color="#eff2f7" Offset=".5"/>
-                        <GradientStop Color="#eff2f7" Offset=".5"/>
+                        <GradientStop Color="LightGray" Offset=".5"/>
+                        <GradientStop Color="LightGray" Offset=".5"/>
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
@@ -549,9 +551,9 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                        To="#eff2f7" Duration="0:0:.4"/>
+                                        To="LightGray" Duration="0:0:.4"/>
                                 <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
-                                        To="#eff2f7" Duration="0:0:.4"/>
+                                        To="LightGray" Duration="0:0:.4"/>
 
                                 <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
                                         To=".5" Duration="0:0:.4" />
@@ -724,7 +726,7 @@
                     <DataTemplate>
                         <DockPanel Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <DockPanel DockPanel.Dock="Left">
-                                <TextBlock Name="Quantity_Block" DockPanel.Dock="Top" Text="{Binding Item_name}" TextWrapping="Wrap" Style="{StaticResource Header text}" FontSize="14" 
+                                <TextBlock Name="Quantity_Block" DockPanel.Dock="Top" Text="{Binding Item_name}" TextWrapping="Wrap" Width="120" Style="{StaticResource Header text}" FontSize="14" 
                                         HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 <TextBlock Text="{Binding Item_price, StringFormat=N2}" DockPanel.Dock="Bottom" TextWrapping="Wrap" Style="{StaticResource Header text}" FontSize="14" 
                                         HorizontalAlignment="Left" VerticalAlignment="Bottom"/>

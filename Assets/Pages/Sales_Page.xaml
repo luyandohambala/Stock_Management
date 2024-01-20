@@ -84,7 +84,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding Button_content}" FontSize="18" Style="{StaticResource item_button}"/>
+                                    <Button Content="{Binding Button_content}" Style="{StaticResource item_button}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

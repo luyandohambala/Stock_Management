@@ -23,7 +23,7 @@ namespace Stock_Management
         {
             InitializeComponent();
             Maximized = false;
-            change_color("home");
+            change_color("services");
 
             DataContext = this;
         }

@@ -35,10 +35,13 @@
                 <Grid Name="Search_Grid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Column="1">
                     <!--Search icon and textbox -->
                     <TextBlock Margin="28 0 50 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search by service name" Visibility="{Binding ElementName=TxtSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
-                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                    <Button Name="clear_button" Content="&#xf002;" Command="{Binding clear_txt}" Style="{StaticResource search_logo}" 
+                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" TextChanged="TxtSearch_TextChanged" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    <Button Name="clear_button" Content="&#xf002;" Command="{Binding clear_txt1}" Style="{StaticResource search_logo}" 
                         VerticalAlignment="Center" Margin="0 2 20 0" HorizontalAlignment="Right"/>
                 </Grid>
+
+                <!-- button below is invoked to search items searchtxtbox when filtering using searchbar-->
+                <Button Name="TxtSearch_button" Visibility="Collapsed" IsEnabled="False" Command="{Binding search_for1}" CommandParameter="{Binding ElementName=TxtSearch, Path=Text}" />
             </Grid>
 
             <!-- main body -->
@@ -57,7 +60,7 @@
                     </Grid.RowDefinitions>
 
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 7 10 0">
-                        <ItemsControl x:Name="cat_grid" ItemsSource="{Binding Category_list}">
+                        <ItemsControl x:Name="cat_grid" ItemsSource="{Binding Category_list1}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
@@ -66,22 +69,47 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Button Content="{Binding Button_content}" Style="{StaticResource category_button}" 
-                                    Command="{Binding ElementName=cat_grid, Path=DataContext.search_categ}" CommandParameter="{Binding Button_content}"/>
+                                    Command="{Binding ElementName=cat_grid, Path=DataContext.search_categ1}" CommandParameter="{Binding Button_content}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
 
                     <ScrollViewer Grid.Row="1">
-                        <ItemsControl ItemsSource="{Binding Items_list}">
+                        <ItemsControl ItemsSource="{Binding Items_list1}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel DataContext="{StaticResource Sales_Page_ViewModel}" Orientation="Horizontal" FocusVisualStyle="{x:Null}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20"/>
+                                    <WrapPanel DataContext="{StaticResource Services_Page_ViewModel}" Orientation="Horizontal" FocusVisualStyle="{x:Null}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding Button_content}" FontSize="18" Style="{StaticResource item_button}"/>
+                                    <Button Style="{StaticResource item_button}" Content="{Binding Button_content}">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border CornerRadius="10" Background="{TemplateBinding Background}" Padding="10">
+                                                    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                        <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                                                            <TextBlock Name="content_presenter" FontSize="18" Text="{TemplateBinding Content}" TextAlignment="Left" TextWrapping="Wrap"  DockPanel.Dock="Top" Margin="10 15 0 0" Style="{StaticResource Header text}" 
+                                                                HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                                                            <TextBlock Name="button_price_block" Text="{Binding Button_price}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
+                                                                HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                        </DockPanel>
+
+                                                        <Button DataContext="{StaticResource Services_Page_ViewModel}" Command="{Binding add1}" Style="{StaticResource add_to_cart}">
+                                                            <Button.CommandParameter>
+                                                                <MultiBinding Converter="{StaticResource convertor_class}">
+                                                                    <Binding Path="Text" ElementName="content_presenter"/>
+                                                                    <Binding Path="Text" ElementName="button_price_block"/>
+                                                                </MultiBinding>
+                                                            </Button.CommandParameter>
+                                                        </Button>
+                                                    </DockPanel>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -96,7 +124,7 @@
                         <DockPanel Margin="10 10 10 5" VerticalAlignment="Top" DockPanel.Dock="Top">
                             <TextBlock HorizontalAlignment="Left" FontSize="14" Margin="10" Padding="0 2 0 0" Foreground="#4b4b4b" Text="Service Description" Style="{StaticResource Header text}"/>
 
-                            <Button Content="Clear all" Style="{StaticResource clear_items_button}"/>
+                            <Button DataContext="{StaticResource Services_Page_ViewModel}" Content="Clear all" Command="{Binding clear_all1}" Style="{StaticResource clear_items_button}"/>
                         </DockPanel>
 
                         <Button HorizontalAlignment="Stretch" Content="Purchase" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Style="{StaticResource purchase_button}"/>
@@ -105,14 +133,36 @@
                             <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
 
                                 <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" FontWeight="Normal" Margin="15 2 5 0" VerticalAlignment="Center" Text="Total"
-                                        Style="{StaticResource Header text}"/>
-                                <TextBlock DockPanel.Dock="Right" Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" FontWeight="SemiBold" Margin="5 2 15 0" VerticalAlignment="Center" Text="0.00"
-                                        Style="{StaticResource Header text}"/>
+                        Style="{StaticResource Header text}"/>
+                                <TextBlock DataContext="{StaticResource Services_Page_ViewModel}" DockPanel.Dock="Right" Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" FontWeight="SemiBold" Margin="5 2 15 0" VerticalAlignment="Center" Text="{Binding Total_price1, StringFormat=N2}"
+                        Style="{StaticResource Header text}"/>
 
                             </DockPanel>
                         </Border>
 
-                        <ListView Name="list_items" Style="{StaticResource listview style}"/>
+                        <ListView DataContext="{StaticResource Services_Page_ViewModel}" ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Checkout_Lists1}" Style="{StaticResource listview style}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                        <DockPanel DockPanel.Dock="Left">
+                                            <TextBlock Name="Quantity_Block" DockPanel.Dock="Top" Text="{Binding Item_name}" TextWrapping="Wrap" Width="120" Style="{StaticResource Header text}" FontSize="14" 
+                                                HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                            <TextBlock Text="{Binding Item_price, StringFormat=N2}" DockPanel.Dock="Bottom" TextWrapping="Wrap" Style="{StaticResource Header text}" FontSize="14" 
+                                                HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                        </DockPanel>
+                                        <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <Button DataContext="{StaticResource Services_Page_ViewModel}" Style="{StaticResource items_quantity_minus}" Command="{Binding reduce1}" 
+                                                CommandParameter="{Binding ElementName=Quantity_Block, Path=Text}" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                                            <Button DataContext="{StaticResource Services_Page_ViewModel}" Style="{StaticResource items_quantity_plus}" Command="{Binding increase1}" 
+                                                CommandParameter="{Binding ElementName=Quantity_Block, Path=Text}" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                                            <TextBox Margin="5" Text="{Binding Quantity}" Style="{StaticResource entrytextbox}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </DockPanel>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
 
                     </DockPanel>
                 </Border>
