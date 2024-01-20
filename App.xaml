@@ -9,6 +9,7 @@
 
         <local:Sales_Page_ViewModel x:Key="Sales_Page_ViewModel"/>
         <local:Services_Page_ViewModel x:Key="Services_Page_ViewModel"/>
+        <local:stock_page_viewmodel x:Key="stock_page_viewmodel"/>
         <local:Convertor_Class x:Key="convertor_class"/>
         <local1:Sales_Page x:Key="sales_page"/>
 
@@ -289,7 +290,7 @@
             <Setter Property="FontFamily" Value="Micro Sans Serif"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Height" Value="30"/>
+            <Setter Property="Height" Value="35"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="5 7"/>
             <Setter Property="Background" Value="White"/>
@@ -1110,8 +1111,8 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background">
                         <Setter.Value>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#4b4b4b" Offset="0"/>
+                            <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                <GradientStop Color="#4b4b4b" Offset=".2"/>
                                 <GradientStop Color="Red" Offset="1"/>
                             </LinearGradientBrush>
                         </Setter.Value>
@@ -1122,8 +1123,8 @@
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background">
                         <Setter.Value>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#4b4b4b" Offset="0"/>
+                            <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                <GradientStop Color="#4b4b4b" Offset=".2"/>
                                 <GradientStop Color="Red" Offset="1"/>
                             </LinearGradientBrush>
                         </Setter.Value>

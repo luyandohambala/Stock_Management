@@ -34,10 +34,13 @@
                 <Grid Name="Search_Grid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Column="1">
                     <!--Search icon and textbox -->
                     <TextBlock Margin="28 0 50 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search..." Visibility="{Binding ElementName=TxtSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
-                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" TextChanged="TxtSearch_TextChanged" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     <Button Name="clear_button" Content="&#xf002;" Command="{Binding clear_txt2}" Style="{StaticResource search_logo}" 
                     VerticalAlignment="Center" Margin="0 2 20 0" HorizontalAlignment="Right"/>
                 </Grid>
+
+                <!-- button below is invoked to search items searchtxtbox when filtering using searchbar-->
+                <Button Name="TxtSearch_button" Visibility="Collapsed" IsEnabled="False" Command="{Binding search_for2}" CommandParameter="{Binding ElementName=TxtSearch, Path=Text}" />
             </Grid>
 
             <!-- main body -->
@@ -57,11 +60,14 @@
 
                     <!-- datagrid (item table) content-->
                     <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="10 30 10 10" DockPanel.Dock="Top">
-                        <DataGrid ItemsSource="{Binding payment_Models, UpdateSourceTrigger=PropertyChanged}" Margin="10" x:Name="Payment_DataGrid" Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" >
+                        <DataGrid SelectedItem="{Binding Value2}" 
+                                  ItemsSource="{Binding Data_lists}" Margin="10"
+                                  Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 
+                                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" >
                             <DataGrid.Columns>
 
                                 <!-- Name -->
-                                <DataGridTextColumn  Header="Name" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -70,7 +76,7 @@
                                 </DataGridTextColumn>
 
                                 <!-- type -->
-                                <DataGridTextColumn  Header="Type" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="Type" Binding="{Binding Type}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -79,7 +85,7 @@
                                 </DataGridTextColumn>
 
                                 <!-- category -->
-                                <DataGridTextColumn  Header="Category" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="Category" Binding="{Binding Category}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -88,7 +94,7 @@
                                 </DataGridTextColumn>
 
                                 <!-- quantity -->
-                                <DataGridTextColumn  Header="Quantity" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="Quantity" Binding="{Binding Quantity}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -97,7 +103,7 @@
                                 </DataGridTextColumn>
 
                                 <!-- cost -->
-                                <DataGridTextColumn  Header="Cost" Binding="{Binding First_Name}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="Cost" Binding="{Binding Cost}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -117,16 +123,16 @@
                         <DockPanel Margin="10 10 10 5" VerticalAlignment="Top" DockPanel.Dock="Top">
                             <TextBlock HorizontalAlignment="Left" FontSize="14" Margin="10" Padding="0 2 0 0" Foreground="#4b4b4b" Text="Product Description" Style="{StaticResource Header text}"/>
 
-                            <Button Content="Clear all" Style="{StaticResource clear_items_button}"/>
+                            <Button Content="Clear all" Command="{Binding clear_all2}" Style="{StaticResource clear_items_button}"/>
                         </DockPanel>
 
                         <Grid Margin="0 10 0 10" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions> 
-                            <Button HorizontalAlignment="Stretch" Content="Add/ Edit" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
-                            <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Remove" VerticalAlignment="Center" Style="{StaticResource remove}"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Name="add_edit_button" HorizontalAlignment="Stretch" Content="Add/ Edit" Command="{Binding add_record}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                            <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Remove" Command="{Binding remove_record}" VerticalAlignment="Center" Style="{StaticResource remove}"/>
                         </Grid>
 
                         <Border Background="#eff2f7" CornerRadius="7">
@@ -137,29 +143,29 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel VerticalAlignment="Top">
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 17 8 12" VerticalAlignment="Center" Text="Name"
+                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 8 14" VerticalAlignment="Center" Text="Name"
                                             Style="{StaticResource Header text}"/>
                                     
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 18 8 12" VerticalAlignment="Center" Text="Type"
+                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 8 14" VerticalAlignment="Center" Text="Type"
                                             Style="{StaticResource Header text}"/>
                                     
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 18 8 12" VerticalAlignment="Center" Text="Category"
+                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 19 8 14" VerticalAlignment="Center" Text="Category"
                                             Style="{StaticResource Header text}"/>
                                     
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 18 8 12" VerticalAlignment="Center" Text="Quantity"
+                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 19 8 14" VerticalAlignment="Center" Text="Quantity"
                                             Style="{StaticResource Header text}"/>
                                     
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 18 8 12" VerticalAlignment="Center" Text="Cost"
+                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 8 14" VerticalAlignment="Center" Text="Cost"
                                             Style="{StaticResource Header text}"/>
 
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                                    <TextBox Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Style="{StaticResource entrytextbox}"/>
+                                    <TextBox Name="Name_txtbox" Text="{Binding Name}" Style="{StaticResource entrytextbox}"/>
+                                    <TextBox Name="Type_txtbox" Text="{Binding Type}" Style="{StaticResource entrytextbox}"/>
+                                    <TextBox Name="Category_txtbox" Text="{Binding Category}" Style="{StaticResource entrytextbox}"/>
+                                    <TextBox Name="Quantity_txtbox" Text="{Binding Quantity}" Style="{StaticResource entrytextbox}"/>
+                                    <TextBox Name="Cost_txtbox" Text="{Binding Cost}" Style="{StaticResource entrytextbox}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
