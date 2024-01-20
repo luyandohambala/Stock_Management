@@ -505,8 +505,8 @@
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
-                        <GradientStop Color="LightGray" Offset=".5"/>
-                        <GradientStop Color="LightGray" Offset=".5"/>
+                        <GradientStop Color="LightGray" Offset=".2"/>
+                        <GradientStop Color="LightGray" Offset="1"/>
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
@@ -526,42 +526,18 @@
             </Setter>
 
             <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
+                <Trigger Property="IsMouseOver" Value="True">
 
                     <Setter Property="Foreground" Value="White"/>
 
-                    <Trigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                        To="#4b4b4b" Duration="0:0:.2"/>
-                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
-                                        To="Red" Duration="0:0:.2"/>
-
-                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
-                                        To=".2" Duration="0:0:.4" />
-                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
-                                        To="1" Duration="0:0:.4" />
-
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.EnterActions>
-
-                    <Trigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                        To="LightGray" Duration="0:0:.4"/>
-                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
-                                        To="LightGray" Duration="0:0:.4"/>
-
-                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
-                                        To=".5" Duration="0:0:.4" />
-                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
-                                        To=".5" Duration="0:0:.4" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.ExitActions>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                <GradientStop Color="#4b4b4b" Offset=".2"/>
+                                <GradientStop Color="Red" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>

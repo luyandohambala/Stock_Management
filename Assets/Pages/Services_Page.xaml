@@ -68,7 +68,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding Button_content}" Style="{StaticResource category_button}" 
+                                    <Button Name="cat_grid_button" Click="Button_Click" Content="{Binding Button_content}" Style="{StaticResource category_button}" 
                                     Command="{Binding ElementName=cat_grid, Path=DataContext.search_categ1}" CommandParameter="{Binding Button_content}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

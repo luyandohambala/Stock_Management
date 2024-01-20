@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Stock_Management.Assets.Pages;
 using System.Collections.ObjectModel;
 using System.Windows;
+using static Stock_Management.Assets.Pages.Sales_Page;
 
 namespace Stock_Management.Assets.ViewModel
 {

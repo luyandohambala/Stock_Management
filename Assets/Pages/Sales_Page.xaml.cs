@@ -1,12 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Stock_Management.Assets.ViewModel;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Reflection.Emit;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Stock_Management.Assets.Pages
 {
@@ -39,8 +38,56 @@ namespace Stock_Management.Assets.Pages
                 clear_button.Content = "\uf002";
                 TxtSearch_button.IsEnabled = false;
             }
-            
+
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //gets button content
+            var btn = sender as Button;
+
+            change_nav(null, btn);
+
+            //finally execute command
+            btn.Command.Execute(btn.CommandParameter);
+        }
+
+
+        private void change_nav(string? button_content, Button? button_)
+        {
+            //create gradient color
+            LinearGradientBrush linearGradientBrush = new()
+            {
+                StartPoint = new Point(1, 0),
+                EndPoint = new Point(1, 1)
+            };
+
+            linearGradientBrush.GradientStops.Add(new GradientStop((Color)new ColorConverter().ConvertFrom("#4b4b4b"), 0.2));
+            linearGradientBrush.GradientStops.Add(new GradientStop(Colors.Red, 1));
+
+            if (button_content is null)
+            {
+                for (int i = 0; i < cat_grid.Items.Count; i++)
+                {
+                    //checks content of other butttons in itemscontrol
+                    var c = (ContentPresenter)cat_grid.ItemContainerGenerator.ContainerFromItem(cat_grid.Items[i]);
+                    Button button = c.ContentTemplate.FindName("cat_grid_button", c) as Button;
+
+                    if (button.Content != button_.Content)
+                    {
+                        button.ClearValue(ForegroundProperty);
+                        button.ClearValue(BackgroundProperty);
+                    }
+                    else
+                    {
+                        button.Background = linearGradientBrush;
+                        button.Foreground = new SolidColorBrush(Colors.White);
+                    }
+
+                }
+            }
+        }
+
     }
 
     //checkout_list class
@@ -86,11 +133,11 @@ namespace Stock_Management.Assets.Pages
             Button_content = button_content;
             Button_price = button_price;
             Button_category = button_category;
-            
+
         }
         public items_button()
         {
-            
+
         }
     }
 
@@ -112,9 +159,8 @@ namespace Stock_Management.Assets.Pages
 
         public category_button()
         {
-            
+
         }
 
     }
-
 }
