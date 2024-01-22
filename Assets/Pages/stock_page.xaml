@@ -60,7 +60,7 @@
 
                     <!-- datagrid (item table) content-->
                     <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="10 30 10 10" DockPanel.Dock="Top">
-                        <DataGrid SelectedItem="{Binding Value2}" 
+                        <DataGrid Name="items_grid" SelectedItem="{Binding Value2}"
                                   ItemsSource="{Binding Data_lists}" Margin="10"
                                   Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 
                                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" >
@@ -131,7 +131,7 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Name="add_edit_button" HorizontalAlignment="Stretch" Content="Add/ Edit" Command="{Binding add_record}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                            <Button Name="add_edit_button" Click="add_edit_button_Click" HorizontalAlignment="Stretch" Content="Add/ Edit" Command="{Binding add_record}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
                             <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Remove" Command="{Binding remove_record}" VerticalAlignment="Center" Style="{StaticResource remove}"/>
                         </Grid>
 

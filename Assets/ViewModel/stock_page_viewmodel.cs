@@ -38,8 +38,8 @@ namespace Stock_Management.Assets.ViewModel
             populate_table();
         }
 
+        [ObservableProperty]
         private Database_list value2;
-        public Database_list Value2 { get { return value2; } set { value2 = value; OnPropertyChanged(); } }
 
         private void add_to_database()
         {
@@ -49,22 +49,22 @@ namespace Stock_Management.Assets.ViewModel
             }
             else
             {
+                
+                ObservableCollection<string> to_compare = new();
+
                 foreach (var item in Data_lists)
                 {
-                    if (item.Name.ToLower() == Name.ToLower().Trim() && item.Type.ToLower() == Type.ToLower().Trim())
-                    {
-                        if (MessageBox.Show("Record already exists, continue adding?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                        {
-                            Data_lists.Add(
-                            new(Name.Trim(), Type.Trim(), Category.Trim(), Quantity.Trim(), Cost.Trim())
-                            );
-
-                            clear_items();
-                        }
-                        break;
-                    }
+                    to_compare.Add($"{item.Name.ToLower()}, {item.Type.ToLower()}, {item.Category.ToLower()}, {item.Quantity.ToLower()}, {item.Cost.ToLower()}");
                 }
-                
+
+                if (!to_compare.Contains($"{Name.ToLower().Trim()}, {Type.ToLower().Trim()}, {Category.ToLower().Trim()}, {Quantity.ToLower().Trim()}, {Cost.ToLower().Trim()}"))
+                {
+                    Data_lists.Add(
+                        new(Name.Trim(), Type.Trim(), Category.Trim(), Quantity.Trim(), Cost.Trim())
+                        );
+
+                    clear_items();
+                }                
                 
             }
         }
