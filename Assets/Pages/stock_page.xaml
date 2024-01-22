@@ -59,7 +59,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- datagrid (item table) content-->
-                    <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="10 30 10 10" DockPanel.Dock="Top">
+                    <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="10 30 10 10">
                         <DataGrid Name="items_grid" SelectedItem="{Binding Value2}"
                                   ItemsSource="{Binding Data_lists}" Margin="10"
                                   Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 

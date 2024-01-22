@@ -11,15 +11,18 @@ namespace Stock_Management.Assets.ViewModel
         //clear input items from itemsbox 
         public Command_Class clear_all2 => new(execute => clear_items());
 
+        //assign remove command 
         public Command_Class remove_record => new(execute => remove(), canExecute => Value2 != null);
 
-        public Command_Class add_record => new(execute => add_to_database());
+        //assign add command 
+        public Command_Class add_record => new(execute => add_to_database(), canExecute => !validate_entry());
 
+        //assign search command 
         public Command_Class search_for2 => new(search_items);
 
 
         [ObservableProperty]
-        private ObservableCollection<Database_list> data_lists = new ObservableCollection<Database_list>();
+        private ObservableCollection<Database_list> data_lists = new();
 
         [ObservableProperty]
         private string name;
@@ -43,29 +46,21 @@ namespace Stock_Management.Assets.ViewModel
 
         private void add_to_database()
         {
-            if (validate_entry())
+            
+            ObservableCollection<string> to_compare = new();
+
+            foreach (var item in Data_lists)
             {
-                MessageBox.Show("fill in all details.");
+                to_compare.Add($"{item.Name.ToLower()}, {item.Type.ToLower()}, {item.Category.ToLower()}, {item.Quantity.ToLower()}, {item.Cost.ToLower()}");
             }
-            else
+
+            if (!to_compare.Contains($"{Name.ToLower().Trim()}, {Type.ToLower().Trim()}, {Category.ToLower().Trim()}, {Quantity.ToLower().Trim()}, {Cost.ToLower().Trim()}"))
             {
-                
-                ObservableCollection<string> to_compare = new();
+                Data_lists.Add(
+                    new(Name.Trim(), Type.Trim(), Category.Trim(), Quantity.Trim(), Cost.Trim())
+                    );
 
-                foreach (var item in Data_lists)
-                {
-                    to_compare.Add($"{item.Name.ToLower()}, {item.Type.ToLower()}, {item.Category.ToLower()}, {item.Quantity.ToLower()}, {item.Cost.ToLower()}");
-                }
-
-                if (!to_compare.Contains($"{Name.ToLower().Trim()}, {Type.ToLower().Trim()}, {Category.ToLower().Trim()}, {Quantity.ToLower().Trim()}, {Cost.ToLower().Trim()}"))
-                {
-                    Data_lists.Add(
-                        new(Name.Trim(), Type.Trim(), Category.Trim(), Quantity.Trim(), Cost.Trim())
-                        );
-
-                    clear_items();
-                }                
-                
+                clear_items();
             }
         }
 
@@ -74,7 +69,7 @@ namespace Stock_Management.Assets.ViewModel
             Data_lists = new();
         }
 
-        //search list for specific category
+        //search list for specific product
         private void search_items(object content)
         {
             if (!String.IsNullOrEmpty(content.ToString()))
