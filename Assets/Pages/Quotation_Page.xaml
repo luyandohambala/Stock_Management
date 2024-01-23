@@ -198,9 +198,12 @@
 
                                     <DockPanel Grid.Column="1" VerticalAlignment="Top">
                                         <TextBox Name="serial_entry" DockPanel.Dock="Top" Text="{Binding Serial_number}" Style="{StaticResource entrytextbox}"/>
-                                        <TextBox Name="description_entry" DockPanel.Dock="Top" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
-                                        <TextBox Name="quantity_entry" TextChanged="quantity_entry_TextChanged" DockPanel.Dock="Top" Text="{Binding Quantity2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
-                                        <TextBox Name="unit_price_entry" TextChanged="unit_price_entry_TextChanged" DockPanel.Dock="Top" Text="{Binding Unit_price, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                        <TextBox Name="description_entry" DockPanel.Dock="Top" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Style="{StaticResource entrytextbox}"/>
+                                        <TextBox Name="quantity_entry" TextChanged="quantity_entry_TextChanged" DockPanel.Dock="Top" 
+                                                 Text="{Binding Quantity2, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                        <TextBox Name="unit_price_entry" TextChanged="unit_price_entry_TextChanged" DockPanel.Dock="Top" 
+                                                 Text="{Binding Unit_price, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
 
                                     </DockPanel>
                                 </Grid>
