@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Stock_Management.Assets.ViewModel" 
              xmlns:local1="clr-namespace:Stock_Management.Assets.Pages"
              xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Main App.xaml">
     <Application.Resources>
 
         <local:Sales_Page_ViewModel x:Key="Sales_Page_ViewModel"/>
