@@ -19,7 +19,7 @@ namespace Stock_Management.Assets.ViewModel
 
         public Command_Class all_users => new(execute => populate_users("all"), canExecute => User_list.Count != 0);
         public Command_Class admin_users => new(execute => populate_users("admin"), canExecute => User_list.Count != 0);
-        public Command_Class non_admin_users => new(execute => populate_users("non_admin"), canExecute => User_list.Count != 0);
+        public Command_Class non_admin_users => new(execute => populate_users("non-admin"), canExecute => User_list.Count != 0);
 
         public Command_Class add_users_command => new(execute => add_users("add"));
         public Command_Class edit_users_command => new(execute => add_users("edit"), canExecute => Value4 != null);
@@ -57,6 +57,9 @@ namespace Stock_Management.Assets.ViewModel
 
         [ObservableProperty]
         private string currency_;
+        
+        [ObservableProperty]
+        private string value_added_tax;
 
         [ObservableProperty]
         private string quotation_template;
@@ -101,15 +104,15 @@ namespace Stock_Management.Assets.ViewModel
                 populate_users("all");
                 User_list = new(User_list.Where(x => x.Authority_ == "admin"));
             }
-            else if(to_populate == "non_admin")
+            else if(to_populate == "non-admin")
             {
                 populate_users("all");
-                User_list = new(User_list.Where(x => x.Authority_ == "non_admin"));
+                User_list = new(User_list.Where(x => x.Authority_ == "non-admin"));
             }
 
         }
 
-
+        
         private void add_users(string to_do)
         {
 

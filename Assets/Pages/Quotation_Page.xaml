@@ -28,21 +28,13 @@
                     <ColumnDefinition Width="2.5*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Margin="20 10 10 10" Text="Quotation Management" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="20 10 10 10" Text="Quotation/ Invoice Management" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
-                <!--
-                <Grid Name="Search_Grid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Column="1">
-                    <Search icon and textbox
-                    <TextBlock Margin="28 0 50 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search by quote number....." 
-                               Visibility="{Binding ElementName=TxtSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
-                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" TextChanged="TxtSearch_TextChanged" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-                    <Button Name="clear_button" Content="&#xf002;" Command="{Binding clear_txt3}" Style="{StaticResource search_logo}" 
-                             VerticalAlignment="Center" Margin="0 2 20 0" HorizontalAlignment="Right"/>
-                </Grid>
-                
-                button below is invoked to search items searchtxtbox when filtering using searchbar
-                <Button Name="TxtSearch_button" Visibility="Collapsed" IsEnabled="False" Command="{Binding search_for3}" CommandParameter="{Binding ElementName=TxtSearch, Path=Text}" />
-                -->
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5 7">
+                    <Button Name="Quote" Command="{Binding quote_command}" Content="Quotation" Style="{StaticResource category_button}"/>
+                    <Button Name="Invoice" Command="{Binding invoice_command}" Content="Invoice" Style="{StaticResource category_button}"/>
+                </StackPanel>
             </Grid>
 
             <!-- main body -->
@@ -61,18 +53,38 @@
                     </Grid.RowDefinitions>
 
                     <!-- datagrid (item table) content-->
-                    <Border Grid.Row="1" Margin="10 0 10 0" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="7">
+                    <Border Grid.Row="1" Margin="10 0 10 0" Width="460" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="7">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" FontWeight="SemiBold" Margin="10 13 10 10" VerticalAlignment="Center" 
-                                       Text="Quote No." Style="{StaticResource Header text}"/>
-                            
-                            <!-- quotation number entry -->
-                            <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Quotation_number}" Width="60" Margin="10" HorizontalAlignment="Left" Style="{StaticResource entrytextbox}"/>
+                            <Grid Name="quote_view" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Center" FontSize="17" FontWeight="SemiBold" Margin="5 13 5 10" VerticalAlignment="Center" 
+                                    Text="Inv/Order Ref." Style="{StaticResource Header text}"/>
+
+                                <!-- quotation number entry -->
+                                <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Quotation_number}" Width="90" Margin="10" HorizontalAlignment="Right" Style="{StaticResource entrytextbox}"/>
+                            </Grid>
+
+                            <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Name="quote_invoice_no" Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" FontWeight="SemiBold" Margin="10 13 10 10" VerticalAlignment="Center" 
+                                        Text="Quote No." Style="{StaticResource Header text}"/>
+
+                                <!-- quotation number entry -->
+                                <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Quotation_number}" Width="60" Margin="10" HorizontalAlignment="Left" Style="{StaticResource entrytextbox}"/>
+                            </Grid>
                         </Grid>
                     </Border>
 

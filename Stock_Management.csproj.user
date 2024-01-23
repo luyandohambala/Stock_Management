@@ -45,7 +45,7 @@
     <Page Update="Assets\Pages\stock_page.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Main App.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
