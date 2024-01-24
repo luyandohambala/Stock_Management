@@ -125,7 +125,7 @@ namespace Stock_Management {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Stock_Management;V1.0.0.0;component/main%20app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Stock_Management;component/main%20app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Main App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
