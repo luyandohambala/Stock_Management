@@ -69,8 +69,8 @@
                                 <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Center" FontSize="17" FontWeight="SemiBold" Margin="5 13 5 10" VerticalAlignment="Center" 
                                     Text="Inv/Order Ref." Style="{StaticResource Header text}"/>
 
-                                <!-- quotation number entry -->
-                                <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Quotation_number}" Width="90" Margin="10" HorizontalAlignment="Right" Style="{StaticResource entrytextbox}"/>
+                                <!-- invoice ref number entry -->
+                                <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Invoice_reference_number, UpdateSourceTrigger=PropertyChanged}" Width="90" Margin="10" HorizontalAlignment="Right" Style="{StaticResource entrytextbox}"/>
                             </Grid>
 
                             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
@@ -82,8 +82,8 @@
                                 <TextBlock Name="quote_invoice_no" Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" FontWeight="SemiBold" Margin="10 13 10 10" VerticalAlignment="Center" 
                                         Text="Quote No." Style="{StaticResource Header text}"/>
 
-                                <!-- quotation number entry -->
-                                <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Quotation_number}" Width="60" Margin="10" HorizontalAlignment="Left" Style="{StaticResource entrytextbox}"/>
+                                <!-- quotation/invoice number entry -->
+                                <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Quotation_number, UpdateSourceTrigger=PropertyChanged}" Width="60" Margin="10" HorizontalAlignment="Left" Style="{StaticResource entrytextbox}"/>
                             </Grid>
                         </Grid>
                     </Border>
@@ -155,13 +155,23 @@
 
                             <Button Name="print_quote" HorizontalAlignment="Left" Width="140" Content="Print" Command="{Binding print_quotation}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
 
-                            <TextBlock Grid.Column="1" Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" FontWeight="SemiBold" Margin="10 5 10 0" VerticalAlignment="Center" Text="Total"
-                                Style="{StaticResource Header text}"/>
-                            <Border  Grid.Column="2" Background="White" Margin="5 2" CornerRadius="8">
-                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" 
+                            <TextBlock Grid.Column="1" Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" 
+                                       FontWeight="SemiBold" Margin="10 5 10 0" VerticalAlignment="Center" Text="{Binding Currency_value, StringFormat={}Total ({0})}" Style="{StaticResource Header text}"/>
+
+                            <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                                <Border Background="White" Margin="5 2" CornerRadius="8">
+                                    <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" 
                                     FontWeight="Bold" Margin="10 5 10 0" VerticalAlignment="Center" Text="{Binding Quot_total_price, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}"
                                     Style="{StaticResource Header text}"/>
-                            </Border>
+                                </Border>
+
+                                <Border Background="White" Margin="5 2" CornerRadius="8">
+                                    <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" 
+                                    FontWeight="Bold" Margin="10 5 10 0" VerticalAlignment="Center" Text="{Binding Tax_value, UpdateSourceTrigger=PropertyChanged}"
+                                    Style="{StaticResource Header text}"/>
+                                </Border>
+                            </StackPanel>
+                            
                         </Grid>
                     </Border>
                 </Grid>
@@ -181,7 +191,7 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Name="add_edit_button" HorizontalAlignment="Stretch" Content="Add/ Edit" Command="{Binding add_record2}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                            <Button Name="add_edit_button" Click="add_edit_button_Click" HorizontalAlignment="Stretch" Content="Add/ Edit" Command="{Binding add_record2}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
                             <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Remove" Command="{Binding remove_record2}" VerticalAlignment="Center" Style="{StaticResource remove}"/>
                         </Grid>
 
@@ -216,7 +226,7 @@
                                         </DockPanel>
 
                                         <DockPanel Grid.Column="1" VerticalAlignment="Top">
-                                            <TextBox Name="serial_entry" DockPanel.Dock="Top" Text="{Binding Serial_number}" Style="{StaticResource entrytextbox}"/>
+                                            <TextBox DockPanel.Dock="Top" Text="{Binding Serial_number}" Style="{StaticResource entrytextbox}"/>
                                             <TextBox Name="description_entry" DockPanel.Dock="Top" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" 
                                                     Style="{StaticResource entrytextbox}"/>
                                             <TextBox Name="quantity_entry" TextChanged="quantity_entry_TextChanged" DockPanel.Dock="Top" 

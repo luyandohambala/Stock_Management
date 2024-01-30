@@ -118,6 +118,30 @@ namespace Stock_Management.Assets.Pages
             }
 
         }
+
+        private void add_edit_button_Click(object sender, RoutedEventArgs e)
+        {
+            //traverse through records to check for duplicate records and notify the user of any duplicated then execute add command.
+            for (int i = 0; i < items_grid.Items.Count; i++)
+            {
+                DataGridRow row = (DataGridRow)items_grid.ItemContainerGenerator.ContainerFromIndex(i);
+                TextBlock cell2 = items_grid.Columns[1].GetCellContent(row) as TextBlock;
+                TextBlock cell3 = items_grid.Columns[2].GetCellContent(row) as TextBlock;
+                TextBlock cell4 = items_grid.Columns[3].GetCellContent(row) as TextBlock;
+
+                if ((cell2 != null && cell3 != null && cell4 != null) &&
+                    (cell2.Text.ToLower() == description_entry.Text.ToLower().Trim()
+                    && cell3.Text.ToLower() == quantity_entry.Text.ToLower().Trim()
+                    && cell4.Text.ToLower() == unit_price_entry.Text.ToLower().Trim()))
+                {
+                    items_grid.SelectedItem = items_grid.Items[i];
+                    items_grid.ScrollIntoView(items_grid.SelectedItem);
+                    row.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
+                    MessageBox.Show("A record with details inputed already exists, information highlighted in the table.");
+                    break;
+                }
+            }
+        }
     }
 
     internal partial class Quotation_Lists : ObservableObject

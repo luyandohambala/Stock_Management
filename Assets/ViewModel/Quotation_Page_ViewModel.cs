@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Stock_Management.Assets.Pages;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using System.Xml.Linq;
 
@@ -17,10 +18,14 @@ namespace Stock_Management.Assets.ViewModel
 
 
         //assign print command
-        public Command_Class print_quotation => new(execute => print_quote(), canExecute => Quotation_list.Count != 0 && Quotation_number == string.Empty);
+        public Command_Class print_quotation => new(execute => print_quote());
 
         //assign add command 
-        public Command_Class add_record2 => new(execute => add_to_database(), canExecute => !validate_entry());
+        public Command_Class add_record2 => new(execute => add_to_quotation_list(), canExecute => !validate_entry());
+
+
+        //add tax command
+        public Command_Class tax_command => new(execute => tax_method());
 
 
         //assign search command 
@@ -34,7 +39,7 @@ namespace Stock_Management.Assets.ViewModel
         private ObservableCollection<Quotation_Lists> quotation_list = new();
 
         [ObservableProperty]
-        private string serial_number;
+        private string serial_number = string.Empty;
 
         [ObservableProperty]
         private string description;
@@ -58,36 +63,47 @@ namespace Stock_Management.Assets.ViewModel
         private string quotation_number;
 
         [ObservableProperty]
-        private Quotation_Lists value3;
+        private string invoice_reference_number;
 
+        [ObservableProperty]
+        private string currency_value;
+
+        [ObservableProperty]
+        private string tax_value;
+
+        [ObservableProperty]
+        private Quotation_Lists value3;
 
         public Quotation_Page_ViewModel()
         {
-            populate_table();
             Use_tax = false;
+
+            Currency_value = Settings_Page_ViewModel.currency_;
         }
 
 
-        private void add_to_database()
+        private void add_to_quotation_list()
         {
             
             ObservableCollection<string> to_compare = new();
 
+            var formatted_unit_price = Unit_price.Replace(",", ""); //used for calculation in code below.
+            formatted_unit_price = formatted_unit_price.Replace(" ", ""); //used for calculation in code below.
+
             foreach (var item in Quotation_list)
             {
-                to_compare.Add($"{item.Serial_number.ToLower()}, {item.Description.ToLower()}, {item.Quantity2.ToLower()}, " +
+                to_compare.Add($"{item.Description.ToLower()}, {item.Quantity2.ToLower()}, " +
                     $"{item.Unit_price.ToLower()}, {item.Row_total_price.ToLower()}");
             }
 
-            if (!to_compare.Contains($"{Serial_number.ToLower()}, {Description.ToLower()}, {Quantity2.ToLower()}, " +
-                    $"{Unit_price.ToLower()}, {int.Parse(Quantity2) * double.Parse(Unit_price)}"))
+            if (!to_compare.Contains($"{Description.ToLower()}, {Quantity2.ToLower()}, " +
+                    $"{Unit_price.ToLower()}, {int.Parse(Quantity2) * double.Parse(formatted_unit_price):N2}"))
             {
                 Quotation_list.Add(
-                    new(Serial_number.Trim(), Description.Trim(), Quantity2.Trim(), Unit_price.Trim(), $"{int.Parse(Quantity2.Trim()) * double.Parse(Unit_price.Trim())}")
+                    new(Serial_number.Trim(), Description.Trim(), Quantity2.Trim(), $"{double.Parse(formatted_unit_price):N2}", $"{int.Parse(Quantity2.Trim()) * double.Parse(formatted_unit_price):N2}")
                     );
 
-                Value3 = Quotation_list.First(x => x.Serial_number ==  Serial_number);
-                Quot_total_price += (int.Parse(Value3.Quantity2) * double.Parse(Value3.Unit_price));
+                Quot_total_price += (int.Parse(Quantity2) * double.Parse(formatted_unit_price));
 
                 clear_items();
             }
@@ -95,40 +111,41 @@ namespace Stock_Management.Assets.ViewModel
 
         private void print_quote()
         {
-            if (Quotation_number == string.Empty)
+            if (Quotation_list.Count != 0 && Quotation_number != string.Empty)
             {
-                Use_tax = false;
-            }
-        }
-
-        private void populate_table()
-        {
-            Quotation_list = new();
-        }
-
-        //search list for specific quotation
-        private void search_items(object content)
-        {
-            if (!String.IsNullOrEmpty(content.ToString()))
-            {
-                populate_table();
-                /*Quotation_list = new(Quotation_list.Where(
-                filtered => filtered.Name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
-                filtered.Type.ToLower().Contains(content.ToString().ToLower().Trim()) ||
-                filtered.Category.Contains(content.ToString().ToLower().Trim()) ||
-                filtered.Quantity.Contains(content.ToString().ToLower().Trim())));*/
+                //Use_tax = false;
+                //empty_table();
             }
             else
             {
-                populate_table();
+                MessageBox.Show("To print or save, Quote No. must not be empty and Quote items must be more than 1.");
             }
+        }
+
+        //add tax method
+        private void tax_method()
+        {
+            if (Use_tax)
+            {
+                Tax_value = $"VAT: {(Convert.ToDouble(Settings_Page_ViewModel.value_added_tax) / 100) * Quot_total_price:N2}";
+            }
+            else
+            {
+                Tax_value = string.Empty;
+            }
+        }
+
+        private void empty_table()
+        {
+            Quotation_list = new();
         }
 
         private void remove()
         {
             if (MessageBox.Show("Remove Record?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                Quot_total_price -= (int.Parse(Value3.Quantity2) * double.Parse(Value3.Unit_price));
+
+                Quot_total_price -= (int.Parse(Value3.Quantity2) * double.Parse(Value3.Unit_price.Replace(",", "")));
                 Quotation_list.Remove(Value3);
             }
         }
@@ -152,5 +169,6 @@ namespace Stock_Management.Assets.ViewModel
             Quantity2 = string.Empty;
             Unit_price = string.Empty;
         }
+
     }
 }

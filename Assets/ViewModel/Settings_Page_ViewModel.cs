@@ -63,10 +63,10 @@ namespace Stock_Management.Assets.ViewModel
         private string printer_name;
 
         [ObservableProperty]
-        private string currency_;
+        public static string currency_;
         
         [ObservableProperty]
-        private decimal value_added_tax;
+        public static decimal value_added_tax;
 
         [ObservableProperty]
         private string quotation_template;
