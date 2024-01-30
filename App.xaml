@@ -11,6 +11,7 @@
         <local:Services_Page_ViewModel x:Key="Services_Page_ViewModel"/>
         <local:stock_page_viewmodel x:Key="stock_page_viewmodel"/>
         <local:Quotation_Page_ViewModel x:Key="Quotation_Page_ViewModel"/>
+        <local:Settings_Page_ViewModel x:Key="Settings_Page_ViewModel"/>
         <local:Convertor_Class x:Key="convertor_class"/>
         <local1:Sales_Page x:Key="sales_page"/>
 

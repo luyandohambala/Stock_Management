@@ -1,9 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 using Stock_Management.Assets.Pages;
+using System;
 using System.Collections.ObjectModel;
+using System.Configuration;
+using System.IO;
+using System.Linq;
 using System.Security.Permissions;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Stock_Management.Assets.ViewModel
 {
@@ -12,9 +19,9 @@ namespace Stock_Management.Assets.ViewModel
         /// <summary>
         /// commands section
         /// </summary>
-        /*public Command_Class save_settings_command => new(execute => save_settings());
+        public Command_Class save_settings_command => new(execute => save_settings());
         public Command_Class reset_settings_command => new(execute => reset_settings());
-*/
+
         public Command_Class clearall4 => new(execute => clear_items());
 
         public Command_Class all_users => new(execute => populate_users("all"), canExecute => User_list.Count != 0);
@@ -59,7 +66,7 @@ namespace Stock_Management.Assets.ViewModel
         private string currency_;
         
         [ObservableProperty]
-        private string value_added_tax;
+        private decimal value_added_tax;
 
         [ObservableProperty]
         private string quotation_template;
@@ -80,10 +87,29 @@ namespace Stock_Management.Assets.ViewModel
         private string button_state = "Edit";
 
         private bool edit_values = false;
+        private readonly IConfiguration configuration;
 
-        public Settings_Page_ViewModel()
+        public Settings_Page_ViewModel(IConfiguration configuration)
         {
             populate_users("all");
+            this.configuration = configuration;
+            populate_properties();
+        }
+        public Settings_Page_ViewModel()
+        {
+            
+        }
+
+        private void populate_properties()
+        { 
+            Email_backup = configuration.GetValue<int>("General_Settings:email_statistics");
+            Backup_data = configuration.GetValue<int>("General_Settings:backup_data");
+            Printer_name = configuration.GetValue<string>("General_Settings:printer_name");
+            Currency_ = configuration.GetValue<string>("General_Settings:currency_value");
+            Value_added_tax = configuration.GetValue<decimal>("General_Settings:vat_rate");
+            Quotation_template = configuration.GetValue<string>("General_Settings:quotation_temp_location");
+            Invoice_template = configuration.GetValue<string>("General_Settings:invoice_temp_location");
+            Receipt_template = configuration.GetValue<string>("General_Settings:receipt_temp_location");
         }
 
         private void populate_users(string to_populate)
@@ -112,7 +138,6 @@ namespace Stock_Management.Assets.ViewModel
 
         }
 
-        
         private void add_users(string to_do)
         {
 
@@ -205,6 +230,19 @@ namespace Stock_Management.Assets.ViewModel
             }
         }
 
+        private bool validate_settings()
+        {
+            if (String.IsNullOrEmpty(Printer_name) || String.IsNullOrEmpty(Currency_) || String.IsNullOrEmpty(Quotation_template) 
+                || String.IsNullOrEmpty(Invoice_template) || String.IsNullOrEmpty(Receipt_template))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         private void clear_items()
         {
             First_name = string.Empty;
@@ -214,6 +252,97 @@ namespace Stock_Management.Assets.ViewModel
             Authority_ = string.Empty;
 
             edit_values = false;
+        }
+
+        private void save_settings()
+        {
+            if (!validate_settings())
+            {
+                MessageBox.Show("Please fill in all fields in settings section.");
+            }
+            else
+            {
+                string[] section_key_names = { "General_Settings:email_statistics", "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:currency_value",
+                                                "General_Settings:vat_rate", "General_Settings:quotation_temp_location", "General_Settings:invoice_temp_location", "General_Settings:receipt_temp_location"};
+                string[] section_key_values = {Email_backup.ToString(), Backup_data.ToString(), Printer_name, Currency_, Value_added_tax.ToString(), Quotation_template, Invoice_template, Receipt_template};
+                
+                int counter = 0; //index value for section_key_value array
+                foreach (var item in section_key_names)
+                {
+                    if (write_to_settings(item, section_key_values[counter]))
+                    {
+                        counter++;
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    
+                }
+                MessageBox.Show("Settings have been saved.");
+                populate_properties();
+
+            }
+        }
+
+        private void reset_settings()
+        {
+            if (MessageBox.Show("Reset all settings?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                string[] section_key_names = { "General_Settings:email_statistics", "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:currency_value",
+                                                "General_Settings:vat_rate", "General_Settings:quotation_temp_location", "General_Settings:invoice_temp_location", "General_Settings:receipt_temp_location"};
+                string[] section_key_values = { "7", "7", "Not set", "Not set", "16", "Not set", "Not set", "Not set" };
+
+                int counter = 0; //index value for section_key_value array
+                foreach (var item in section_key_names)
+                {
+                    if (write_to_settings(item, section_key_values[counter]))
+                    {
+                        counter++;
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                }
+                MessageBox.Show("Settings have been reset.");
+                populate_properties();
+            }
+        }
+
+        private bool write_to_settings<T>(string sectionPathKey, T value)
+        {
+            try
+            {
+                var filePath = Path.Combine(AppContext.BaseDirectory, "appsettings.Development.json");
+                string json = File.ReadAllText(filePath);
+                dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+                var sectionPath = sectionPathKey.Split(":")[0];
+
+                if (!string.IsNullOrEmpty(sectionPath))
+                {
+                    var keyPath = sectionPathKey.Split(":")[1];
+                    jsonObj[sectionPath][keyPath] = value;
+                }
+                else
+                {
+                    jsonObj[sectionPath] = value; // if no sectionpath just set the value
+                }
+
+                string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                File.WriteAllText(filePath, output);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error in saving settings. Error code: {ex.Message}");
+                return false;
+            }
         }
     }
 }

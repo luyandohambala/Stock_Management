@@ -53,3 +53,12 @@ I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.Primitive
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.Text.Encodings.Web.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.Text.Json.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\runtimes\browser\lib\net7.0\System.Text.Encodings.Web.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Caliburn.Micro.Platform.Core.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Caliburn.Micro.Platform.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Caliburn.Micro.Core.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.DependencyInjection.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Xaml.Behaviors.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Newtonsoft.Json.dll
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\settings pages\general_settings.g.cs
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\settings pages\general_settings.baml

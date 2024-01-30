@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using Caliburn.Micro;
+using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -9,6 +11,7 @@ namespace Stock_Management
     /// </summary>
     public partial class App : Application
     {
+        
     }
 
 }

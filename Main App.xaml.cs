@@ -1,8 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Caliburn.Micro;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Configuration;
 using Stock_Management.Assets.Pages;
 using Stock_Management.Assets.ViewModel;
 using Syncfusion.UI.Xaml.Charts;
 using System.ComponentModel;
+using System.IO;
 using System.Net;
 using System.Timers;
 using System.Windows;
@@ -26,6 +29,19 @@ namespace Stock_Management
             change_color("settings");
 
             DataContext = this;
+        }
+
+        public static IConfiguration AddConfiguration()
+        {
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional:false, reloadOnChange:true);
+#if DEBUG
+            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+#else
+            builder.AddJsonFile("appsettings.Production.json", optional: true, reloadOnChange: true);
+#endif
+            return builder.Build();
         }
 
         //color navigator method
