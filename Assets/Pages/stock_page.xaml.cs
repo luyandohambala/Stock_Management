@@ -63,6 +63,16 @@ namespace Stock_Management.Assets.Pages
                 }
             }
         }
+
+        private void Cost_txtbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Cost_txtbox.Text = Quotation_Page.validate_positive_integer(Cost_txtbox.Text, "Decimal");
+        }
+
+        private void Quantity_txtbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Quantity_txtbox.Text = Quotation_Page.validate_positive_integer(Quantity_txtbox.Text, "integer");
+        }
     }
 
     internal partial class Database_list : ObservableObject

@@ -979,7 +979,6 @@
             <Setter Property="Padding" Value="10"/>
         </Style>
 
-
         <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="Margin" Value="0 4 0 0"/>
@@ -1051,7 +1050,9 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
-
+        
+        
+        <!-- combobox styles -->
 
     </Application.Resources>
 </Application>

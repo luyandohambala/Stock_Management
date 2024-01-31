@@ -28,10 +28,6 @@ namespace Stock_Management.Assets.ViewModel
         public Command_Class tax_command => new(execute => tax_method());
 
 
-        //assign search command 
-        public Command_Class search_for3 => new(search_items);
-
-
         /// <summary>
         /// view model properties section 
         /// </summary>

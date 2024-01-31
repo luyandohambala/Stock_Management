@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="2.5*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Margin="20 10 10 10" Text="Product Management" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBlock Margin="20 10 10 10" Text="Product and Services Management" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
 
                 <Grid Name="Search_Grid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Column="1">
@@ -163,9 +163,13 @@
                                 <StackPanel Grid.Column="1" VerticalAlignment="Top">
                                     <TextBox Name="Name_txtbox" Text="{Binding Name}" Style="{StaticResource entrytextbox}"/>
                                     <TextBox Name="Type_txtbox" Text="{Binding Type}" Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Name="Category_txtbox" Text="{Binding Category}" Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Name="Quantity_txtbox" Text="{Binding Quantity}" Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Name="Cost_txtbox" Text="{Binding Cost}" Style="{StaticResource entrytextbox}"/>
+                                    <Border Margin="10 8" CornerRadius="7" Height="38" Background="White">
+                                        <ComboBox Name="Category_txtbox" FontSize="14" FontWeight="SemiBold" Foreground="#4b4b4b" 
+                                                  SelectedItem="{Binding Category, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" 
+                                                  Margin="6" ItemsSource="{Binding Category_listItems}"/>      
+                                    </Border>
+                                    <TextBox Name="Quantity_txtbox" TextChanged="Quantity_txtbox_TextChanged" Text="{Binding Quantity}" Style="{StaticResource entrytextbox}"/>
+                                    <TextBox Name="Cost_txtbox" TextChanged="Cost_txtbox_TextChanged" Text="{Binding Cost}" Style="{StaticResource entrytextbox}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>

@@ -26,7 +26,8 @@ namespace Stock_Management
         {
             InitializeComponent();
             Maximized = false;
-            change_color("settings");
+            change_color("settings");//initialise settings for use throughout the application.
+            change_color("stock");
 
             DataContext = this;
         }
@@ -102,7 +103,7 @@ namespace Stock_Management
                 Display_Frame.Content = new stock_page();
             }
 
-            else if (nav == "quot")
+            else if (nav == "quote")
             {
                 home_button.ClearValue(ForegroundProperty);
                 sales_button.ClearValue(ForegroundProperty);
@@ -178,7 +179,7 @@ namespace Stock_Management
 
         private void quotation_button_Click(object sender, RoutedEventArgs e)
         {
-            change_color("quot");
+            change_color("quote");
         }
 
         private void Settings_button_Click(object sender, RoutedEventArgs e)

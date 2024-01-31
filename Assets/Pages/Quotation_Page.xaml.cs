@@ -55,7 +55,7 @@ namespace Stock_Management.Assets.Pages
 
         }*/
 
-        private string? validate_positive_integer(string source, string to_match)
+        public static string? validate_positive_integer(string source, string to_match)
         {
             if (to_match == "Decimal")
             {
