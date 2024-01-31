@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Stock_Management.Assets.Pages.settings_pages;
 using Stock_Management.Assets.ViewModel;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Stock_Management.Assets.Pages
 {
@@ -11,27 +13,56 @@ namespace Stock_Management.Assets.Pages
     public partial class stock_page : Page
     {
         public Command_Class clear_txt2 => new(execute => TxtSearch.Clear());
+
+        stock_page_viewmodel stock_Page_Viewmodel;
         public stock_page()
         {
             InitializeComponent();
-            DataContext = new stock_page_viewmodel();
+            stock_Page_Viewmodel = new();
+            DataContext = stock_Page_Viewmodel;
+            change_color("stock");
         }
 
+        private string View { get; set; }
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //invoke search logo command through txtbox txtchanged event
-            if (!String.IsNullOrEmpty(TxtSearch.Text))
+            if (View == "stock")
             {
-                TxtSearch_button.IsEnabled = true;
-                clear_button.Content = "\uf00d";
-                ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
+                TxtSearch_button.Command = stock_Page_Viewmodel.search_for2;
+                //invoke search logo command through txtbox txtchanged event
+                if (!String.IsNullOrEmpty(TxtSearch.Text))
+                {
+                    TxtSearch_button.IsEnabled = true;
+                    clear_button.Content = "\uf00d";
+                    ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
 
+                }
+                else
+                {
+                    ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
+                    clear_button.Content = "\uf002";
+                    TxtSearch_button.IsEnabled = false;
+                }
             }
-            else
+            else if (View == "sales")
             {
-                ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
-                clear_button.Content = "\uf002";
-                TxtSearch_button.IsEnabled = false;
+                TxtSearch_button.Command = stock_Page_Viewmodel.search_for_2;
+                //invoke search logo command through txtbox txtchanged event
+                if (!String.IsNullOrEmpty(TxtSearch.Text))
+                {
+                    
+                    TxtSearch_button.IsEnabled = true;
+                    clear_button.Content = "\uf00d";
+                    ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
+
+                }
+                else
+                {
+                    
+                    ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
+                    clear_button.Content = "\uf002";
+                    TxtSearch_button.IsEnabled = false;
+                }
             }
         }
 
@@ -73,6 +104,53 @@ namespace Stock_Management.Assets.Pages
         {
             Quantity_txtbox.Text = Quotation_Page.validate_positive_integer(Quantity_txtbox.Text, "integer");
         }
+
+        private void change_color(string nav)
+        {
+            LinearGradientBrush linearGradientBrush = new()
+            {
+                StartPoint = new Point(1, 0),
+                EndPoint = new Point(1, 1),
+            };
+
+            linearGradientBrush.GradientStops.Add(new GradientStop((Color)new ColorConverter().ConvertFrom("#4b4b4b"), 0.2));
+            linearGradientBrush.GradientStops.Add(new GradientStop(Colors.Red, 1));
+
+            if (nav == "stock")
+            {
+                stock_records.Foreground = new SolidColorBrush(Colors.White);
+                stock_records.Background = linearGradientBrush;
+                sales_records.ClearValue(ForegroundProperty);
+                sales_records.ClearValue(BackgroundProperty);
+                items_grid_border.Visibility = Visibility.Visible;
+                sales_grid_border.Visibility = Visibility.Collapsed;
+                checkout_panel_hider.Visibility = Visibility.Collapsed;
+                View = "stock";
+
+            }
+
+            else if (nav == "sales")
+            {
+                sales_records.Foreground = new SolidColorBrush(Colors.White);
+                sales_records.Background = linearGradientBrush;
+                stock_records.ClearValue(ForegroundProperty);
+                stock_records.ClearValue(BackgroundProperty);
+                items_grid_border.Visibility = Visibility.Collapsed;
+                sales_grid_border.Visibility = Visibility.Visible;
+                checkout_panel_hider.Visibility = Visibility.Visible;
+                View = "sales";
+            }
+        }
+
+        private void stock_records_Click(object sender, RoutedEventArgs e)
+        {
+            change_color("stock");
+        }
+
+        private void sales_records_Click(object sender, RoutedEventArgs e)
+        {
+            change_color("sales");
+        }
     }
 
     internal partial class Database_list : ObservableObject
@@ -103,6 +181,38 @@ namespace Stock_Management.Assets.Pages
             
         }
 
+    }
+
+    internal partial class Sales_list_Class : ObservableObject
+    {
+        [ObservableProperty]
+        private string date;
+
+        [ObservableProperty]
+        private string item_name;
+
+        [ObservableProperty]
+        private string item_quantity;
+
+        [ObservableProperty]
+        private string amount;
+
+        [ObservableProperty]
+        private string change;
+
+        [ObservableProperty]
+        private string cashier;
+
+        //initialise properties
+        public Sales_list_Class(string date, string item_name, string item_quantity, string amount, string change, string cashier)
+        {
+            Date = date; Item_name = item_name; Item_quantity = item_quantity; Amount = amount; Change = change; Cashier = cashier;
+        }
+
+        public Sales_list_Class()
+        {
+            
+        }
     }
 
 

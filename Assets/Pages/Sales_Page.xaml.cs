@@ -88,6 +88,10 @@ namespace Stock_Management.Assets.Pages
             }
         }
 
+        private void purchase_txtbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            purchase_txtbox.Text = Quotation_Page.validate_positive_integer(purchase_txtbox.Text, "Decimal");
+        }
     }
 
     //checkout_list class
@@ -97,17 +101,21 @@ namespace Stock_Management.Assets.Pages
         string item_name;
 
         [ObservableProperty]
-        double item_price;
+        string item_price;
 
         [ObservableProperty]
         int quantity;
 
+        [ObservableProperty]
+        string type;
 
-        public checkout_list(string item_name, double item_price, int quantity)
+
+        public checkout_list(string item_name, string item_price, int quantity, string type)
         {
             Item_name = item_name;
             Item_price = item_price;
             Quantity = quantity;
+            Type = type;
         }
 
     }

@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json.Linq;
+using Stock_Management.Assets.Models;
 using Stock_Management.Assets.Pages;
 using System.Collections.ObjectModel;
 using System.Windows;
+using checkout_list = Stock_Management.Assets.Pages.checkout_list;
 
 namespace Stock_Management.Assets.ViewModel
 {
@@ -16,9 +19,17 @@ namespace Stock_Management.Assets.ViewModel
         [ObservableProperty]
         private double total_price1 = 0;
 
+        [ObservableProperty]
+        public static string amount_given_s = string.Empty;
+
+        [ObservableProperty]
+        private string currency_value1;
+
         public Command_Class increase1 => new(increase_quantity);
         public Command_Class reduce1 => new(reduce_quantity);
         public Command_Class clear_all1 => new(execute => clear_items());
+
+        public Command_Class purchase_services => new(execute => purchase_service(), canExecute => Checkout_Lists1.Count > 0);
 
 
         /// <summary>
@@ -43,6 +54,7 @@ namespace Stock_Management.Assets.ViewModel
         public Services_Page_ViewModel()
         {
             populate();
+            Currency_value1 = Settings_Page_ViewModel.currency_;
         }
 
         private void populate()
@@ -61,12 +73,9 @@ namespace Stock_Management.Assets.ViewModel
             Category_list1 = new();
             category_button category_Button = new();
 
-            category_Button.Category_list = new()
-            {
-                "Printing",
-                "Laminating",
-                "Binding"
-            };
+            category_Button.Category_list = new(
+                stock_page_viewmodel.data_lists.Where(x => x.Category == "Service").Select(x => x.Type)
+                );
 
             //item below added to clear all search filters.
             Category_list1.Add(new("All", "All"));
@@ -103,14 +112,10 @@ namespace Stock_Management.Assets.ViewModel
         {
             Items_list1 = new ObservableCollection<items_button>();
 
-            items_button items_Button = new items_button();
-
-            items_Button.Items_list = new ObservableCollection<items_button>()
+            items_button items_Button = new()
             {
-                new ("black & white printing", "4.00", "printing"),
-                new ("color printing", "15.00", "printing"),
-                new ("binding", "15.00", "binding"),
-                new ("laminating", "10.00", "laminating")
+                Items_list = new (
+                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Service").Select(x => new items_button(x.Name, x.Cost, x.Type)))
             };
 
             foreach (var item in items_Button.Items_list)
@@ -148,13 +153,54 @@ namespace Stock_Management.Assets.ViewModel
         private checkout_list value1;
         public checkout_list Value1 { get { return value1; } set { this.value1 = value; OnPropertyChanged(); } }
 
+        private void purchase_service()
+        {
+            foreach (var item in Checkout_Lists1)
+            {
+                if (double.Parse(Amount_given_s) >= Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")))
+                {
+                    stock_page_viewmodel.sales_lists_.Add(new Sales_list_Class
+                    ( 
+                    
+                        DateTime.Now.ToString(),
+                        item.Item_name,
+                        $"{item.Quantity}",
+                        item.Item_price,
+                        $"{Settings_Page_ViewModel.currency_}{int.Parse(Amount_given_s) - Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}",
+                        MainWindow.Current_user
+                    ));
+
+                    foreach (var item1 in stock_page_viewmodel.data_lists)
+                    {
+                        if (item1.Name == item.Item_name && item1.Cost == item.Item_price && int.Parse(item1.Quantity) == item.Quantity)
+                        {
+                            item1.Quantity = (item.Quantity - int.Parse(item1.Quantity)).ToString();
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Amount received is less than required purchase amount.");
+                    break;
+                }
+            }
+            Checkout_Lists1.Clear();
+            Total_price1 = 0;
+            Amount_given_s = string.Empty;
+        }
+
         private void increase_quantity(object content)
         {
             //alter total price and quantity
             Value1 = Checkout_Lists1.First(x => x.Item_name == content.ToString());
-            Total_price1 -= (Value1.Item_price * Value1.Quantity);
-            Value1.Quantity += 1;
-            Total_price1 += (Value1.Item_price * Value1.Quantity);
+
+            if (Value1.Quantity <
+                int.Parse(stock_page_viewmodel.data_lists.First(x => x.Name == Value1.Item_name && x.Cost == Value1.Item_price && x.Type == Value1.Type).Quantity))
+            {
+                Total_price1 -= (Convert.ToDouble(Value1.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value1.Quantity);
+                Value1.Quantity += 1;
+                Total_price1 += (Convert.ToDouble(Value1.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value1.Quantity);
+            }
 
         }
 
@@ -165,15 +211,15 @@ namespace Stock_Management.Assets.ViewModel
             if (Value1.Quantity > 1)
             {
                 //alter total price and quantity
-                Total_price1 -= (Value1.Item_price * Value1.Quantity);
+                Total_price1 -= (Convert.ToDouble(Value1.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value1.Quantity);
                 Value1.Quantity -= 1;
-                Total_price1 += (Value1.Item_price * Value1.Quantity);
+                Total_price1 += (Convert.ToDouble(Value1.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value1.Quantity);
 
             }
             else
             {
                 //alter total price and quantity
-                Total_price1 -= (Value1.Item_price * Value1.Quantity);
+                Total_price1 -= (Convert.ToDouble(Value1.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value1.Quantity);
                 Checkout_Lists1.Remove(Value1);
             }
         }
@@ -188,9 +234,9 @@ namespace Stock_Management.Assets.ViewModel
             }
             else
             {
-                Checkout_Lists1.Add(new(array_values[0].ToString(), Convert.ToDouble(array_values[1]), 1));
+                Checkout_Lists1.Add(new(array_values[0].ToString(), array_values[1].ToString(), 1, array_values[2].ToString()));
                 Value1 = Checkout_Lists1.First(x => x.Item_name == array_values[0].ToString());
-                Total_price1 += (Value1.Item_price * Value1.Quantity);
+                Total_price1 += (Convert.ToDouble(Value1.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value1.Quantity);
             }
         }
 
@@ -201,6 +247,7 @@ namespace Stock_Management.Assets.ViewModel
                 if (MessageBox.Show("Clear cart?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     Checkout_Lists1.Clear();
+                    Amount_given_s = string.Empty;
                     Total_price1 = 0;
                 }
             }

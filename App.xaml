@@ -483,6 +483,10 @@
                     
                                     <TextBlock Name="button_price_block" Text="{Binding Button_price}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
                                          HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    
+                                    <TextBlock Name="button_type_block" Visibility="Collapsed" Text="{Binding Button_category}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
+                                         HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    
                                 </DockPanel>
 
                                 <Button DataContext="{StaticResource Sales_Page_ViewModel}" Command="{Binding add}" Style="{StaticResource add_to_cart}">
@@ -490,6 +494,7 @@
                                         <MultiBinding Converter="{StaticResource convertor_class}">
                                             <Binding Path="Text" ElementName="content_presenter"/>
                                             <Binding Path="Text" ElementName="button_price_block"/>
+                                            <Binding Path="Text" ElementName="button_type_block"/>
                                         </MultiBinding>
                                     </Button.CommandParameter>
                                 </Button>

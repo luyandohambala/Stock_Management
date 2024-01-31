@@ -95,6 +95,9 @@
 
                                                             <TextBlock Name="button_price_block" Text="{Binding Button_price}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
                                                                 HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                            
+                                                            <TextBlock Name="button_type_block" Visibility="Collapsed" Text="{Binding Button_category}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
+                                                                HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                                         </DockPanel>
 
                                                         <Button DataContext="{StaticResource Services_Page_ViewModel}" Command="{Binding add1}" Style="{StaticResource add_to_cart}">
@@ -102,6 +105,7 @@
                                                                 <MultiBinding Converter="{StaticResource convertor_class}">
                                                                     <Binding Path="Text" ElementName="content_presenter"/>
                                                                     <Binding Path="Text" ElementName="button_price_block"/>
+                                                                    <Binding Path="Text" ElementName="button_type_block"/>
                                                                 </MultiBinding>
                                                             </Button.CommandParameter>
                                                         </Button>
@@ -127,15 +131,29 @@
                             <Button DataContext="{StaticResource Services_Page_ViewModel}" Content="Clear all" Command="{Binding clear_all1}" Style="{StaticResource clear_items_button}"/>
                         </DockPanel>
 
-                        <Button HorizontalAlignment="Stretch" Content="Purchase" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Style="{StaticResource purchase_button}"/>
+                        <Button DataContext="{StaticResource Services_Page_ViewModel}" HorizontalAlignment="Stretch" Content="Purchase" DockPanel.Dock="Bottom" 
+                                Command="{Binding purchase_services}" VerticalAlignment="Bottom" Style="{StaticResource purchase_button}"/>
 
-                        <Border Margin="10 5 10 10" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" CornerRadius="7" DockPanel.Dock="Bottom"  Background="#eff2f7">
-                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Border Margin="10 5 10 10" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" CornerRadius="7" DockPanel.Dock="Bottom"  Background="#eff2f7">
+                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 10 0 10">
 
-                                <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" FontWeight="Normal" Margin="15 2 5 0" VerticalAlignment="Center" Text="Total"
-                        Style="{StaticResource Header text}"/>
-                                <TextBlock DataContext="{StaticResource Services_Page_ViewModel}" DockPanel.Dock="Right" Foreground="#4b4b4b" HorizontalAlignment="Right" FontSize="17" FontWeight="SemiBold" Margin="5 2 15 0" VerticalAlignment="Center" Text="{Binding Total_price1, StringFormat=N2}"
-                        Style="{StaticResource Header text}"/>
+                                <Grid DockPanel.Dock="Bottom" Margin="0 5 0 0">
+                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" 
+                                            FontSize="17" FontWeight="Normal" Margin="15 3 5 0" VerticalAlignment="Center" Text="Received"
+                                                Style="{StaticResource Header text}"/>
+
+                                    <TextBox Name="purchase_txtbox" TextChanged="purchase_txtbox_TextChanged" FontSize="16" Height="30" Margin="100 0 10 0" Text="{Binding Amount_given_s, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
+                                            DockPanel.Dock="Bottom" Style="{StaticResource entrytextbox}"/>
+                                </Grid>
+                                <Grid DockPanel.Dock="Top" Margin="0 5 0 10">
+                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" FontWeight="Normal" 
+                                        Margin="15 0 5 0" VerticalAlignment="Bottom" Text="{Binding Currency_value1, StringFormat={}Total ({0}), UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource Header text}"/>
+
+                                    <TextBlock DataContext="{StaticResource Services_Page_ViewModel}" DockPanel.Dock="Right" Foreground="#4b4b4b" 
+                                            HorizontalAlignment="Right" FontSize="17" FontWeight="SemiBold" Margin="5 0 15 0" VerticalAlignment="Bottom" Text="{Binding Total_price1, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}"
+                                            Style="{StaticResource Header text}"/>
+                                </Grid>
 
                             </DockPanel>
                         </Border>

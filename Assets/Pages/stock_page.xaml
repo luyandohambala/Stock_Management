@@ -40,7 +40,7 @@
                 </Grid>
 
                 <!-- button below is invoked to search items searchtxtbox when filtering using searchbar-->
-                <Button Name="TxtSearch_button" Visibility="Collapsed" IsEnabled="False" Command="{Binding search_for2}" CommandParameter="{Binding ElementName=TxtSearch, Path=Text}" />
+                <Button Name="TxtSearch_button" Visibility="Collapsed" IsEnabled="False" CommandParameter="{Binding ElementName=TxtSearch, Path=Text}" />
             </Grid>
 
             <!-- main body -->
@@ -58,8 +58,15 @@
                         <RowDefinition FocusVisualStyle="{x:Null}" />
                     </Grid.RowDefinitions>
 
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 10 10 5">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                            <Button Name="stock_records" Click="stock_records_Click" Command="{Binding general_settings_command}" Content="Stock Records" Style="{StaticResource category_button}"/>
+                            <Button Name="sales_records" Click="sales_records_Click" Command="{Binding user_settings_command}" Content="Sales Records" Style="{StaticResource category_button}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
                     <!-- datagrid (item table) content-->
-                    <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="10 30 10 10">
+                    <Border Name="items_grid_border" Grid.Row="1" Background="White" CornerRadius="10" Margin="10 10 10 10">
                         <DataGrid Name="items_grid" SelectedItem="{Binding Value2}"
                                   ItemsSource="{Binding Data_lists}" Margin="10"
                                   Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 
@@ -114,6 +121,72 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
+                    
+                    <Border Name="sales_grid_border" Grid.Row="1" Background="White" CornerRadius="10" Margin="10 10 10 10">
+                        <DataGrid ItemsSource="{Binding Sales_lists_}" Margin="10"
+                                  Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 
+                                  ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" >
+                            <DataGrid.Columns>
+
+                                <!-- date -->
+                                <DataGridTextColumn  Header="Date" Binding="{Binding Date}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- name -->
+                                <DataGridTextColumn  Header="Name" Binding="{Binding Item_name}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- quantity -->
+                                <DataGridTextColumn  Header="Quantity" Binding="{Binding Item_quantity}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- amount -->
+                                <DataGridTextColumn  Header="Amount" Binding="{Binding Amount}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
+                                <!-- change -->
+                                <DataGridTextColumn  Header="Change" Binding="{Binding Change}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
+                                <!-- cashier -->
+                                <DataGridTextColumn  Header="Cashier" Binding="{Binding Cashier}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                    
                 </Grid>
 
 
@@ -174,6 +247,12 @@
                             </Grid>
                         </Border>
 
+                    </DockPanel>
+                </Border>
+
+                <Border Name="checkout_panel_hider" Visibility="Collapsed" Grid.Column="1" Background="White" Margin="10" CornerRadius="15">
+                    <DockPanel Margin="10">
+                        <TextBlock Text="Section Inactive" FontSize="25" TextWrapping="Wrap" Style="{StaticResource Header text}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </DockPanel>
                 </Border>
 

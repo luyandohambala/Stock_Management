@@ -85,5 +85,10 @@ namespace Stock_Management.Assets.Pages
                 }
             }
         }
+
+        private void purchase_txtbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            purchase_txtbox.Text = Quotation_Page.validate_positive_integer(purchase_txtbox.Text, "Decimal");
+        }
     }
 }

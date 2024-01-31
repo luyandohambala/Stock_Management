@@ -19,10 +19,14 @@ namespace Stock_Management.Assets.ViewModel
 
         //assign search command 
         public Command_Class search_for2 => new(search_items);
+        public Command_Class search_for_2 => new(search_items_);
 
 
         [ObservableProperty]
-        private ObservableCollection<Database_list> data_lists = new();
+        public static ObservableCollection<Database_list> data_lists = new();
+
+        [ObservableProperty]
+        public static ObservableCollection<Sales_list_Class> sales_lists_ = new();
 
         [ObservableProperty]
         private string name;
@@ -41,7 +45,7 @@ namespace Stock_Management.Assets.ViewModel
 
         public stock_page_viewmodel()
         {
-            populate_table();
+            //populate_table();
         }
 
         [ObservableProperty]
@@ -80,6 +84,7 @@ namespace Stock_Management.Assets.ViewModel
         private void populate_table()
         {
             Data_lists = new();
+            Sales_lists_ = new();
         }
 
         //search list for specific product
@@ -93,6 +98,22 @@ namespace Stock_Management.Assets.ViewModel
                 filtered.Type.ToLower().Contains(content.ToString().ToLower().Trim()) ||
                 filtered.Category.Contains(content.ToString().ToLower().Trim()) ||
                 filtered.Quantity.Contains(content.ToString().ToLower().Trim())));
+            }
+            else
+            {
+                populate_table();
+            }
+        }
+
+        private void search_items_(object content)
+        {
+            if (!String.IsNullOrEmpty(content.ToString()))
+            {
+                populate_table();
+                Sales_lists_ = new(Sales_lists_.Where(
+                filtered => filtered.Date.ToLower().Contains(content.ToString().ToLower().Trim()) ||
+                filtered.Item_name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
+                filtered.Cashier.Contains(content.ToString().ToLower().Trim())));
             }
             else
             {

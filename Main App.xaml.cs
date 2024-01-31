@@ -22,6 +22,8 @@ namespace Stock_Management
 
         public Command_Class close_app => new(execute => close_application());
 
+        public static string? Current_user { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,6 +32,7 @@ namespace Stock_Management
             change_color("stock");
 
             DataContext = this;
+            Current_user = "Welcome User!";
         }
 
         public static IConfiguration AddConfiguration()
