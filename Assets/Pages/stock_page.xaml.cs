@@ -75,16 +75,14 @@ namespace Stock_Management.Assets.Pages
                 TextBlock cell1 = items_grid.Columns[0].GetCellContent(row) as TextBlock;
                 TextBlock cell2 = items_grid.Columns[1].GetCellContent(row) as TextBlock;
                 TextBlock cell3 = items_grid.Columns[2].GetCellContent(row) as TextBlock;
-                TextBlock cell4 = items_grid.Columns[3].GetCellContent(row) as TextBlock;
                 TextBlock cell5 = items_grid.Columns[4].GetCellContent(row) as TextBlock;
 
+                string comparison = $"{cell1.Text},{cell2.Text},{cell3.Text},{cell5.Text}";
 
-                if ((cell1 != null && cell2 != null && cell3 != null && cell4 != null && cell5 != null) &&
-                    (cell1.Text.ToLower() == Name_txtbox.Text.ToLower().Trim() 
-                    && cell2.Text.ToLower() == Type_txtbox.Text.ToLower().Trim() 
-                    && cell3.Text.ToLower() == Category_txtbox.Text.ToLower().Trim() 
-                    && cell4.Text.ToLower() == Quantity_txtbox.Text.ToLower().Trim() 
-                    && cell5.Text.ToLower() == Cost_txtbox.Text.ToLower().Trim()))
+                string compared_to = $"{Name_txtbox.Text.Trim()},{Type_txtbox.Text.Trim()},{Category_txtbox.Text.Trim()}," +
+                    $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost_txtbox.Text.Trim()):N2}";
+
+                if(comparison.ToLower() == compared_to.ToLower())
                 {
                     items_grid.SelectedItem = items_grid.Items[i];
                     items_grid.ScrollIntoView(items_grid.SelectedItem);
@@ -156,6 +154,9 @@ namespace Stock_Management.Assets.Pages
     internal partial class Database_list : ObservableObject
     {
         [ObservableProperty]
+        private string id;
+
+        [ObservableProperty]
         private string name;
 
         [ObservableProperty]
@@ -171,9 +172,9 @@ namespace Stock_Management.Assets.Pages
         private string cost;
 
         //initialise properties
-        public Database_list(string name, string type, string category, string quantity, string cost)
+        public Database_list(string id, string name, string type, string category, string quantity, string cost)
         {
-            Name = name; Type = type; Category = category; Quantity = quantity; Cost = cost;
+            Id = id; Name = name; Type = type; Category = category; Quantity = quantity; Cost = cost;
         }
 
         public Database_list()

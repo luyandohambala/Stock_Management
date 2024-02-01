@@ -105,7 +105,7 @@
                                 <Trigger.ExitActions>
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="25" Duration="0:0:.05"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="20" Duration="0:0:.05"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </Trigger.ExitActions>
@@ -483,10 +483,12 @@
                     
                                     <TextBlock Name="button_price_block" Text="{Binding Button_price}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
                                          HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                    <TextBlock Name="button_type_block" Visibility="Collapsed" Text="{Binding Button_category}"/> <!-- textblock used to store button category value as variable -->
                                     
-                                    <TextBlock Name="button_type_block" Visibility="Collapsed" Text="{Binding Button_category}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
-                                         HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <TextBlock Name="button_id_block" Visibility="Collapsed" Text="{Binding Button_id}"/> <!-- textblock used to store button category value as variable -->
                                     
+
                                 </DockPanel>
 
                                 <Button DataContext="{StaticResource Sales_Page_ViewModel}" Command="{Binding add}" Style="{StaticResource add_to_cart}">
@@ -495,6 +497,7 @@
                                             <Binding Path="Text" ElementName="content_presenter"/>
                                             <Binding Path="Text" ElementName="button_price_block"/>
                                             <Binding Path="Text" ElementName="button_type_block"/>
+                                            <Binding Path="Text" ElementName="button_id_block"/>
                                         </MultiBinding>
                                     </Button.CommandParameter>
                                 </Button>
@@ -710,17 +713,21 @@
                     <DataTemplate>
                         <DockPanel Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <DockPanel DockPanel.Dock="Left">
-                                <TextBlock Name="Quantity_Block" DockPanel.Dock="Top" Text="{Binding Item_name}" TextWrapping="Wrap" Width="120" Style="{StaticResource Header text}" FontSize="14" 
+                                <TextBlock DockPanel.Dock="Top" Text="{Binding Item_name}" TextWrapping="Wrap" Width="120" Style="{StaticResource Header text}" FontSize="14" 
                                         HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                
+                                <TextBlock Name="id_Block" Visibility="Collapsed" Text="{Binding Item_id}"/>
+                                <!-- button identifier -->
+                                
                                 <TextBlock Text="{Binding Item_price, StringFormat=N2}" DockPanel.Dock="Bottom" TextWrapping="Wrap" Style="{StaticResource Header text}" FontSize="14" 
                                         HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
                                 <Button DataContext="{StaticResource Sales_Page_ViewModel}" Style="{StaticResource items_quantity_minus}" Command="{Binding reduce}" 
-                                        CommandParameter="{Binding ElementName=Quantity_Block, Path=Text}" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        CommandParameter="{Binding ElementName=id_Block, Path=Text}" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                                 <Button DataContext="{StaticResource Sales_Page_ViewModel}" Style="{StaticResource items_quantity_plus}" Command="{Binding increase}" 
-                                        CommandParameter="{Binding ElementName=Quantity_Block, Path=Text}" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        CommandParameter="{Binding ElementName=id_Block, Path=Text}" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
                                 <TextBox Margin="5" Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </DockPanel>

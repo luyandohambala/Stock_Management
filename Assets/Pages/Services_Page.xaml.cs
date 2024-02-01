@@ -90,5 +90,16 @@ namespace Stock_Management.Assets.Pages
         {
             purchase_txtbox.Text = Quotation_Page.validate_positive_integer(purchase_txtbox.Text, "Decimal");
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(purchase_txtbox.Text) && String.IsNullOrEmpty(total_amount_txtblock.Text))
+            {
+                if (double.Parse(purchase_txtbox.Text) >= double.Parse(total_amount_txtblock.Text))
+                {
+                    purchase_txtbox.Clear();
+                }
+            }
+        }
     }
 }

@@ -190,9 +190,12 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Name="add_edit_button" Click="add_edit_button_Click" HorizontalAlignment="Stretch" Content="Add/ Edit" Command="{Binding add_record2}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
-                            <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="Remove" Command="{Binding remove_record2}" VerticalAlignment="Center" Style="{StaticResource remove}"/>
+                            <Button Name="add_edit_button" Click="add_edit_button_Click" HorizontalAlignment="Stretch" Content="Add" Command="{Binding add_record2}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                            <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="{Binding Button_state2}" Command="{Binding edit_users_command2}" 
+                                    VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                            <Button Grid.Column="2" HorizontalAlignment="Stretch" Content="Remove" Command="{Binding remove_record2}" VerticalAlignment="Center" Style="{StaticResource remove}"/>
                         </Grid>
 
                         <Border Background="#eff2f7" CornerRadius="7">

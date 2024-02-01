@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json.Linq;
 using Stock_Management.Assets.Pages;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -15,7 +16,10 @@ namespace Stock_Management.Assets.ViewModel
         public Command_Class remove_record => new(execute => remove(), canExecute => Value2 != null);
 
         //assign add command 
-        public Command_Class add_record => new(execute => add_to_database());
+        public Command_Class add_record => new(execute => add_to_database("add"));
+
+        //assign edit command
+        public Command_Class edit_users_command1 => new(execute => add_to_database("edit"), canExecute => Value2 != null);
 
         //assign search command 
         public Command_Class search_for2 => new(search_items);
@@ -40,6 +44,11 @@ namespace Stock_Management.Assets.ViewModel
         private string cost;
 
         [ObservableProperty]
+        private string button_state1 = "Edit";
+
+        private bool edit_values1 = false;
+
+        [ObservableProperty]
         private List<string> category_listItems = new() { "Product", "Service"};// category combobx items.
 
 
@@ -51,33 +60,73 @@ namespace Stock_Management.Assets.ViewModel
         [ObservableProperty]
         private Database_list value2;
 
-        private void add_to_database()
+        private void add_to_database(string to_do)
         {
 
-            if (validate_entry())
+            if (!edit_values1)
             {
-                MessageBox.Show("Fill in all fields before adding a record!");
+                if (to_do == "add")
+                {
+                    if (validate_entry())
+                    {
+                        MessageBox.Show("Fill in all fields before adding a record!");
+                    }
+                    else
+                    {
+                        ObservableCollection<string> to_compare = new();
+
+                        foreach (var item in Data_lists)
+                        {
+                            to_compare.Add($"{item.Name.ToLower()}, {item.Type.ToLower()}, {item.Category.ToLower()}, {item.Quantity}, {item.Cost.ToLower()}");
+                        }
+
+                        var comparison = Data_lists.FirstOrDefault(x => x.Id.ToLower() == $"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}".ToLower());
+
+                        if (comparison == null)
+                        {
+                            Data_lists.Add(
+                                new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}", 
+                                Name.Trim(), Type.Trim(), Category.Trim(), Quantity, $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}")
+                                );
+
+                            clear_items();
+
+                            MessageBox.Show("Record added.");
+                        }
+
+                    }
+                }
+                else if(to_do == "edit")
+                {
+                    Name = Value2.Name;
+                    Type = Value2.Type;
+                    Category = Value2.Category;
+                    Quantity = Value2.Quantity;
+                    Cost = Value2.Cost.Replace(Settings_Page_ViewModel.currency_, "");
+
+                    edit_values1 = true;
+                    Button_state1 = "Save";
+                }
             }
             else
             {
-                ObservableCollection<string> to_compare = new();
-
-                foreach (var item in Data_lists)
+                if (Value2 != null && !validate_entry())
                 {
-                    to_compare.Add($"{item.Name.ToLower()}, {item.Type.ToLower()}, {item.Category.ToLower()}, {item.Quantity}, {item.Cost.ToLower()}");
-                }
+                    foreach (var item in Data_lists.Where(x => x.Id == Value2.Id))
+                    {
+                        item.Id = $"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
+                        item.Name = Name;
+                        item.Type = Type;
+                        item.Category = Category;
+                        item.Quantity = Quantity;
+                        item.Cost = $"{Settings_Page_ViewModel.currency_}{Cost:N2}";
+                    }
 
-                if (!to_compare.Contains($"{Name.ToLower().Trim()}, {Type.ToLower().Trim()}, {Category.ToLower().Trim()}, {Quantity}, {Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}"))
-                {
-                    Data_lists.Add(
-                        new(Name.Trim(), Type.Trim(), Category.Trim(), Quantity, $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}")
-                        );
-
+                    Button_state1 = "Edit";
+                    edit_values1 = false;
+                    MessageBox.Show("Record details edited.");
                     clear_items();
-                    
-                    MessageBox.Show("Record added.");
                 }
-                
             }
         }
 
@@ -92,7 +141,7 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (!String.IsNullOrEmpty(content.ToString()))
             {
-                populate_table();
+                //populate_table();
                 Data_lists = new(Data_lists.Where(
                 filtered => filtered.Name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
                 filtered.Type.ToLower().Contains(content.ToString().ToLower().Trim()) ||
@@ -109,7 +158,7 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (!String.IsNullOrEmpty(content.ToString()))
             {
-                populate_table();
+                //populate_table();
                 Sales_lists_ = new(Sales_lists_.Where(
                 filtered => filtered.Date.ToLower().Contains(content.ToString().ToLower().Trim()) ||
                 filtered.Item_name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
@@ -125,8 +174,8 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (MessageBox.Show("Remove Record?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
+                //populate_table();
                 Data_lists.Remove(Value2);
-                populate_table();
             }
         }
 

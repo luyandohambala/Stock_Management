@@ -165,7 +165,7 @@ namespace Stock_Management.Assets.ViewModel
                     User_name = Value4.User_name;
                     Password_entry = Value4.Password_entry;
                     Authority_ = Value4.Authority_;
-
+                    
                     edit_values = true;
                     Button_state = "Save";
                 }
@@ -174,7 +174,7 @@ namespace Stock_Management.Assets.ViewModel
             {
                 if (Value4 != null && validate_entry())
                 {
-                    foreach (var item in User_list.Where(x => x.User_name == User_name))
+                    foreach (var item in User_list.Where(x => x.User_name.ToLower() == Value4.User_name.ToLower()))
                     {
                         item.First_name = First_name;
                         item.Last_name = Last_name;

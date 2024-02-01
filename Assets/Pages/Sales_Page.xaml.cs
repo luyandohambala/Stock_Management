@@ -92,11 +92,25 @@ namespace Stock_Management.Assets.Pages
         {
             purchase_txtbox.Text = Quotation_Page.validate_positive_integer(purchase_txtbox.Text, "Decimal");
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(purchase_txtbox.Text) && String.IsNullOrEmpty(total_amount_txtblock.Text))
+            {
+                if (double.Parse(purchase_txtbox.Text) >= double.Parse(total_amount_txtblock.Text))
+                {
+                    purchase_txtbox.Clear();
+                }
+            }
+        }
     }
 
     //checkout_list class
     internal partial class checkout_list : ObservableObject
     {
+        [ObservableProperty]
+        string item_id;
+
         [ObservableProperty]
         string item_name;
 
@@ -110,8 +124,9 @@ namespace Stock_Management.Assets.Pages
         string type;
 
 
-        public checkout_list(string item_name, string item_price, int quantity, string type)
+        public checkout_list(string item_id, string item_name, string item_price, int quantity, string type)
         {
+            Item_id = item_id;
             Item_name = item_name;
             Item_price = item_price;
             Quantity = quantity;
@@ -125,6 +140,9 @@ namespace Stock_Management.Assets.Pages
     internal partial class items_button : ObservableObject
     {
         [ObservableProperty]
+        string button_id;
+
+        [ObservableProperty]
         string? button_content;
 
         [ObservableProperty]
@@ -136,8 +154,9 @@ namespace Stock_Management.Assets.Pages
         [ObservableProperty]
         ObservableCollection<items_button> items_list;
 
-        public items_button(string button_content, string button_price, string button_category)
+        public items_button(string button_id, string button_content, string button_price, string button_category)
         {
+            Button_id = button_id;
             Button_content = button_content;
             Button_price = button_price;
             Button_category = button_category;
@@ -147,6 +166,7 @@ namespace Stock_Management.Assets.Pages
         {
 
         }
+
     }
 
 

@@ -137,7 +137,7 @@ namespace Stock_Management
                 DragMove();
             }
             
-            if (e.ClickCount == 2)
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
             {
                 if (Maximized)
                 {
