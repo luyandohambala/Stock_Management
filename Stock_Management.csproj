@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Resources_Database.db" />
     <None Remove="Font Awesome 6 Free-Solid-900.otf" />
   </ItemGroup>
 
@@ -24,6 +25,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\Font\Font Awesome 6 Free-Solid-900.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Resources_Database.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

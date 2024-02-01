@@ -1,0 +1,435 @@
+﻿<Page x:Class="Stock_Management.Assets.Pages.Settings_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Stock_Management.Assets.ViewModel"
+      mc:Ignorable="d" 
+                  Style="{StaticResource page style}"
+      Title="stock_Page">
+
+    <!-- delete height=487 and width=890 during runtime -->
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
+
+    <Border Style="{StaticResource border style}" Background="#eff2f7" CornerRadius="7">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+
+            <!-- title content-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="20 10 10 10" Text="Settings" Style="{StaticResource Header text}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+                <Grid Name="Search_Grid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Column="1">
+                    <!--Search icon and textbox -->
+                    <TextBlock Margin="28 0 50 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False" Panel.ZIndex="1" Text="Search..." Visibility="{Binding ElementName=TxtSearch, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}"/>
+                    <TextBox Name="TxtSearch" Style="{StaticResource searchbox}" TextChanged="TxtSearch_TextChanged" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    <Button Name="clear_button" Content="&#xf002;" Command="{Binding clear_txt4}" Style="{StaticResource search_logo}" 
+                        VerticalAlignment="Center" Margin="0 2 20 0" HorizontalAlignment="Right"/>
+                </Grid>
+
+                <!-- button below is invoked to search items searchtxtbox when filtering using searchbar-->
+                <Button Name="TxtSearch_button" Visibility="Collapsed" IsEnabled="False" Command="{Binding search_for4}" CommandParameter="{Binding ElementName=TxtSearch, Path=Text}" />
+
+            </Grid>
+
+            <!-- main body -->
+            <Grid Grid.Row="1">
+                <!-- content stack panel-->
+               
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition FocusVisualStyle="{x:Null}" />
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 10 10 5">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                            <Button Name="general_settings" Command="{Binding general_settings_command}" Content="General" Style="{StaticResource category_button}"/>
+                            <Button Name="user_settings" Command="{Binding user_settings_command}" Content="Users" Style="{StaticResource category_button}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- main content-->
+                    <ScrollViewer Name="general_view" Margin="10" Grid.Row="1" Visibility="Visible"> <!-- general settings -->
+                        <StackPanel>
+                            <Separator Margin="10" BorderThickness="1">
+                                <Separator.BorderBrush>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                        <GradientStop Color="#4b4b4b" Offset="1"/>
+                                        <GradientStop Color="Red" Offset="0"/>
+                                    </LinearGradientBrush>
+                                </Separator.BorderBrush>
+                            </Separator>
+
+                            <TextBlock HorizontalAlignment="Left" FontSize="17" Margin="20" VerticalAlignment="Center" Text="Backup and Printer settings"
+                            Style="{StaticResource Header text}"/>
+
+                            <!-- backup and report interval -->
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Email statistics"
+                                    Style="{StaticResource Header text}"/>
+
+                                <TextBox Grid.Column="1" Name="email_backup" Text="{Binding Email_backup, UpdateSourceTrigger=PropertyChanged}" TextChanged="email_backup_TextChanged" 
+                                         Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Interval in days"
+                                    Style="{StaticResource Header text}"/>
+                            </Grid>
+
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Backup data"
+                                    Style="{StaticResource Header text}"/>
+
+                                <TextBox Grid.Column="1" Name="backup_data_txtbox" Text="{Binding Backup_data, UpdateSourceTrigger=PropertyChanged}" TextChanged="backup_data_txtbox_TextChanged" 
+                                         Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Interval in days"
+                                    Style="{StaticResource Header text}"/>
+                            </Grid>
+
+                            <Separator Margin="10" BorderThickness="1">
+                                <Separator.BorderBrush>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                        <GradientStop Color="#4b4b4b" Offset="1"/>
+                                        <GradientStop Color="Red" Offset="0"/>
+                                    </LinearGradientBrush>
+                                </Separator.BorderBrush>
+                            </Separator>
+
+                            <!-- printer settings -->
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <!-- printer choice -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Printer"
+                                        Style="{StaticResource Header text}"/>
+
+                                <TextBox Grid.Column="1" Text="{Binding Printer_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Name of printer"
+                                        Style="{StaticResource Header text}"/>
+                            </Grid>
+
+
+                            <Separator Margin="10" BorderThickness="1">
+                                <Separator.BorderBrush>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                        <GradientStop Color="#4b4b4b" Offset="1"/>
+                                        <GradientStop Color="Red" Offset="0"/>
+                                    </LinearGradientBrush>
+                                </Separator.BorderBrush>
+                            </Separator>
+
+                            <TextBlock HorizontalAlignment="Left" FontSize="17" Margin="20" VerticalAlignment="Center" Text="Financem Managment"
+                            Style="{StaticResource Header text}"/>
+
+                            <!-- currency grid -->
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Currency"
+                                    Style="{StaticResource Header text}"/>
+
+                                <TextBox Grid.Column="1" Text="{Binding Currency_, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Your currency initial(s)"
+                                    Style="{StaticResource Header text}"/>
+                            </Grid>
+                            
+                            <!-- Tax grid -->
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Value Added Tax"
+                                    Style="{StaticResource Header text}"/>
+
+                                <TextBox Grid.Column="1" Text="{Binding Value_added_tax, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="% VAT"
+                                    Style="{StaticResource Header text}"/>
+                            </Grid>
+                            
+
+
+                            <Separator Margin="10" BorderThickness="1">
+                                <Separator.BorderBrush>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                        <GradientStop Color="#4b4b4b" Offset="1"/>
+                                        <GradientStop Color="Red" Offset="0"/>
+                                    </LinearGradientBrush>
+                                </Separator.BorderBrush>
+                            </Separator>
+
+                            <!-- Template locations -->
+                            <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="20" VerticalAlignment="Center" Text="Location of quotation, invoice and receipt templates"
+                                    Style="{StaticResource Header text}"/>
+
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <!-- quotation location -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Quotation"
+                                    Style="{StaticResource Header text}"/>
+
+                                <TextBox IsReadOnly="True" Text="{Binding Quotation_template, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <Button Grid.Column="2" Content="Choose file" Style="{StaticResource add/edit}" />
+
+                            </Grid>
+
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <!-- invoice location -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Invoice"
+                                    Style="{StaticResource Header text}"/>
+
+                                <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding Invoice_template, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <Button Grid.Column="2" Content="Choose file" Style="{StaticResource add/edit}" />
+
+                            </Grid>
+
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <!-- Receipt location -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Receipt"
+                                    Style="{StaticResource Header text}"/>
+
+                                <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding Receipt_template, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <Button Grid.Column="2" Content="Choose file" Style="{StaticResource add/edit}" />
+
+                            </Grid>
+
+                            <Separator Margin="10" BorderThickness="1">
+                                <Separator.BorderBrush>
+                                    <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
+                                        <GradientStop Color="#4b4b4b" Offset="1"/>
+                                        <GradientStop Color="Red" Offset="0"/>
+                                    </LinearGradientBrush>
+                                </Separator.BorderBrush>
+                            </Separator>
+
+                            <!-- save and reset buttons -->
+
+                            <Grid Width="320">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Content="Save" Command="{Binding save_settings_command}" Style="{StaticResource add/edit}" />
+                                <Button Grid.Column="1" Command="{Binding reset_settings_command}" Content="Reset to Default" Style="{StaticResource remove}" />
+                            </Grid>
+                        </StackPanel>
+                        
+                    </ScrollViewer>
+
+
+                    <Grid Name="user_view" Grid.Row="1" Margin="0 10" Visibility="Hidden"> <!-- user settings -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="2.5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- content stack panel-->
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition FocusVisualStyle="{x:Null}" />
+                            </Grid.RowDefinitions>
+
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top"  Margin="30 10 10 5" HorizontalAlignment="Stretch">
+                                <Button Name="category_all" Content="All" Click="category_all_Click" Command="{Binding all_users}" 
+                                        Style="{StaticResource category_button}"/>
+                                <Button Name="category_admin" Content="Administrators" Click="category_admin_Click"  Command="{Binding admin_users}"
+                                        Style="{StaticResource category_button}"/>
+                                <Button Name="category_non_admin" Content="Non-Administrators" Click="category_non_admin_Click" Command="{Binding non_admin_users}" 
+                                        Style="{StaticResource category_button}"/>
+                            </StackPanel>
+
+
+                            <!-- datagrid (usertable) content-->
+                            <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="10 10 10 10" DockPanel.Dock="Top">
+                                <DataGrid SelectedItem="{Binding Value4}"
+                                ItemsSource="{Binding User_list}" Margin="10"
+                                Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 
+                                ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" >
+                                    
+                                    <DataGrid.Columns>
+
+                                        <!-- First Name -->
+                                        <DataGridTextColumn  Header="First Name" Binding="{Binding First_name}" IsReadOnly="True" Width="*">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style>
+                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+
+                                        <!-- Last Name -->
+                                        <DataGridTextColumn  Header="Last Name" Binding="{Binding Last_name}" IsReadOnly="True" Width="*">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style>
+                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+
+                                        <!-- Username -->
+                                        <DataGridTextColumn  Header="Usename" Binding="{Binding User_name}" IsReadOnly="True" Width="*">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style>
+                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+
+                                        <!-- password -->
+                                        <DataGridTextColumn  Header="Password" Binding="{Binding Password_entry}" IsReadOnly="True" Width="*">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style>
+                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+
+                                        <!-- authority -->
+                                        <DataGridTextColumn  Header="Authority" Binding="{Binding Authority_}" IsReadOnly="True" Width="*">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style>
+                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Border>
+                        </Grid>
+
+
+                        <!-- add/edit/remove user panel -->
+                        <Border Grid.Column="1" Background="White" Margin="10" CornerRadius="15">
+                            <DockPanel Margin="10">
+                                <DockPanel Margin="10 10 10 5" VerticalAlignment="Top" DockPanel.Dock="Top">
+                                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" DockPanel.Dock="Left" Margin="5" 
+                                               Padding="0 2 0 0" Foreground="#4b4b4b" Text="User details" Style="{StaticResource Header text}"/>
+                                    <Button HorizontalAlignment="Right" VerticalAlignment="Center" DockPanel.Dock="Right" 
+                                            Content="Clear all" Command="{Binding clearall4}" Style="{StaticResource clear_items_button}"/>
+                                </DockPanel>
+
+                                <Grid Margin="0 10 0 10" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button HorizontalAlignment="Stretch" Content="Add" Command="{Binding add_users_command}" 
+                                            VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                                    <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="{Binding Button_state}" Command="{Binding edit_users_command}" 
+                                            VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                                    <Button Grid.Column="2" HorizontalAlignment="Stretch" Content="Remove" Command="{Binding remove_users_command}" VerticalAlignment="Center" Style="{StaticResource remove}"/>
+                                </Grid>
+
+                                <ScrollViewer>
+                                    <Border Background="#eff2f7" CornerRadius="7">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="2.5*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel VerticalAlignment="Top">
+                                                <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="F/ Name"
+                                                        Style="{StaticResource Header text}"/>
+
+                                                <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="L/ Name"
+                                                        Style="{StaticResource Header text}"/>
+
+                                                <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="U/ Name"
+                                                        Style="{StaticResource Header text}"/>
+
+                                                <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="Password"
+                                                        Style="{StaticResource Header text}"/>
+
+                                                <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="Authority"
+                                                        Style="{StaticResource Header text}"/>
+
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                                                <TextBox Text="{Binding First_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                                <TextBox Text="{Binding Last_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                                <TextBox Text="{Binding User_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                                <TextBox Text="{Binding Password_entry, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                                <TextBox Text="{Binding Authority_, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </ScrollViewer>
+
+                            </DockPanel>
+                        </Border>
+
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+    </Border>
+</Page>

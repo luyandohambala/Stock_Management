@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
-namespace Stock_Management
+namespace Stock_Management.Assets.ViewModel
 {
     public class Command_Class : ICommand
     {
@@ -31,7 +26,7 @@ namespace Stock_Management
 
         public void Execute(object? parameter)
         {
-            execute(parameter); 
+            execute(parameter);
         }
     }
 }
