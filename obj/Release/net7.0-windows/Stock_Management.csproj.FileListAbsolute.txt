@@ -50,15 +50,14 @@ I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\Home_Page.g.cs
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\Quotation_Page.g.cs
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\Sales_Page.g.cs
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\Services_Page.g.cs
-I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\settings pages\general_settings.g.cs
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\Settings_Page.g.cs
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\stock_page.g.cs
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Main App.g.cs
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\Quotation_Page.baml
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\Services_Page.baml
-I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\settings pages\general_settings.baml
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\Settings_Page.baml
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Assets\Pages\stock_page.baml
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Main App.baml
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Stock_Management.sourcelink.json
 I:\j\c#\Stock_Management\obj\Release\net7.0-windows\Stock_Management.csproj.CopyComplete
+I:\j\c#\Stock_Management\bin\Release\net7.0-windows\Assets\Resources_Database.db

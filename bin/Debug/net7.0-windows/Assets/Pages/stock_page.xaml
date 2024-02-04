@@ -66,7 +66,7 @@
                     </ScrollViewer>
 
                     <!-- datagrid (item table) content-->
-                    <Border Name="items_grid_border" Grid.Row="1" Background="White" CornerRadius="10" Margin="10 10 10 10">
+                    <Border Name="items_grid_border" Grid.Row="1" Background="White" CornerRadius="10" Margin="10 10 10 60">
                         <DataGrid Name="items_grid" SelectedItem="{Binding Value2}"
                                   ItemsSource="{Binding Data_lists}" Margin="10"
                                   Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 
@@ -108,9 +108,18 @@
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
+                                
+                                <!-- quantity -->
+                                <DataGridTextColumn  Header="P/Amount" Binding="{Binding Purchase_amount}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
                                 <!-- cost -->
-                                <DataGridTextColumn  Header="Cost" Binding="{Binding Cost}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="S/Amount" Binding="{Binding Cost}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -122,14 +131,14 @@
                         </DataGrid>
                     </Border>
                     
-                    <Border Name="sales_grid_border" Grid.Row="1" Background="White" CornerRadius="10" Margin="10 10 10 10">
+                    <Border Name="sales_grid_border" Grid.Row="1" Background="White" CornerRadius="10" Margin="10 10 10 60">
                         <DataGrid ItemsSource="{Binding Sales_lists_}" Margin="10"
                                   Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" 
                                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" >
                             <DataGrid.Columns>
 
                                 <!-- date -->
-                                <DataGridTextColumn  Header="Date" Binding="{Binding Date}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="Date &#x0a;d/m/yyyy" Binding="{Binding Date}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -156,7 +165,7 @@
                                 </DataGridTextColumn>
 
                                 <!-- amount -->
-                                <DataGridTextColumn  Header="Amount" Binding="{Binding Amount}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="Cost" Binding="{Binding Amount}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -166,6 +175,15 @@
                                 
                                 <!-- change -->
                                 <DataGridTextColumn  Header="Change" Binding="{Binding Change}" IsReadOnly="True" Width="*">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
+                                <!-- profit -->
+                                <DataGridTextColumn  Header="Profit" Binding="{Binding Profit}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -186,7 +204,13 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>
-                    
+
+                    <Border Grid.Row="1" Margin="10 10 10 10" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" CornerRadius="7">
+                        <Grid>
+                            <Button Name="print_table" HorizontalAlignment="Left" Width="140" Content="Export To" Command="{Binding print_quotation}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                        </Grid>
+                    </Border>
+
                 </Grid>
 
 
@@ -212,42 +236,50 @@
                         </Grid>
 
                         <Border Background="#eff2f7" CornerRadius="7">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="2.5*"/>
-                                </Grid.ColumnDefinitions>
+                            <ScrollViewer>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="2.5*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <StackPanel VerticalAlignment="Top">
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 8 14" VerticalAlignment="Center" Text="Name"
-                                            Style="{StaticResource Header text}"/>
-                                    
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 8 14" VerticalAlignment="Center" Text="Type"
-                                            Style="{StaticResource Header text}"/>
-                                    
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 19 8 14" VerticalAlignment="Center" Text="Category"
-                                            Style="{StaticResource Header text}"/>
-                                    
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 19 8 14" VerticalAlignment="Center" Text="Quantity"
-                                            Style="{StaticResource Header text}"/>
-                                    
-                                    <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 8 14" VerticalAlignment="Center" Text="Cost"
+                                    <StackPanel VerticalAlignment="Top">
+                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 8 14" VerticalAlignment="Center" Text="Name"
                                             Style="{StaticResource Header text}"/>
 
-                                </StackPanel>
+                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 8 14" VerticalAlignment="Center" Text="Type"
+                                            Style="{StaticResource Header text}"/>
 
-                                <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                                    <TextBox Name="Name_txtbox" Text="{Binding Name}" Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Name="Type_txtbox" Text="{Binding Type}" Style="{StaticResource entrytextbox}"/>
-                                    <Border Margin="10 8" CornerRadius="7" Height="38" Background="White">
-                                        <ComboBox Name="Category_txtbox" FontSize="14" FontWeight="SemiBold" Foreground="#4b4b4b" 
-                                                  SelectedItem="{Binding Category, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" 
-                                                  Margin="6" ItemsSource="{Binding Category_listItems}"/>      
-                                    </Border>
-                                    <TextBox Name="Quantity_txtbox" TextChanged="Quantity_txtbox_TextChanged" Text="{Binding Quantity}" Style="{StaticResource entrytextbox}"/>
-                                    <TextBox Name="Cost_txtbox" TextChanged="Cost_txtbox_TextChanged" Text="{Binding Cost}" Style="{StaticResource entrytextbox}"/>
-                                </StackPanel>
-                            </Grid>
+                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="Category"
+                                            Style="{StaticResource Header text}"/>
+
+                                        <TextBlock Name="Quantity_text" DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="Quantity"
+                                            Style="{StaticResource Header text}"/>
+
+                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="P/Amount"
+                                            Style="{StaticResource Header text}"/>
+
+                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="S/Amount"
+                                            Style="{StaticResource Header text}"/>
+
+
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                                        <TextBox Name="Name_txtbox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                        <TextBox Name="Type_txtbox" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                        <Border Margin="10 8" CornerRadius="7" Height="38" Background="White">
+                                            <ComboBox Name="Category_txtbox" FontSize="14" FontWeight="SemiBold" Foreground="#4b4b4b" 
+                                                SelectedItem="{Binding Category, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" 
+                                                SelectionChanged="Category_txtbox_SelectionChanged"
+                                                Margin="6" ItemsSource="{Binding Category_listItems}"/>
+                                        </Border>
+                                        <TextBox Name="Quantity_txtbox" TextChanged="Quantity_txtbox_TextChanged" Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                        <TextBox Name="purchase_txtbox" TextChanged="purchase_txtbox_TextChanged" Text="{Binding Purchase_amount, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                        <TextBox Name="Cost_txtbox" TextChanged="Cost_txtbox_TextChanged" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </ScrollViewer>
                         </Border>
 
                     </DockPanel>

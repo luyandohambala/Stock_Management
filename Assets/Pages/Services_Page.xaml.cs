@@ -90,6 +90,5 @@ namespace Stock_Management.Assets.Pages
         {
             purchase_txtbox.Text = Quotation_Page.validate_positive_integer(purchase_txtbox.Text, "Decimal");
         }
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Stock_Management.Assets.Pages.settings_pages;
 using Stock_Management.Assets.ViewModel;
 using System.Windows;
 using System.Windows.Automation.Peers;
@@ -103,6 +102,11 @@ namespace Stock_Management.Assets.Pages
             Quantity_txtbox.Text = Quotation_Page.validate_positive_integer(Quantity_txtbox.Text, "integer");
         }
 
+        private void purchase_txtbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            purchase_txtbox.Text = Quotation_Page.validate_positive_integer(purchase_txtbox.Text, "Decimal");
+        }
+
         private void change_color(string nav)
         {
             LinearGradientBrush linearGradientBrush = new()
@@ -149,6 +153,21 @@ namespace Stock_Management.Assets.Pages
         {
             change_color("sales");
         }
+
+        private void Category_txtbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Category_txtbox.SelectedIndex == 0)
+            {
+                Quantity_text.Visibility = Visibility.Visible;
+                Quantity_txtbox.Visibility = Visibility.Visible;
+                
+            }
+            else if (Category_txtbox.SelectedIndex == 1)
+            {
+                Quantity_text.Visibility = Visibility.Collapsed;
+                Quantity_txtbox.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 
     internal partial class Database_list : ObservableObject
@@ -169,12 +188,15 @@ namespace Stock_Management.Assets.Pages
         private string quantity;
 
         [ObservableProperty]
+        private string purchase_amount;
+
+        [ObservableProperty]
         private string cost;
 
         //initialise properties
-        public Database_list(string id, string name, string type, string category, string quantity, string cost)
+        public Database_list(string id, string name, string type, string category, string quantity, string purchase_amount, string cost)
         {
-            Id = id; Name = name; Type = type; Category = category; Quantity = quantity; Cost = cost;
+            Id = id; Name = name; Type = type; Category = category; Quantity = quantity; Purchase_amount = purchase_amount; Cost = cost;
         }
 
         public Database_list()
@@ -202,12 +224,15 @@ namespace Stock_Management.Assets.Pages
         private string change;
 
         [ObservableProperty]
+        private string profit;
+
+        [ObservableProperty]
         private string cashier;
 
         //initialise properties
-        public Sales_list_Class(string date, string item_name, string item_quantity, string amount, string change, string cashier)
+        public Sales_list_Class(string date, string item_name, string item_quantity, string amount, string change, string profit, string cashier)
         {
-            Date = date; Item_name = item_name; Item_quantity = item_quantity; Amount = amount; Change = change; Cashier = cashier;
+            Date = date; Item_name = item_name; Item_quantity = item_quantity; Amount = amount; Change = change; Profit = profit; Cashier = cashier;
         }
 
         public Sales_list_Class()

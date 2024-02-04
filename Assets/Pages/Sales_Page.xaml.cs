@@ -105,6 +105,9 @@ namespace Stock_Management.Assets.Pages
         string item_name;
 
         [ObservableProperty]
+        string item_order_price;
+
+        [ObservableProperty]
         string item_price;
 
         [ObservableProperty]
@@ -114,10 +117,11 @@ namespace Stock_Management.Assets.Pages
         string type;
 
 
-        public checkout_list(string item_id, string item_name, string item_price, int quantity, string type)
+        public checkout_list(string item_id, string item_name, string item_order_price, string item_price, int quantity, string type)
         {
             Item_id = item_id;
             Item_name = item_name;
+            Item_order_price = item_order_price;
             Item_price = item_price;
             Quantity = quantity;
             Type = type;
@@ -136,6 +140,9 @@ namespace Stock_Management.Assets.Pages
         string? button_content;
 
         [ObservableProperty]
+        string button_order_price;
+
+        [ObservableProperty]
         string? button_price;
 
         [ObservableProperty]
@@ -144,10 +151,11 @@ namespace Stock_Management.Assets.Pages
         [ObservableProperty]
         ObservableCollection<items_button> items_list;
 
-        public items_button(string button_id, string button_content, string button_price, string button_category)
+        public items_button(string button_id, string button_content, string button_order_price, string button_price, string button_category)
         {
             Button_id = button_id;
             Button_content = button_content;
+            Button_order_price = button_order_price;
             Button_price = button_price;
             Button_category = button_category;
 

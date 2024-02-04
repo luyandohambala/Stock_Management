@@ -113,7 +113,8 @@
                                                FontSize="17" FontWeight="Normal" Margin="15 3 5 0" VerticalAlignment="Center" Text="Received"
                                                 Style="{StaticResource Header text}"/>
 
-                                    <TextBox Name="purchase_txtbox" TextChanged="purchase_txtbox_TextChanged"  FontSize="16" Height="30" Margin="100 0 10 0" Text="{Binding Amount_given, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
+                                    <TextBox DataContext="{StaticResource Sales_Page_ViewModel}" Name="purchase_txtbox" TextAlignment="Right" TextChanged="purchase_txtbox_TextChanged"  
+                                             FontSize="16" Height="30" Margin="100 0 10 0" Text="{Binding Amount_given, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
                                             DockPanel.Dock="Bottom" Style="{StaticResource entrytextbox}"/>
                                 </Grid>
                                 <Grid DockPanel.Dock="Top" Margin="0 5 0 10">

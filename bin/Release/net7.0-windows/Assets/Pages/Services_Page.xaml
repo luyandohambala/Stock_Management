@@ -95,22 +95,17 @@
 
                                                             <TextBlock Name="button_price_block" Text="{Binding Button_price}" Margin="10 10 0 0" Style="{StaticResource Header text}" FontSize="14" 
                                                                 HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                                                            <TextBlock Name="button_type_block" Visibility="Collapsed" Text="{Binding Button_category}"/>
-                                                            <!-- textblock used to store button category value as variable -->
-
-                                                            <TextBlock Name="button_id_block" Visibility="Collapsed" Text="{Binding Button_id}"/>
-                                                            <!-- textblock used to store button id value as variable -->
                                                         </DockPanel>
 
-                                                        <Button DataContext="{StaticResource Services_Page_ViewModel}" Command="{Binding add1}" Style="{StaticResource add_to_cart}">
+                                                        <Button Command="{Binding Source={StaticResource Services_Page_ViewModel}, Path=add1}" 
+                                                                    Style="{StaticResource add_to_cart}">
                                                             <Button.CommandParameter>
                                                                 <MultiBinding Converter="{StaticResource convertor_class}">
                                                                     <Binding Path="Text" ElementName="content_presenter"/>
-                                                                    <Binding Path="Text" ElementName="button_price_block"/>
-                                                                    <Binding Path="Text" ElementName="button_type_block"/>
-                                                                    <Binding Path="Text" ElementName="button_id_block"/>
-                                                                    
+                                                                    <Binding Path="Button_order_price"/>
+                                                                    <Binding Path="Button_price"/>
+                                                                    <Binding Path="Button_category"/>
+                                                                    <Binding Path="Button_id"/>
                                                                 </MultiBinding>
                                                             </Button.CommandParameter>
                                                         </Button>
@@ -147,7 +142,8 @@
                                             FontSize="17" FontWeight="Normal" Margin="15 3 5 0" VerticalAlignment="Center" Text="Received"
                                                 Style="{StaticResource Header text}"/>
 
-                                    <TextBox Name="purchase_txtbox" TextChanged="purchase_txtbox_TextChanged" FontSize="16" Height="30" Margin="100 0 10 0" Text="{Binding Amount_given_s, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
+                                    <TextBox DataContext="{StaticResource Services_Page_ViewModel}" Name="purchase_txtbox" TextAlignment="Right" TextChanged="purchase_txtbox_TextChanged" 
+                                             FontSize="16" Height="30" Margin="100 0 10 0" Text="{Binding Amount_given_s, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
                                             DockPanel.Dock="Bottom" Style="{StaticResource entrytextbox}"/>
                                 </Grid>
                                 <Grid DockPanel.Dock="Top" Margin="0 5 0 10">
@@ -168,22 +164,24 @@
                                 <DataTemplate>
                                     <DockPanel Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                         <DockPanel DockPanel.Dock="Left">
-                                            <TextBlock DockPanel.Dock="Top" Text="{Binding Item_name}" TextWrapping="Wrap" Width="120" Style="{StaticResource Header text}" FontSize="14" 
-                                                HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                                            <TextBlock Name="id_Block" Visibility="Collapsed" Text="{Binding Item_id}"/><!-- button identifier -->
+                                            <TextBlock DockPanel.Dock="Top" Text="{Binding Item_name}" TextWrapping="Wrap" Width="90" Style="{StaticResource Header text}" FontSize="14" 
+                                                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                                             <TextBlock Text="{Binding Item_price, StringFormat=N2}" DockPanel.Dock="Bottom" TextWrapping="Wrap" Style="{StaticResource Header text}" FontSize="14" 
-                                                HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                                    HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                         </DockPanel>
                                         <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                            <Button DataContext="{StaticResource Services_Page_ViewModel}" Style="{StaticResource items_quantity_minus}" Command="{Binding reduce1}" 
-                                                CommandParameter="{Binding ElementName=id_Block, Path=Text}" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            <Button Style="{StaticResource items_quantity_minus}" Command="{Binding Source={StaticResource Services_Page_ViewModel}, Path=reduce1}" 
+                                                    CommandParameter="{Binding Item_id}" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                                            <Button DataContext="{StaticResource Services_Page_ViewModel}" Style="{StaticResource items_quantity_plus}" Command="{Binding increase1}" 
-                                                CommandParameter="{Binding ElementName=id_Block, Path=Text}" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                            <Button Margin="5 0 0 0" Style="{StaticResource items_quantity_plus}" Content="plusplus" Command="{Binding Source={StaticResource Services_Page_ViewModel}, Path=increase_multiple1}" 
+                                                    CommandParameter="{Binding Item_id}" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
-                                            <TextBox Margin="5" Text="{Binding Quantity}" Style="{StaticResource entrytextbox}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            <Button Style="{StaticResource items_quantity_plus}" Command="{Binding Source={StaticResource Services_Page_ViewModel}, Path=increase1}" 
+                                                    CommandParameter="{Binding Item_id}" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                                            <TextBox IsReadOnly="{Binding Source={StaticResource Services_Page_ViewModel}, Path=Read_only_quantity1}" Margin="2 5 2 0" Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" 
+                                                    Style="{StaticResource entrytextbox}" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </DockPanel>
                                     </DockPanel>
                                 </DataTemplate>

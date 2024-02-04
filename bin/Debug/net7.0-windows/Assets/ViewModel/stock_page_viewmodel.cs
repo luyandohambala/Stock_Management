@@ -41,6 +41,8 @@ namespace Stock_Management.Assets.ViewModel
         [ObservableProperty]
         private string quantity;
         [ObservableProperty]
+        private string purchase_amount;
+        [ObservableProperty]
         private string cost;
 
         [ObservableProperty]
@@ -84,11 +86,23 @@ namespace Stock_Management.Assets.ViewModel
 
                         if (comparison == null)
                         {
-                            Data_lists.Add(
+                            if (Category == "Product")
+                            {
+                                Data_lists.Add(
                                 new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}", 
-                                Name.Trim(), Type.Trim(), Category.Trim(), Quantity, $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}")
+                                Name.Trim(), Type.Trim(), Category.Trim(), Quantity, $"{Settings_Page_ViewModel.currency_}{double.Parse(Purchase_amount.Trim()):N2}", 
+                                $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}")
                                 );
-
+                            }
+                            else if (Category == "Service")
+                            {
+                                Data_lists.Add(
+                                new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
+                                Name.Trim(), Type.Trim(), Category.Trim(), "N/A", $"{Settings_Page_ViewModel.currency_}{double.Parse(Purchase_amount.Trim()):N2}",
+                                $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}")
+                                );
+                            }
+                            
                             clear_items();
 
                             MessageBox.Show("Record added.");
@@ -98,11 +112,24 @@ namespace Stock_Management.Assets.ViewModel
                 }
                 else if(to_do == "edit")
                 {
-                    Name = Value2.Name;
-                    Type = Value2.Type;
-                    Category = Value2.Category;
-                    Quantity = Value2.Quantity;
-                    Cost = Value2.Cost.Replace(Settings_Page_ViewModel.currency_, "");
+                    if (Category == "Product")
+                    {
+                        Name = Value2.Name;
+                        Type = Value2.Type;
+                        Category = Value2.Category;
+                        Quantity = Value2.Quantity;
+                        Purchase_amount = Value2.Purchase_amount.Replace(Settings_Page_ViewModel.currency_, "");
+                        Cost = Value2.Cost.Replace(Settings_Page_ViewModel.currency_, "");
+                    }
+                    else if (Category == "Service")
+                    {
+                        Name = Value2.Name;
+                        Type = Value2.Type;
+                        Category = Value2.Category;
+                        Purchase_amount = Value2.Purchase_amount.Replace(Settings_Page_ViewModel.currency_, "");
+                        Cost = Value2.Cost.Replace(Settings_Page_ViewModel.currency_, "");
+                    }
+                    
 
                     edit_values1 = true;
                     Button_state1 = "Save";
@@ -114,12 +141,26 @@ namespace Stock_Management.Assets.ViewModel
                 {
                     foreach (var item in Data_lists.Where(x => x.Id == Value2.Id))
                     {
-                        item.Id = $"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
-                        item.Name = Name;
-                        item.Type = Type;
-                        item.Category = Category;
-                        item.Quantity = Quantity;
-                        item.Cost = $"{Settings_Page_ViewModel.currency_}{Cost:N2}";
+                        if (Category == "Product")
+                        {
+                            item.Id = $"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
+                            item.Name = Name;
+                            item.Type = Type;
+                            item.Category = Category;
+                            item.Quantity = Quantity;
+                            item.Purchase_amount = $"{Settings_Page_ViewModel.currency_}{double.Parse(Purchase_amount.Trim()):N2}";
+                            item.Cost = $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
+                        }
+                        else if (Category == "Service")
+                        {
+                            item.Id = $"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
+                            item.Name = Name;
+                            item.Type = Type;
+                            item.Category = Category;
+                            item.Quantity = "N/A";
+                            item.Purchase_amount = $"{Settings_Page_ViewModel.currency_}{double.Parse(Purchase_amount.Trim()):N2}";
+                            item.Cost = $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
+                        }
                     }
 
                     Button_state1 = "Edit";
@@ -181,8 +222,14 @@ namespace Stock_Management.Assets.ViewModel
 
         private bool validate_entry()
         {
-            if (String.IsNullOrEmpty(Name) || String.IsNullOrEmpty(Type) || String.IsNullOrEmpty(Category)
-                || String.IsNullOrEmpty(Quantity) || String.IsNullOrEmpty(Cost))
+
+            if (Category == "Product" && (String.IsNullOrEmpty(Name) || String.IsNullOrEmpty(Type) || String.IsNullOrEmpty(Category)
+                 || String.IsNullOrEmpty(Quantity) || String.IsNullOrEmpty(Purchase_amount) || String.IsNullOrEmpty(Cost)))
+            {
+                return true;
+            }
+            else if (Category == "Service" && (String.IsNullOrEmpty(Name) || String.IsNullOrEmpty(Type) || String.IsNullOrEmpty(Category)
+                    || String.IsNullOrEmpty(Purchase_amount) || String.IsNullOrEmpty(Cost)))
             {
                 return true;
             }
@@ -194,11 +241,23 @@ namespace Stock_Management.Assets.ViewModel
 
         private void clear_items()
         {
-            Name = string.Empty;
-            Type = string.Empty;
-            Category = null;
-            Quantity = string.Empty;
-            Cost = string.Empty;
+            if (Category == "Product")
+            {
+                Name = string.Empty;
+                Type = string.Empty;
+                Category = null;
+                Quantity = string.Empty;
+                Purchase_amount = string.Empty;
+                Cost = string.Empty;
+            }
+            else if (Category == "Service")
+            {
+                Name = string.Empty;
+                Type = string.Empty;
+                Category = null;
+                Purchase_amount = string.Empty;
+                Cost = string.Empty;
+            }
         }
     }
 }

@@ -11,7 +11,10 @@ namespace Stock_Management
     /// </summary>
     public partial class App : Application
     {
-        
+        private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
     }
 
 }

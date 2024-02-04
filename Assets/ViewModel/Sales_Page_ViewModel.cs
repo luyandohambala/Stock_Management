@@ -23,9 +23,21 @@ namespace Stock_Management.Assets.ViewModel
         [ObservableProperty]
         private string currency_value;
 
+        [ObservableProperty]
+        private bool read_only_quantity;//used to set the read only fied of the quantity textbox under the checkout list view
+
+        [ObservableProperty]
+        private string multiple_price_value = string.Empty;//used to store the value of the quantity before the manual increase
+
+        [ObservableProperty]
+        private string multiple_quantity_value = string.Empty;//used to store the value of the price before the manual increase
+
         public Command_Class increase => new(increase_quantity);
+
+        public Command_Class increase_multiple => new(increase_quantity_multpile);
+
         public Command_Class reduce => new(reduce_quantity);
-        public Command_Class clear_all => new(execute => clear_items());
+        public Command_Class clear_all => new(execute => clear_items("clear"));
 
         public Command_Class purchase_items => new(execute => purchase_item(), canExecute => Checkout_Lists.Count > 0);
 
@@ -54,7 +66,7 @@ namespace Stock_Management.Assets.ViewModel
         public Sales_Page_ViewModel()
         {
             populate();
-
+            Read_only_quantity = true;
             Currency_value = Settings_Page_ViewModel.currency_;
         }
 
@@ -116,12 +128,12 @@ namespace Stock_Management.Assets.ViewModel
             items_button items_Button = new()
             {
                 Items_list = new(
-                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Product").Select(x => new items_button(x.Id, x.Name, x.Cost, x.Type)))
+                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Product").Select(x => new items_button(x.Id, x.Name, x.Purchase_amount, x.Cost, x.Type)))
             };
 
             foreach (var item in items_Button.Items_list)
             {
-                Items_list.Add(new items_button(item.Button_id, item.Button_content, item.Button_price, item.Button_category));
+                Items_list.Add(new items_button(item.Button_id, item.Button_content, item.Button_order_price, item.Button_price, item.Button_category));
             }
         }
 
@@ -170,7 +182,10 @@ namespace Stock_Management.Assets.ViewModel
                             item.Item_name,
                             $"{item.Quantity}",
                             item.Item_price,
-                            $"{Settings_Page_ViewModel.currency_}{int.Parse(Amount_given) - Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}",
+                            $"{Settings_Page_ViewModel.currency_}{double.Parse(Amount_given) - Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}",
+                            $"{Settings_Page_ViewModel.currency_}" +
+                            $"{((Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / item.Quantity) -
+                            Convert.ToDouble(item.Item_order_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""))) * item.Quantity:N2}",
                             MainWindow.Current_user
                         ));
 
@@ -184,7 +199,7 @@ namespace Stock_Management.Assets.ViewModel
 
                         if (count == Checkout_Lists.LongCount() - 1)
                         {
-                            clear_items();
+                            clear_items("purchase");
                             MessageBox.Show("Purchase successfull.");
                             break;
                         }
@@ -208,73 +223,179 @@ namespace Stock_Management.Assets.ViewModel
         {
             //alter total price and quantity
             Value = Checkout_Lists.FirstOrDefault(x => x.Item_id == content.ToString());
-            if (Value.Quantity <
-                int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity))
+
+            if (Read_only_quantity)
             {
-                Total_price -= Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
-                Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
-                    $"{Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / Value.Quantity:N2}";
+                if (Value.Quantity <
+                    int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity))
+                {
+                    Total_price -= Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / Value.Quantity:N2}";
 
-                Value.Quantity += 1;
+                    Value.Quantity += 1;
 
-                Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
-                    $"{Value.Quantity * Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}";
-                Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Value.Quantity * Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}";
+                    Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                }
+            }
+            else
+            {
+                if (Value.Quantity <
+                    int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity))
+                {
+                    Total_price -= Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / int.Parse(Multiple_quantity_value):N2}";
+
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Value.Quantity * Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}";
+
+                    Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+
+                    Multiple_price_value = string.Empty;
+                    Multiple_quantity_value = string.Empty;
+                    Read_only_quantity = true;
+                    MessageBox.Show("Manual quantity entry disabled.");
+                }
+                else
+                {
+                    Value.Quantity -= (Value.Quantity - int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity));
+                    Total_price -= Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / int.Parse(Multiple_quantity_value):N2}";
+
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Value.Quantity * Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}";
+
+                    Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                }
             }
         }
 
-        private void reduce_quantity(object content)
+        private void increase_quantity_multpile(object content)
         {
-            Value = Checkout_Lists.FirstOrDefault(x => x.Item_id == content.ToString());
-            
-            if (Value.Quantity > 1)
+            if (!Read_only_quantity)
             {
-                //alter total price and quantity
-                Total_price -= Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
-                Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
-                    $"{Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / Value.Quantity:N2}";
-
-                Value.Quantity -= 1;
-
-                Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
-                    $"{Value.Quantity * Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}";
-                Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
-
+                Read_only_quantity = true;
+                MessageBox.Show("Manual quantity entry disabled.");
             }
             else
             {
                 //alter total price and quantity
-                Total_price -= Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
-                Checkout_Lists.Remove(Value);
+                Value = Checkout_Lists.FirstOrDefault(x => x.Item_id == content.ToString());
+                
+                Multiple_price_value = Value.Item_price;
+                Multiple_quantity_value = Value.Quantity.ToString();
+                Read_only_quantity = false;
+
+                MessageBox.Show("Manual quantity entry enabled.");
+            }
+            
+        }
+
+        private void reduce_quantity(object content)
+        {
+            //alter total price and quantity
+            Value = Checkout_Lists.FirstOrDefault(x => x.Item_id == content.ToString());
+
+            if (Read_only_quantity)
+            {
+                if (Value.Quantity > 1 && (Value.Quantity <
+                    int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity)))
+                {
+                    //alter total price and quantity
+                    Total_price -= Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / Value.Quantity:N2}";
+
+                    Value.Quantity -= 1;
+
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Value.Quantity * Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}";
+                    Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+
+                }
+                else
+                {
+                    //alter total price and quantity
+                    Total_price -= Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                    Checkout_Lists.Remove(Value);
+                }
+            }
+            else
+            {
+                if (Value.Quantity > 1 && (Value.Quantity <
+                    int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity)))
+                {
+                    Total_price -= Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / int.Parse(Multiple_quantity_value):N2}";
+
+                    Value.Item_price = $"{Settings_Page_ViewModel.currency_}" +
+                        $"{Value.Quantity * Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}";
+                    Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+
+
+                    Multiple_price_value = string.Empty;
+                    Multiple_quantity_value = string.Empty;
+                    Read_only_quantity = true;
+                    MessageBox.Show("Manual quantity entry disabled.");
+
+                }
+                else
+                {
+                    //alter total price and quantity
+                    Total_price -= Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
+                    Multiple_price_value = string.Empty;
+                    Multiple_quantity_value = string.Empty;
+                    Read_only_quantity = true;
+                    Checkout_Lists.Remove(Value);
+                }
             }
         }
 
         private void add_to_cart(object content)
         {
             var array_values = (object[]) content;
-            if (Checkout_Lists.Select(x => x.Item_name).Contains(array_values[3].ToString()))
+            if (Checkout_Lists.Select(x => x.Item_id).Contains(array_values[4].ToString()))
             {
                 //Alert user of already existsing item
-                MessageBox.Show($"Item {array_values[3]} already added");
+                MessageBox.Show($"Item {array_values[0]} already added");
             }
             else
             {
-                Checkout_Lists.Add(new(array_values[3].ToString(), array_values[0].ToString(), array_values[1].ToString(), 1, array_values[2].ToString()));
-                Value = Checkout_Lists.First(x => x.Item_name == array_values[0].ToString());
+                Checkout_Lists.Add(new(array_values[4].ToString(), 
+                    array_values[0].ToString(),
+                    array_values[1].ToString(),
+                    array_values[2].ToString(), 
+                    1, 
+                    array_values[3].ToString()));
+                Value = Checkout_Lists.First(x => x.Item_id == array_values[4].ToString());
                 Total_price += (Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value.Quantity);
             }
         }
 
-        private void clear_items()
+        private void clear_items(string state)
         {
-            if (Checkout_Lists.Count >= 1)
+            if (state == "clear")
             {
-                if (MessageBox.Show("Clear cart?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (Checkout_Lists.Count >= 1)
                 {
-                    Checkout_Lists.Clear();
-                    Total_price = 0;
-                    Amount_given = "0";
+                    if (MessageBox.Show("Clear cart?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        Checkout_Lists.Clear();
+                        Amount_given = string.Empty;
+                        Total_price = 0;
+                    }
                 }
+            }
+            else if (state == "purchase")
+            {
+                Checkout_Lists.Clear();
+                Amount_given = string.Empty;
+                Total_price = 0;
             }
         }
     }
