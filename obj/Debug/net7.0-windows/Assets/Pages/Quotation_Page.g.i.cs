@@ -157,7 +157,7 @@ namespace Stock_Management.Assets.Pages {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Stock_Management;V1.0.0.0;component/assets/pages/quotation_page.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Stock_Management;component/assets/pages/quotation_page.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Assets\Pages\Quotation_Page.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

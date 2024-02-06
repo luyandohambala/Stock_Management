@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Stock_Management.Assets.ViewModel" 
              xmlns:local1="clr-namespace:Stock_Management.Assets.Pages"
+             xmlns:local2 ="clr-namespace:Stock_Management"
              xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
              StartupUri="Main App.xaml">
     <Application.Resources>
 
+        <local2:MainWindow x:Key="MainWindow"/>
+        <local:Home_Page_ViewModel x:Key="Home_Page_ViewModel"/>
         <local:Sales_Page_ViewModel x:Key="Sales_Page_ViewModel"/>
         <local:Services_Page_ViewModel x:Key="Services_Page_ViewModel"/>
         <local:stock_page_viewmodel x:Key="stock_page_viewmodel"/>
@@ -219,6 +222,7 @@
                         </BeginStoryboard>
                     </Trigger.ExitActions>
                 </Trigger>
+
             </Style.Triggers>
         </Style>
         
@@ -490,7 +494,7 @@
                                     <Button.CommandParameter>
                                         <MultiBinding Converter="{StaticResource convertor_class}">
                                             <Binding Path="Text" ElementName="content_presenter"/>
-                                            <Binding Path="Button_order_price"/>
+                                            <Binding Path="Button_profit"/>
                                             <Binding Path="Button_price"/>
                                             <Binding Path="Button_category"/>
                                             <Binding Path="Button_id"/>
@@ -765,6 +769,59 @@
             </Style.Triggers>
         </Style>
 
+        <!-- notifcation panel style below-->
+        <Style x:Key="notification style" TargetType="ListView">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ContentPresenter HorizontalAlignment="Center" Width="265" VerticalAlignment="Stretch"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <DockPanel Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Separator DockPanel.Dock="Bottom" BorderBrush="#4b4b4b"/>
+                            <Separator DockPanel.Dock="Top" BorderBrush="#4b4b4b"/>
+                            
+                            <TextBlock DockPanel.Dock="Top" Text="{Binding Information}" TextWrapping="Wrap" Margin="0 5" Style="{StaticResource Header text}" 
+                                       FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#4b4b4b"/>
+
+                            <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
+                                <Border Background="#eff2f7" CornerRadius="3" Margin="0 5 5 5" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <CheckBox Background="Transparent" FocusVisualStyle="{x:Null}" Margin="1" IsChecked="{Binding Read}" 
+                                              BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                </Border>
+                                <Button Margin="5 5 10 5" VerticalAlignment="Center" Content="Trash" FontSize="16"
+                                        FontFamily="./Assets/Font/#Font Awesome 6 Free Solid" Style="{StaticResource clear_items_button}"/>
+                            </DockPanel>
+                            
+                            <TextBlock Text="{Binding Date}" Margin="0 5" DockPanel.Dock="Bottom" TextWrapping="Wrap" Style="{StaticResource Header text}" 
+                                       FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#4b4b4b"/>
+
+                        </DockPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    
         <Style x:Key="search_logo" TargetType="Button" BasedOn="{StaticResource clear_items_button}">
             <Setter Property="FontFamily" Value="./Assets/Font/#Font Awesome 6 Free Solid"/>
             <Setter Property="Foreground">
@@ -954,6 +1011,7 @@
         <Style x:Key="DataGridColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="FontSize" Value="16"/>

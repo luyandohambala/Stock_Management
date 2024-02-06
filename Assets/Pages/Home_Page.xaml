@@ -21,14 +21,46 @@
             <!-- main body -->
             <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-                <StackPanel Orientation="Horizontal" Height="190" HorizontalAlignment="Center">
-                    <Button Content="Number of Stock&#x0a;0/0" Style="{StaticResource dashboard_button_style}"/>
-                    <Button Content="Sales this month&#x0a;0/0" Style="{StaticResource dashboard_button_style}"/>
-                    <Button Content="Pending Reports" Style="{StaticResource dashboard_button_style}"/>
+                <StackPanel Name="dashboard_items_stackpanel" Orientation="Horizontal" Height="190" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource dashboard_button_style}" Command="{Binding Source={StaticResource Home_Page_ViewModel}, Path=change_view}"
+                            CommandParameter="stock">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Total_stock_available, StringFormat={}Available Items in Stock &#x0a;{0}}" />
+                    </Button>
+
+                    <Button Style="{StaticResource dashboard_button_style}" Command="{Binding Source={StaticResource Home_Page_ViewModel}, Path=change_view}"
+                            CommandParameter="stock_sales">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Total_sales_p_month, StringFormat={}Sales This Month &#x0a;{0}}"/>
+                    </Button>
+
+                    <Button Command="{Binding show_notification_command}"
+                            Style="{StaticResource dashboard_button_style}">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Pending_reports, StringFormat={}Pending Reports &#x0a;{0}}"/>
+                    </Button>
+
+                    <!-- notification control below -->
+                    <Border Name="Notification_Panel_Border" Visibility="{Binding Notification_visibility}" 
+                            Background="White" Margin="10" CornerRadius="10">
+                        <StackPanel>
+                            <DockPanel>
+                                <TextBlock Text="Notifications" Margin="10 12" DockPanel.Dock="Left" 
+                                        HorizontalAlignment="Left" Style="{StaticResource Header text}" FontSize="14" Foreground="#4b4b4b"/>
+
+                                <Button Content="Clear all" Margin="10"  Command="{Binding Source={StaticResource Home_Page_ViewModel}, Path=clear_notifications_command}"
+                                        DockPanel.Dock="Right" VerticalAlignment="Top"
+                                        HorizontalAlignment="Right" Style="{StaticResource clear_items_button}" FontSize="14"/>
+                            </DockPanel>
+
+                            <ListView Width="250" VerticalAlignment="Center" DockPanel.Dock="Left" Margin="0 10 10 10"
+                                      HorizontalAlignment="Left" Style="{StaticResource notification style}" ItemsSource="{Binding Source={StaticResource stock_page_viewmodel}, Path=Notification_list, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Height="190" HorizontalAlignment="Center">
-                    <Button Content="Number of Users&#x0a;0" Style="{StaticResource dashboard_button_style}"/>
+                    <Button Style="{StaticResource dashboard_button_style}" Command="{Binding Source={StaticResource Home_Page_ViewModel}, Path=change_view}"
+                            CommandParameter="settings">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Number_of_users, StringFormat={}Active Users &#x0a;{0}}"/>
+                    </Button>
                     
                 </StackPanel>
 

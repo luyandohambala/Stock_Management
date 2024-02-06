@@ -78,7 +78,7 @@ namespace Stock_Management.Assets.ViewModel
         private string receipt_template;
 
         [ObservableProperty]
-        private ObservableCollection<settings_data> user_list;
+        public static ObservableCollection<settings_data> user_list;
 
         [ObservableProperty]
         private settings_data value4;

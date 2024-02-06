@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Stock_Management.Assets.ViewModel;
+using System.CodeDom;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Stock_Management.Assets.Pages
 {
@@ -23,6 +13,12 @@ namespace Stock_Management.Assets.Pages
         public Home_Page()
         {
             InitializeComponent();
+
+            DataContext = new Home_Page_ViewModel();
         }
+
+
     }
+
+    
 }

@@ -29,7 +29,7 @@ namespace Stock_Management.Assets.Pages
             change_color("general");
         }
 
-        private void change_color(string nav)
+        public void change_color(string nav)
         {
             LinearGradientBrush linearGradientBrush = new()
             {

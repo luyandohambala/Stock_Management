@@ -21,7 +21,6 @@ namespace Stock_Management.Assets.Pages
             DataContext = stock_Page_Viewmodel;
             change_color("stock");
         }
-
         private string View { get; set; }
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -49,7 +48,7 @@ namespace Stock_Management.Assets.Pages
                 //invoke search logo command through txtbox txtchanged event
                 if (!String.IsNullOrEmpty(TxtSearch.Text))
                 {
-                    
+
                     TxtSearch_button.IsEnabled = true;
                     clear_button.Content = "\uf00d";
                     ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
@@ -57,7 +56,7 @@ namespace Stock_Management.Assets.Pages
                 }
                 else
                 {
-                    
+
                     ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
                     clear_button.Content = "\uf002";
                     TxtSearch_button.IsEnabled = false;
@@ -81,7 +80,7 @@ namespace Stock_Management.Assets.Pages
                 string compared_to = $"{Name_txtbox.Text.Trim()},{Type_txtbox.Text.Trim()},{Category_txtbox.Text.Trim()}," +
                     $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost_txtbox.Text.Trim()):N2}";
 
-                if(comparison.ToLower() == compared_to.ToLower())
+                if (comparison.ToLower() == compared_to.ToLower())
                 {
                     items_grid.SelectedItem = items_grid.Items[i];
                     items_grid.ScrollIntoView(items_grid.SelectedItem);
@@ -107,7 +106,7 @@ namespace Stock_Management.Assets.Pages
             purchase_txtbox.Text = Quotation_Page.validate_positive_integer(purchase_txtbox.Text, "Decimal");
         }
 
-        private void change_color(string nav)
+        public void change_color(string nav)
         {
             LinearGradientBrush linearGradientBrush = new()
             {
@@ -160,7 +159,7 @@ namespace Stock_Management.Assets.Pages
             {
                 Quantity_text.Visibility = Visibility.Visible;
                 Quantity_txtbox.Visibility = Visibility.Visible;
-                
+
             }
             else if (Category_txtbox.SelectedIndex == 1)
             {
@@ -188,20 +187,20 @@ namespace Stock_Management.Assets.Pages
         private string quantity;
 
         [ObservableProperty]
-        private string purchase_amount;
-
-        [ObservableProperty]
         private string cost;
 
+        [ObservableProperty]
+        private string profit;
+
         //initialise properties
-        public Database_list(string id, string name, string type, string category, string quantity, string purchase_amount, string cost)
+        public Database_list(string id, string name, string type, string category, string quantity, string cost, string profit)
         {
-            Id = id; Name = name; Type = type; Category = category; Quantity = quantity; Purchase_amount = purchase_amount; Cost = cost;
+            Id = id; Name = name; Type = type; Category = category; Quantity = quantity; Cost = cost; Profit = profit;
         }
 
         public Database_list()
         {
-            
+
         }
 
     }
@@ -237,9 +236,25 @@ namespace Stock_Management.Assets.Pages
 
         public Sales_list_Class()
         {
-            
+
         }
     }
 
+    internal partial class Notification_List_Class : ObservableObject
+    {
+        [ObservableProperty]
+        private string date;
+
+        [ObservableProperty]
+        private string information;
+
+        [ObservableProperty]
+        private bool read;
+
+        public Notification_List_Class(string date, string information, bool read)
+        {
+            Date = date; Information = information; Read = read;
+        }
+    }
 
 }

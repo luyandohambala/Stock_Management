@@ -128,12 +128,13 @@ namespace Stock_Management.Assets.ViewModel
             items_button items_Button = new()
             {
                 Items_list = new(
-                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Product").Select(x => new items_button(x.Id, x.Name, x.Purchase_amount, x.Cost, x.Type)))
+                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).
+                    Select(x => new items_button(x.Id, x.Name, x.Profit, x.Cost, x.Type)))
             };
 
             foreach (var item in items_Button.Items_list)
             {
-                Items_list.Add(new items_button(item.Button_id, item.Button_content, item.Button_order_price, item.Button_price, item.Button_category));
+                Items_list.Add(new items_button(item.Button_id, item.Button_content, item.Button_profit, item.Button_price, item.Button_category));
             }
         }
 
@@ -184,8 +185,7 @@ namespace Stock_Management.Assets.ViewModel
                             item.Item_price,
                             $"{Settings_Page_ViewModel.currency_}{double.Parse(Amount_given) - Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}",
                             $"{Settings_Page_ViewModel.currency_}" +
-                            $"{((Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / item.Quantity) -
-                            Convert.ToDouble(item.Item_order_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""))) * item.Quantity:N2}",
+                            $"{Convert.ToDouble(item.Item_profit.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * item.Quantity:N2}",
                             MainWindow.Current_user
                         ));
 
@@ -194,6 +194,12 @@ namespace Stock_Management.Assets.ViewModel
                             if (item1.Id == item.Item_id)
                             {
                                 item1.Quantity = (int.Parse(item1.Quantity) - item.Quantity).ToString();
+                                if (int.Parse(item1.Quantity) <= 5)
+                                {
+                                    stock_page_viewmodel.notification_list.Add(
+                                            new(DateTime.Now.ToString(), $"Item {item1.Name} has a quantity value of less than 5. Please restock.", false)
+                                            );
+                                }
                             }
                         }
 
@@ -317,7 +323,7 @@ namespace Stock_Management.Assets.ViewModel
                     Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
 
                 }
-                else
+                else if (Value.Quantity < 1)
                 {
                     //alter total price and quantity
                     Total_price -= Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
@@ -344,7 +350,7 @@ namespace Stock_Management.Assets.ViewModel
                     MessageBox.Show("Manual quantity entry disabled.");
 
                 }
-                else
+                else if (Value.Quantity < 1)
                 {
                     //alter total price and quantity
                     Total_price -= Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));

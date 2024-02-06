@@ -29,26 +29,7 @@
 
             <TextBlock Grid.Row="1" Name="Time_Text" FontSize="18" Margin="0 0 30 0" Text="{Binding Source = { StaticResource ticker }, Path = Now, Mode = OneWay, StringFormat='d MMM, yyyy h:mm tt'}" Style="{StaticResource Header text}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
-            <DockPanel Grid.Row="2" Margin="2">
-                <!-- navigation menu -->
-                <Border HorizontalAlignment="Left" Style="{StaticResource border style}" Margin="9 20 9 20" Background="#eff2f7">
-                    
-                    <DockPanel>
-
-                        <Button Click="home_button_Click" DockPanel.Dock="Top" Name="home_button" Content="&#xe3af;" Style="{StaticResource header navigation}"/>
-                        <Button Click="sales_button_Click" DockPanel.Dock="Top" Name="sales_button"  Content="&#xf07a;" Style="{StaticResource header navigation}"/>
-                        <Button Click="services_button_Click" DockPanel.Dock="Top" Name="services_button"  Content="print" Style="{StaticResource header navigation}"/>
-                        <Button Click="Stock_button_Click" DockPanel.Dock="Top" Name="Stock_button" Content="&#xe529;" Style="{StaticResource header navigation}"/>
-                        <Button Click="quotation_button_Click" DockPanel.Dock="Top" Name="quotation_button" Content="clipboard" Style="{StaticResource header navigation}"/>
-                        <Button Click="Settings_button_Click" DockPanel.Dock="Top" Name="Settings_button" Content="gear" Style="{StaticResource header navigation}"/>
-
-                        <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Command="{Binding close_app}" Name="Logout_button" Content="&#xf2f5;" Style="{StaticResource exit logo}"/>
-                    </DockPanel>
-                </Border>
-                
-                <!-- main body content -->
-                <Frame x:Name="Display_Frame" Style="{StaticResource frame style}"/>
-            </DockPanel>
+            <Frame Name="Display_Frame" Grid.Row="2" Style="{StaticResource frame style}"/>
 
             <!-- footer section -->
             <TextBlock Grid.Row="3" Margin="20 10 0 10" Text="{Binding Source = { StaticResource ticker }, Path = Year, Mode = OneWay, StringFormat={}Copyright © 2023 - {0} Developed by Luyando Hambala.}" 

@@ -25,5 +25,6 @@ namespace Stock_Management.Assets
         }
 
 
+
     }
 }

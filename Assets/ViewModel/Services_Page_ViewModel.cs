@@ -127,12 +127,12 @@ namespace Stock_Management.Assets.ViewModel
             items_button items_Button = new()
             {
                 Items_list = new (
-                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Service").Select(x => new items_button(x.Id, x.Name, x.Purchase_amount, x.Cost, x.Type)))
+                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Service").Select(x => new items_button(x.Id, x.Name, x.Profit, x.Cost, x.Type)))
             };
 
             foreach (var item in items_Button.Items_list)
             {
-                Items_list1.Add(new items_button(item.Button_id, item.Button_content, item.Button_order_price, item.Button_price, item.Button_category));
+                Items_list1.Add(new items_button(item.Button_id, item.Button_content, item.Button_profit, item.Button_price, item.Button_category));
             }
 
         }
@@ -183,8 +183,7 @@ namespace Stock_Management.Assets.ViewModel
                             item.Item_price,
                             $"{Settings_Page_ViewModel.currency_}{double.Parse(Amount_given_s) - Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}",
                             $"{Settings_Page_ViewModel.currency_}" +
-                            $"{((Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / item.Quantity) -
-                            Convert.ToDouble(item.Item_order_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""))) * item.Quantity:N2}",
+                            $"{Convert.ToDouble(item.Item_profit.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * item.Quantity:N2}",
                             MainWindow.Current_user
                         ));
                         if (count == Checkout_Lists1.LongCount() - 1)
