@@ -783,7 +783,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListViewItem">
-                                    <ContentPresenter HorizontalAlignment="Center" Width="265" VerticalAlignment="Stretch"/>
+                                    <ContentPresenter HorizontalAlignment="Center" Width="231" VerticalAlignment="Stretch"/>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -806,10 +806,27 @@
                             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
                                 <Border Background="#eff2f7" CornerRadius="3" Margin="0 5 5 5" HorizontalAlignment="Right" VerticalAlignment="Center">
                                     <CheckBox Background="Transparent" FocusVisualStyle="{x:Null}" Margin="1" IsChecked="{Binding Read}" 
-                                              BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                              Command="{Binding Source={StaticResource Home_Page_ViewModel}, Path=mark_as_read_command}"
+                                              BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <CheckBox.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource convertor_class}">
+                                                <Binding Path="Date"/>
+                                                <Binding Path="Read"/>
+                                            </MultiBinding>
+                                        </CheckBox.CommandParameter>
+                                    </CheckBox>
                                 </Border>
                                 <Button Margin="5 5 10 5" VerticalAlignment="Center" Content="Trash" FontSize="16"
-                                        FontFamily="./Assets/Font/#Font Awesome 6 Free Solid" Style="{StaticResource clear_items_button}"/>
+                                        Command="{Binding Source={StaticResource Home_Page_ViewModel}, Path=delete_notification_command}"
+                                        FontFamily="./Assets/Font/#Font Awesome 6 Free Solid" Style="{StaticResource clear_items_button}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource convertor_class}">
+                                            <Binding Path="Date"/>
+                                            <Binding Path="Information"/>
+                                            <Binding Path="Read"/>
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
                             </DockPanel>
                             
                             <TextBlock Text="{Binding Date}" Margin="0 5" DockPanel.Dock="Bottom" TextWrapping="Wrap" Style="{StaticResource Header text}" 

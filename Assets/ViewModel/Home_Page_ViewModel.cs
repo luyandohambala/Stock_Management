@@ -4,6 +4,7 @@ using Stock_Management.Assets.Pages;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,10 @@ namespace Stock_Management.Assets.ViewModel
 
         public Command_Class show_notification_command => new(execute => show_notifications());
 
+        public Command_Class mark_as_read_command => new(mark_as_read);
+
+        public Command_Class delete_notification_command => new(delete_notification);
+
         public Command_Class clear_notifications_command => new(execute => clear_notifications());
 
 
@@ -25,9 +30,9 @@ namespace Stock_Management.Assets.ViewModel
         
         [ObservableProperty]
         private int total_sales_p_month;
-        
+
         [ObservableProperty]
-        private int pending_reports;
+        private int pending_reports = 0;
 
         [ObservableProperty]
         private Visibility notification_visibility;
@@ -39,6 +44,7 @@ namespace Stock_Management.Assets.ViewModel
         {
             Total_stock_available = stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).Count();
             Total_sales_p_month = stock_page_viewmodel.sales_lists_.Where(x => DateTime.Parse(x.Date).Month.ToString() == DateTime.Now.Month.ToString()).Count();
+            stock_page_viewmodel.repopulate_fields();
             Pending_reports = stock_page_viewmodel.notification_list.Where(x => x.Read == false).Count();
             Number_of_users = Settings_Page_ViewModel.user_list.Count;
 
@@ -85,8 +91,47 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (MessageBox.Show("Clear all?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes) 
             {
-                stock_page_viewmodel.notification_list = new();
+                Database_Connection_Class.Modify_Notifications_Table("delete all", null);
+                stock_page_viewmodel.repopulate_fields();
+                Notification_visibility = Visibility.Collapsed;
+                Pending_reports = stock_page_viewmodel.notification_list.Where(x => x.Read == false).Count();
             }
+        }
+
+
+        private void mark_as_read(object content)
+        {
+            var array_values = (object[])content;
+            var read = Convert.ToBoolean(array_values[1]);
+
+            if (read)
+            {
+                Database_Connection_Class.Modify_Notifications_Table("modify", new(array_values[0].ToString(), true));
+            }
+            else
+            {
+                Database_Connection_Class.Modify_Notifications_Table("modify", new(array_values[0].ToString(), false));
+            }
+            stock_page_viewmodel.repopulate_fields();
+            Pending_reports = stock_page_viewmodel.notification_list.Where(x => x.Read == false).Count();
+
+        }
+
+        private void delete_notification(object content)
+        {
+            var array_values = (object[])content;
+
+            Notification_List_Class notification = new(array_values[0].ToString(), array_values[1].ToString(), Convert.ToBoolean(array_values[2]));
+         
+            Database_Connection_Class.Modify_Notifications_Table("delete", notification);
+            stock_page_viewmodel.repopulate_fields();
+
+            if (stock_page_viewmodel.notification_list.Count == 0)
+            {
+                Notification_visibility = Visibility.Collapsed;
+            }
+            
+            Pending_reports = stock_page_viewmodel.notification_list.Where(x => x.Read == false).Count();
         }
 
     }

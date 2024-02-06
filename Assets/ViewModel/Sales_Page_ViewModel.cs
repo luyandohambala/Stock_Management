@@ -87,7 +87,7 @@ namespace Stock_Management.Assets.ViewModel
             category_button category_Button = new();
 
             category_Button.Category_list = new(
-                stock_page_viewmodel.data_lists.Where(x => x.Category == "Product").Select(x => x.Type).Distinct()
+                stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).Select(x => x.Type).Distinct()
                 );
 
             //item below added to clear all search filters.
@@ -172,12 +172,11 @@ namespace Stock_Management.Assets.ViewModel
             var count = 0;//keep track of item index
             if (!String.IsNullOrEmpty(Amount_given))
             {
-                foreach (var item in Checkout_Lists)
+                if (double.Parse(Amount_given) >= Total_price)
                 {
-                    if (double.Parse(Amount_given) >= Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")))
+                    foreach (var item in Checkout_Lists)
                     {
-                        stock_page_viewmodel.sales_lists_.Add(new Sales_list_Class
-                        (
+                        Sales_list_Class sales_list = new(
 
                             DateTime.Now.ToString(),
                             item.Item_name,
@@ -187,18 +186,25 @@ namespace Stock_Management.Assets.ViewModel
                             $"{Settings_Page_ViewModel.currency_}" +
                             $"{Convert.ToDouble(item.Item_profit.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * item.Quantity:N2}",
                             MainWindow.Current_user
-                        ));
+                        );
+
+                        Database_Connection_Class.Modify_Sales_Table(sales_list);
 
                         foreach (var item1 in stock_page_viewmodel.data_lists)
                         {
                             if (item1.Id == item.Item_id)
                             {
-                                item1.Quantity = (int.Parse(item1.Quantity) - item.Quantity).ToString();
-                                if (int.Parse(item1.Quantity) <= 5)
+                                var new_quantity = (int.Parse(item1.Quantity) - item.Quantity).ToString();
+
+                                if (Database_Connection_Class.Modify_Stock_Table("modify_quantity", new(item1.Id, new_quantity)))
                                 {
-                                    stock_page_viewmodel.notification_list.Add(
-                                            new(DateTime.Now.ToString(), $"Item {item1.Name} has a quantity value of less than 5. Please restock.", false)
-                                            );
+                                    if (int.Parse(new_quantity) <= 5)
+                                    {
+                                        Notification_List_Class notification = new(DateTime.Now.ToString(),
+                                            $"Item {item1.Name} has a quantity value of less than 5. Please restock.", false);
+
+                                        Database_Connection_Class.Modify_Notifications_Table("insert", notification);
+                                    }
                                 }
                             }
                         }
@@ -207,16 +213,18 @@ namespace Stock_Management.Assets.ViewModel
                         {
                             clear_items("purchase");
                             MessageBox.Show("Purchase successfull.");
+                            stock_page_viewmodel.repopulate_fields();
+                            populate_items();
+                            populate_category();
                             break;
                         }
 
                         count++;
                     }
-                    else
-                    {
-                        MessageBox.Show("Amount received is less than required purchase amount.");
-                        break;
-                    }
+                }
+                else
+                {
+                    MessageBox.Show("Amount received is less than required purchase amount.");
                 }
             }
             else
@@ -308,7 +316,7 @@ namespace Stock_Management.Assets.ViewModel
 
             if (Read_only_quantity)
             {
-                if (Value.Quantity > 1 && (Value.Quantity <
+                if (Value.Quantity > 1 && (Value.Quantity <=
                     int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity)))
                 {
                     //alter total price and quantity
@@ -332,7 +340,7 @@ namespace Stock_Management.Assets.ViewModel
             }
             else
             {
-                if (Value.Quantity > 1 && (Value.Quantity <
+                if (Value.Quantity > 1 && (Value.Quantity <=
                     int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity)))
                 {
                     Total_price -= Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));

@@ -170,12 +170,11 @@ namespace Stock_Management.Assets.ViewModel
             if (!String.IsNullOrEmpty(Amount_given_s))
             {
                 var count = 0;//keep track if item index
-                foreach (var item in Checkout_Lists1)
+                if (double.Parse(Amount_given_s) >= Total_price1)
                 {
-                    if (double.Parse(Amount_given_s) >= Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")))
+                    foreach (var item in Checkout_Lists1)
                     {
-                        stock_page_viewmodel.sales_lists_.Add(new Sales_list_Class
-                        (
+                        Sales_list_Class sales_list = new(
 
                             DateTime.Now.ToString(),
                             item.Item_name,
@@ -185,21 +184,24 @@ namespace Stock_Management.Assets.ViewModel
                             $"{Settings_Page_ViewModel.currency_}" +
                             $"{Convert.ToDouble(item.Item_profit.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * item.Quantity:N2}",
                             MainWindow.Current_user
-                        ));
+                        );
+
+                        Database_Connection_Class.Modify_Sales_Table(sales_list);
+
                         if (count == Checkout_Lists1.LongCount() - 1)
                         {
                             clear_items("purchase");
                             MessageBox.Show("Purchase successfull.");
+                            stock_page_viewmodel.repopulate_fields();
                             break;
                         }
 
                         count++;
                     }
-                    else
-                    {
-                        MessageBox.Show("Amount received is less than required purchase amount.");
-                        break;
-                    }
+                }
+                else
+                {
+                    MessageBox.Show("Amount received is less than required purchase amount.");
                 }
             }
             else

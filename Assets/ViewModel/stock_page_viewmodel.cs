@@ -16,7 +16,7 @@ namespace Stock_Management.Assets.ViewModel
         public Command_Class remove_record => new(execute => remove(), canExecute => Value2 != null);
 
         //assign add command 
-        public Command_Class add_record => new(execute => add_to_database("add"));
+        public Command_Class add_record => new(execute => add_to_database("add"), canExecute => !edit_values1);
 
         //assign edit command
         public Command_Class edit_users_command1 => new(execute => add_to_database("edit"), canExecute => Value2 != null);
@@ -59,7 +59,7 @@ namespace Stock_Management.Assets.ViewModel
 
         public stock_page_viewmodel()
         {
-            //populate_table();
+            populate_table(false);
         }
 
         [ObservableProperty]
@@ -91,31 +91,39 @@ namespace Stock_Management.Assets.ViewModel
                         {
                             if (Category == "Product")
                             {
-                                Data_lists.Add(
-                                new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}", 
+                                Database_list stock_entry = new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
                                 Name.Trim(), Type.Trim(), Category.Trim(), Quantity, $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
-                                $"{Settings_Page_ViewModel.currency_}{double.Parse(Profit.Trim()):N2}")
-                                );
+                                $"{Settings_Page_ViewModel.currency_}{double.Parse(Profit.Trim()):N2}");
+
+                                if (Database_Connection_Class.Modify_Stock_Table("insert", stock_entry)) 
+                                {
+                                    clear_items();
+                                    MessageBox.Show("Record added.");
+                                };
+                                
                             }
                             else if (Category == "Service")
                             {
-                                Data_lists.Add(
-                                new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
+                                Database_list stock_entry = new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
                                 Name.Trim(), Type.Trim(), Category.Trim(), "N/A", $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
-                                $"{Settings_Page_ViewModel.currency_}{double.Parse(Profit.Trim()):N2}")
-                                );
-                            }
-                            
-                            clear_items();
+                                $"{Settings_Page_ViewModel.currency_}{double.Parse(Profit.Trim()):N2}");
 
-                            MessageBox.Show("Record added.");
+                                if (Database_Connection_Class.Modify_Stock_Table("insert", stock_entry))
+                                {
+                                    clear_items();
+                                    MessageBox.Show("Record added.");
+                                };
+                            }
+
+                            populate_table(true);
+                            
                         }
 
                     }
                 }
                 else if(to_do == "edit")
                 {
-                    if (Category == "Product")
+                    if (Value2.Category == "Product")
                     {
                         Name = Value2.Name;
                         Type = Value2.Type;
@@ -124,7 +132,7 @@ namespace Stock_Management.Assets.ViewModel
                         Cost = Value2.Cost.Replace(Settings_Page_ViewModel.currency_, "");
                         Profit = Value2.Profit.Replace(Settings_Page_ViewModel.currency_, "");
                     }
-                    else if (Category == "Service")
+                    else if (Value2.Category == "Service")
                     {
                         Name = Value2.Name;
                         Type = Value2.Type;
@@ -132,8 +140,8 @@ namespace Stock_Management.Assets.ViewModel
                         Cost = Value2.Cost.Replace(Settings_Page_ViewModel.currency_, "");
                         Profit = Value2.Profit.Replace(Settings_Page_ViewModel.currency_, "");
                     }
-                    
 
+                    
                     edit_values1 = true;
                     Button_state1 = "Save";
                 }
@@ -142,54 +150,53 @@ namespace Stock_Management.Assets.ViewModel
             {
                 if (Value2 != null && !validate_entry())
                 {
-                    foreach (var item in Data_lists.Where(x => x.Id == Value2.Id))
+                    
+                    if (Category == "Product")
                     {
-                        if (Category == "Product")
-                        {
-                            item.Id = $"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
-                            item.Name = Name;
-                            item.Type = Type;
-                            item.Category = Category;
-                            item.Quantity = Quantity;
-                            item.Cost = $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
-                            item.Profit = $"{Settings_Page_ViewModel.currency_}{double.Parse(Profit.Trim()):N2}";
-                        }
-                        else if (Category == "Service")
-                        {
-                            item.Id = $"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
-                            item.Name = Name;
-                            item.Type = Type;
-                            item.Category = Category;
-                            item.Quantity = "N/A";
-                            item.Cost = $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}";
-                            item.Profit = $"{Settings_Page_ViewModel.currency_}{double.Parse(Profit.Trim()):N2}";
-                        }
-                    }
+                        Database_list stock_entry = new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
+                                Name.Trim(), Type.Trim(), Category.Trim(), Quantity, $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
+                                $"{Settings_Page_ViewModel.currency_}{double.Parse(Profit.Trim()):N2}");
 
-                    Button_state1 = "Edit";
-                    edit_values1 = false;
-                    MessageBox.Show("Record details edited.");
-                    clear_items();
+                        if (Database_Connection_Class.Modify_Stock_Table("modify", stock_entry))
+                        {
+                            Button_state1 = "Edit";
+                            edit_values1 = false;
+                            MessageBox.Show("Record details edited.");
+                            populate_table(true);
+                            clear_items();
+                        };
+                    }
+                    else if (Category == "Service")
+                    {
+                        Database_list stock_entry = new($"{Name},{Type},{Category},{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
+                                Name.Trim(), Type.Trim(), Category.Trim(), "N/A", $"{Settings_Page_ViewModel.currency_}{double.Parse(Cost.Trim()):N2}",
+                                $"{Settings_Page_ViewModel.currency_}{double.Parse(Profit.Trim()):N2}");
+
+                        if (Database_Connection_Class.Modify_Stock_Table("modify", stock_entry))
+                        {
+                            Button_state1 = "Edit";
+                            edit_values1 = false;
+                            MessageBox.Show("Record details edited.");
+                            populate_table(true);
+                            clear_items();
+                        };
+                    }
+                    
                 }
             }
         }
 
-        private void populate_table()
+        private void populate_table(bool modify)
         {
-            Data_lists = new();
-            Sales_lists_ = new();
+            Data_lists = Database_Connection_Class.Load_Stock();
+            Sales_lists_ = Database_Connection_Class.Load_Sales();
+        }
 
-            var low_stock_list = Data_lists.Where(x => int.Parse(x.Quantity) <= 5).Select(x => x.Name);
-
-            if (low_stock_list.Count() > 0)
-            {
-                foreach (var item in low_stock_list)
-                {
-                    stock_page_viewmodel.notification_list.Add(
-                        new(DateTime.Now.ToString(), $"Item {item} has a quantity value of less than 5. Please restock.", false)
-                        );
-                }
-            }
+        public static void repopulate_fields()
+        {
+            data_lists = Database_Connection_Class.Load_Stock();
+            sales_lists_ = Database_Connection_Class.Load_Sales();
+            notification_list = Database_Connection_Class.Load_Notifications();            
         }
 
         //search list for specific product
@@ -197,7 +204,7 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (!String.IsNullOrEmpty(content.ToString()))
             {
-                //populate_table();
+                populate_table(true);
                 Data_lists = new(Data_lists.Where(
                 filtered => filtered.Name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
                 filtered.Type.ToLower().Contains(content.ToString().ToLower().Trim()) ||
@@ -206,7 +213,7 @@ namespace Stock_Management.Assets.ViewModel
             }
             else
             {
-                populate_table();
+                populate_table(true);
             }
         }
 
@@ -214,7 +221,7 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (!String.IsNullOrEmpty(content.ToString()))
             {
-                //populate_table();
+                populate_table(true);
                 Sales_lists_ = new(Sales_lists_.Where(
                 filtered => filtered.Date.ToLower().Contains(content.ToString().ToLower().Trim()) ||
                 filtered.Item_name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
@@ -222,7 +229,7 @@ namespace Stock_Management.Assets.ViewModel
             }
             else
             {
-                populate_table();
+                populate_table(true);
             }
         }
 
@@ -230,8 +237,12 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (MessageBox.Show("Remove Record?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                //populate_table();
-                Data_lists.Remove(Value2);
+                if (Database_Connection_Class.Modify_Stock_Table("delete", Value2))
+                {
+                    MessageBox.Show("Record Deleted");
+                    populate_table(true);
+                }
+                
             }
         }
 
@@ -270,6 +281,15 @@ namespace Stock_Management.Assets.ViewModel
                 Name = string.Empty;
                 Type = string.Empty;
                 Category = null;
+                Profit = string.Empty;
+                Cost = string.Empty;
+            }
+            else
+            {
+                Name = string.Empty;
+                Type = string.Empty;
+                Category = null;
+                Quantity = string.Empty;
                 Profit = string.Empty;
                 Cost = string.Empty;
             }

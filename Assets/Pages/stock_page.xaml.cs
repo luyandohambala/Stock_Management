@@ -198,6 +198,11 @@ namespace Stock_Management.Assets.Pages
             Id = id; Name = name; Type = type; Category = category; Quantity = quantity; Cost = cost; Profit = profit;
         }
 
+        public Database_list(string id, string quantity)
+        {
+            Id = id; Quantity = quantity;
+        }
+
         public Database_list()
         {
 
@@ -254,6 +259,15 @@ namespace Stock_Management.Assets.Pages
         public Notification_List_Class(string date, string information, bool read)
         {
             Date = date; Information = information; Read = read;
+        }
+
+        public Notification_List_Class(string date, bool read)
+        {
+            Date = date; Read = read;
+        }
+        public Notification_List_Class()
+        {
+            
         }
     }
 
