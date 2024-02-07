@@ -193,6 +193,8 @@ namespace Stock_Management.Assets.ViewModel
                             clear_items("purchase");
                             MessageBox.Show("Purchase successfull.");
                             stock_page_viewmodel.repopulate_fields();
+                            Home_Page_ViewModel.notification_list = Database_Connection_Class.Load_Notifications();
+                            Home_Page_ViewModel.pending_reports = Home_Page_ViewModel.notification_list.Where(x => x.Read == false).Count();
                             break;
                         }
 

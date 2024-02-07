@@ -51,9 +51,10 @@
                                         HorizontalAlignment="Right" Style="{StaticResource clear_items_button}" FontSize="14"/>
                             </DockPanel>
 
-                            <ListView Width="250" Height="130" ScrollViewer.CanContentScroll="False" VerticalAlignment="Center" DockPanel.Dock="Left" Margin="5 10 5 10"
+                            <ListView DataContext="{StaticResource Home_Page_ViewModel}" Width="250" Height="130" ScrollViewer.CanContentScroll="False" 
+                                      VerticalAlignment="Center" DockPanel.Dock="Left" Margin="5 10 5 10"
                                       HorizontalAlignment="Left" Style="{StaticResource notification style}" 
-                                      ItemsSource="{Binding Source={StaticResource stock_page_viewmodel}, Path=Notification_list}"/>
+                                      ItemsSource="{Binding Notification_list}"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>

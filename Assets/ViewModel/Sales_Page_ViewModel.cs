@@ -39,6 +39,7 @@ namespace Stock_Management.Assets.ViewModel
         public Command_Class reduce => new(reduce_quantity);
         public Command_Class clear_all => new(execute => clear_items("clear"));
 
+
         public Command_Class purchase_items => new(execute => purchase_item(), canExecute => Checkout_Lists.Count > 0);
 
 
@@ -83,16 +84,13 @@ namespace Stock_Management.Assets.ViewModel
         /// </summary>
         private void populate_category()
         {
-            Category_list = new();
-            category_button category_Button = new();
+            Category_list = new()
+            {
+                //item below added to clear all search filters.
+                new("All", "All")
+            };
 
-            category_Button.Category_list = new(
-                stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).Select(x => x.Type).Distinct()
-                );
-
-            //item below added to clear all search filters.
-            Category_list.Add(new("All", "All"));
-            foreach (var item in category_Button.Category_list)
+            foreach (var item in stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).Select(x => x.Type).Distinct())
             {
                 Category_list.Add(new(item, item));
             }
@@ -125,14 +123,8 @@ namespace Stock_Management.Assets.ViewModel
         {
             Items_list = new ObservableCollection<items_button>();
 
-            items_button items_Button = new()
-            {
-                Items_list = new(
-                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).
+            foreach (var item in stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).
                     Select(x => new items_button(x.Id, x.Name, x.Profit, x.Cost, x.Type)))
-            };
-
-            foreach (var item in items_Button.Items_list)
             {
                 Items_list.Add(new items_button(item.Button_id, item.Button_content, item.Button_profit, item.Button_price, item.Button_category));
             }
@@ -151,7 +143,6 @@ namespace Stock_Management.Assets.ViewModel
                 populate_items();
             }
         }
-
 
 
         /// <summary>
@@ -214,13 +205,14 @@ namespace Stock_Management.Assets.ViewModel
                             clear_items("purchase");
                             MessageBox.Show("Purchase successfull.");
                             stock_page_viewmodel.repopulate_fields();
-                            populate_items();
-                            populate_category();
+                            Home_Page_ViewModel.notification_list = Database_Connection_Class.Load_Notifications();
+                            Home_Page_ViewModel.pending_reports = Home_Page_ViewModel.notification_list.Where(x => x.Read == false).Count();
                             break;
                         }
 
                         count++;
                     }
+                    
                 }
                 else
                 {
@@ -373,21 +365,30 @@ namespace Stock_Management.Assets.ViewModel
         private void add_to_cart(object content)
         {
             var array_values = (object[]) content;
-            if (Checkout_Lists.Select(x => x.Item_id).Contains(array_values[4].ToString()))
+            
+            if (int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == array_values[4].ToString()).Quantity) > 0)
             {
-                //Alert user of already existsing item
-                MessageBox.Show($"Item {array_values[0]} already added");
+                if (Checkout_Lists.Select(x => x.Item_id).Contains(array_values[4].ToString()))
+                {
+                    //Alert user of already existsing item
+                    MessageBox.Show($"Item {array_values[0]} already added");
+                }
+                else
+                {
+                    Checkout_Lists.Add(new(array_values[4].ToString(),
+                        array_values[0].ToString(),
+                        array_values[1].ToString(),
+                        array_values[2].ToString(),
+                        1,
+                        array_values[3].ToString()));
+                    Value = Checkout_Lists.First(x => x.Item_id == array_values[4].ToString());
+                    Total_price += (Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value.Quantity);
+                }
             }
             else
             {
-                Checkout_Lists.Add(new(array_values[4].ToString(), 
-                    array_values[0].ToString(),
-                    array_values[1].ToString(),
-                    array_values[2].ToString(), 
-                    1, 
-                    array_values[3].ToString()));
-                Value = Checkout_Lists.First(x => x.Item_id == array_values[4].ToString());
-                Total_price += (Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value.Quantity);
+                //Alert user of already existsing item
+                MessageBox.Show($"Item {array_values[0]} is out of stock.");
             }
         }
 

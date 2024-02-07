@@ -13,7 +13,7 @@ namespace Stock_Management.Assets.Pages
     {
         public Command_Class clear_txt2 => new(execute => TxtSearch.Clear());
 
-        stock_page_viewmodel stock_Page_Viewmodel;
+        internal static stock_page_viewmodel stock_Page_Viewmodel { get; set; }
         public stock_page()
         {
             InitializeComponent();

@@ -33,9 +33,6 @@ namespace Stock_Management.Assets.ViewModel
         public static ObservableCollection<Sales_list_Class> sales_lists_ = new();
 
         [ObservableProperty]
-        public static ObservableCollection<Notification_List_Class> notification_list = new();
-
-        [ObservableProperty]
         private string name;
         [ObservableProperty]
         private string type;
@@ -195,8 +192,7 @@ namespace Stock_Management.Assets.ViewModel
         public static void repopulate_fields()
         {
             data_lists = Database_Connection_Class.Load_Stock();
-            sales_lists_ = Database_Connection_Class.Load_Sales();
-            notification_list = Database_Connection_Class.Load_Notifications();            
+            sales_lists_ = Database_Connection_Class.Load_Sales();            
         }
 
         //search list for specific product
@@ -294,5 +290,7 @@ namespace Stock_Management.Assets.ViewModel
                 Cost = string.Empty;
             }
         }
+
+        
     }
 }
