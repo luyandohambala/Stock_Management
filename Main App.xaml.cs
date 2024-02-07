@@ -1,18 +1,10 @@
-﻿using Caliburn.Micro;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Configuration;
 using Stock_Management.Assets.Pages;
-using Stock_Management.Assets.ViewModel;
-using Syncfusion.UI.Xaml.Charts;
-using System.ComponentModel;
-using System.Configuration;
 using System.IO;
-using System.Net;
-using System.Security.Policy;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Stock_Management
 {

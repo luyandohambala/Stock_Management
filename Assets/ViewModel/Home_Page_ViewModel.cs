@@ -1,15 +1,16 @@
-﻿using Caliburn.Micro;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Stock_Management.Assets.Pages;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using System.Drawing;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+using LiveChartsCore.SkiaSharpView.Painting.Effects;
+using System.Linq;
+
 
 namespace Stock_Management.Assets.ViewModel
 {
@@ -44,6 +45,15 @@ namespace Stock_Management.Assets.ViewModel
         [ObservableProperty]
         private int number_of_users;
 
+        [ObservableProperty]
+        private ISeries[] series;
+
+        [ObservableProperty]
+        private Axis[] xaxes;
+
+        [ObservableProperty]
+        private Axis[] yaxes;
+
         public Home_Page_ViewModel()
         {
             stock_page_viewmodel.repopulate_fields();
@@ -56,6 +66,87 @@ namespace Stock_Management.Assets.ViewModel
             Number_of_users = Settings_Page_ViewModel.user_list.Count;
 
             Notification_visibility = Visibility.Collapsed;
+
+            populate_graph();
+        }
+
+        private void populate_graph()
+        {
+            var digits = new List<int>();
+
+            var sales = stock_page_viewmodel.sales_lists_.Where(x => DateTime.Parse(x.Date).Month.ToString() == DateTime.Now.Month.ToString());
+
+            var group = sales.GroupBy(i => DateTime.Parse(i.Date).Day.ToString());
+
+            foreach (var item in group)
+            {
+                digits.Add(item.Count());
+            }
+
+            Series = new ISeries[]
+            {
+                new LineSeries<int>
+                {
+                    Values = digits,
+                    Fill = null,
+                    Stroke = new SolidColorPaint(SKColors.DarkRed) {StrokeCap = SKStrokeCap.Round, StrokeThickness = 2},
+                    GeometryFill = new SolidColorPaint(SKColors.IndianRed),
+                    GeometryStroke = new SolidColorPaint(SKColors.IndianRed),
+                    YToolTipLabelFormatter = (chartPoint) => $"Sales: {chartPoint.PrimaryValue}"
+                }
+            };
+
+            ///
+            //days of month section
+            ///
+            var days = new List<string>();
+
+            foreach (var item1 in stock_page_viewmodel.sales_lists_.Where(x => DateTime.Parse(x.Date).Month.ToString() == DateTime.Now.Month.ToString()).
+                    Select(x => DateTime.Parse(x.Date).Day.ToString()))
+            {
+                if (!days.Contains(item1))
+                {
+                    days.Add(item1);
+                }
+            }
+
+            Xaxes = new Axis[]
+            {
+                new() {
+                    Name = $"Month of {DateTime.Now:MMMM}",
+                    NamePaint = new SolidColorPaint(SKColors.DarkRed),
+
+                    LabelsPaint = new SolidColorPaint(SKColors.Black),
+                    TextSize=12,
+            
+                    Labels = days,
+
+                    SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) {StrokeThickness = 2}
+                }
+            };
+
+            ///
+            //sales of month section
+            ///
+            var total = new List<string>();
+
+            for (int i = 1; i <= Total_sales_p_month; i++)
+            {
+                total.Add($"{i}");
+            }
+
+            Yaxes = new Axis[]
+            {
+                new() {
+                    Name = "Sales",
+                    NamePaint = new SolidColorPaint(SKColors.DarkRed),
+
+                    LabelsPaint = new SolidColorPaint(SKColors.Black),
+
+                    TextSize=12,
+                    SeparatorsPaint = new SolidColorPaint(SKColors.LightGray) {StrokeThickness = 2, PathEffect = new DashEffect(new float[] {3, 3})}
+                }
+            };
         }
 
         private void change_content_view(object content)

@@ -30,7 +30,7 @@ namespace Stock_Management.Assets.Pages
         {
             InitializeComponent();
             change_color("settings");//initialise settings for use throughout the application.
-            change_color("stock");
+            change_color("home");
             DataContext = this;
             
         }
