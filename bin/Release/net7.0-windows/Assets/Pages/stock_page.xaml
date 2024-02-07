@@ -110,7 +110,7 @@
                                 </DataGridTextColumn>
                                 
                                 <!-- quantity -->
-                                <DataGridTextColumn  Header="P/Amount" Binding="{Binding Purchase_amount}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="S/Amount" Binding="{Binding Cost}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -119,7 +119,7 @@
                                 </DataGridTextColumn>
 
                                 <!-- cost -->
-                                <DataGridTextColumn  Header="S/Amount" Binding="{Binding Cost}" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn  Header="P/Amount" Binding="{Binding Profit}" IsReadOnly="True" Width="*">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
@@ -256,10 +256,10 @@
                                         <TextBlock Name="Quantity_text" DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="Quantity"
                                             Style="{StaticResource Header text}"/>
 
-                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="P/Amount"
+                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="S/Amount"
                                             Style="{StaticResource Header text}"/>
 
-                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="S/Amount"
+                                        <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 2 14" VerticalAlignment="Center" Text="P/Amount"
                                             Style="{StaticResource Header text}"/>
 
 
@@ -275,8 +275,8 @@
                                                 Margin="6" ItemsSource="{Binding Category_listItems}"/>
                                         </Border>
                                         <TextBox Name="Quantity_txtbox" TextChanged="Quantity_txtbox_TextChanged" Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
-                                        <TextBox Name="purchase_txtbox" TextChanged="purchase_txtbox_TextChanged" Text="{Binding Purchase_amount, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
                                         <TextBox Name="Cost_txtbox" TextChanged="Cost_txtbox_TextChanged" Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                        <TextBox Name="purchase_txtbox" TextChanged="purchase_txtbox_TextChanged" Text="{Binding Profit, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
                                     </StackPanel>
                                 </Grid>
                             </ScrollViewer>

@@ -127,12 +127,12 @@ namespace Stock_Management.Assets.ViewModel
             items_button items_Button = new()
             {
                 Items_list = new (
-                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Service").Select(x => new items_button(x.Id, x.Name, x.Purchase_amount, x.Cost, x.Type)))
+                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Service").Select(x => new items_button(x.Id, x.Name, x.Profit, x.Cost, x.Type)))
             };
 
             foreach (var item in items_Button.Items_list)
             {
-                Items_list1.Add(new items_button(item.Button_id, item.Button_content, item.Button_order_price, item.Button_price, item.Button_category));
+                Items_list1.Add(new items_button(item.Button_id, item.Button_content, item.Button_profit, item.Button_price, item.Button_category));
             }
 
         }
@@ -170,12 +170,11 @@ namespace Stock_Management.Assets.ViewModel
             if (!String.IsNullOrEmpty(Amount_given_s))
             {
                 var count = 0;//keep track if item index
-                foreach (var item in Checkout_Lists1)
+                if (double.Parse(Amount_given_s) >= Total_price1)
                 {
-                    if (double.Parse(Amount_given_s) >= Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")))
+                    foreach (var item in Checkout_Lists1)
                     {
-                        stock_page_viewmodel.sales_lists_.Add(new Sales_list_Class
-                        (
+                        Sales_list_Class sales_list = new(
 
                             DateTime.Now.ToString(),
                             item.Item_name,
@@ -183,24 +182,28 @@ namespace Stock_Management.Assets.ViewModel
                             item.Item_price,
                             $"{Settings_Page_ViewModel.currency_}{double.Parse(Amount_given_s) - Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}",
                             $"{Settings_Page_ViewModel.currency_}" +
-                            $"{((Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / item.Quantity) -
-                            Convert.ToDouble(item.Item_order_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""))) * item.Quantity:N2}",
+                            $"{Convert.ToDouble(item.Item_profit.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * item.Quantity:N2}",
                             MainWindow.Current_user
-                        ));
+                        );
+
+                        Database_Connection_Class.Modify_Sales_Table(sales_list);
+
                         if (count == Checkout_Lists1.LongCount() - 1)
                         {
                             clear_items("purchase");
                             MessageBox.Show("Purchase successfull.");
+                            stock_page_viewmodel.repopulate_fields();
+                            Home_Page_ViewModel.notification_list = Database_Connection_Class.Load_Notifications();
+                            Home_Page_ViewModel.pending_reports = Home_Page_ViewModel.notification_list.Where(x => x.Read == false).Count();
                             break;
                         }
 
                         count++;
                     }
-                    else
-                    {
-                        MessageBox.Show("Amount received is less than required purchase amount.");
-                        break;
-                    }
+                }
+                else
+                {
+                    MessageBox.Show("Amount received is less than required purchase amount.");
                 }
             }
             else

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Newtonsoft.Json.Linq;
 using Stock_Management.Assets.Pages;
 using System.Collections.ObjectModel;
@@ -279,6 +280,11 @@ namespace Stock_Management.Assets.ViewModel
                 Category = null;
                 Profit = string.Empty;
                 Cost = string.Empty;
+            }
+            else if (edit_values1 == true)
+            {
+                if (MessageBox.Show("Cancel editing?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes) 
+                { edit_values1 = false; Category = null; clear_items(); }
             }
             else
             {

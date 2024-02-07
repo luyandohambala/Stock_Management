@@ -124,18 +124,40 @@
                                 <!-- printer choice -->
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="300"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Printer"
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Quote/Inv. Printer"
                                         Style="{StaticResource Header text}"/>
 
-                                <TextBox Grid.Column="1" Text="{Binding Printer_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" IsReadOnly="true" Text="{Binding Printer_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
-                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Name of printer"
-                                        Style="{StaticResource Header text}"/>
+                                <Button Grid.Column="2" Content="Choose Printer" 
+                                        Command="{Binding choose_printer_command}"
+                                        CommandParameter="invoice/quotation"
+                                        Style="{StaticResource add/edit}" />
                             </Grid>
+                            
+                            <Grid HorizontalAlignment="Left" Margin="10">
+                                <!-- printer choice -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="300"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Receipt Printer"
+                                        Style="{StaticResource Header text}"/>
+
+                                <TextBox Grid.Column="1" IsReadOnly="true" Text="{Binding Receipt_printer, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                <Button Grid.Column="2" Content="Choose Printer" 
+                                        Command="{Binding choose_printer_command}"
+                                        CommandParameter="receipt"
+                                        Style="{StaticResource add/edit}" />
+                            </Grid>
+                            
 
 
                             <Separator Margin="10" BorderThickness="1">
@@ -212,7 +234,10 @@
 
                                 <TextBox IsReadOnly="True" Text="{Binding Quotation_template, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
-                                <Button Grid.Column="2" Content="Choose file" Style="{StaticResource add/edit}" />
+                                <Button Grid.Column="2" Content="Choose Quotation" 
+                                    Command="{Binding choose_quote_inv_receipt_command}"
+                                    CommandParameter="quotation"
+                                    Style="{StaticResource add/edit}" />
 
                             </Grid>
 
@@ -229,7 +254,10 @@
 
                                 <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding Invoice_template, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
-                                <Button Grid.Column="2" Content="Choose file" Style="{StaticResource add/edit}" />
+                                <Button Grid.Column="2" Content="Choose Invoice" 
+                                    Command="{Binding choose_quote_inv_receipt_command}"
+                                    CommandParameter="invoice"
+                                    Style="{StaticResource add/edit}" />
 
                             </Grid>
 
@@ -246,7 +274,10 @@
 
                                 <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding Receipt_template, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
-                                <Button Grid.Column="2" Content="Choose file" Style="{StaticResource add/edit}" />
+                                <Button Grid.Column="2" Content="Choose Receipt" 
+                                    Command="{Binding choose_quote_inv_receipt_command}"
+                                    CommandParameter="receipt"
+                                    Style="{StaticResource add/edit}" />
 
                             </Grid>
 

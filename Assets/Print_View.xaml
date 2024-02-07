@@ -1,0 +1,108 @@
+﻿<Window x:Class="Stock_Management.Assets.Print_View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stock_Management.Assets"
+        mc:Ignorable="d"
+        Title="Print_View" 
+        Background="Transparent" Height="400" Width="595" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+    <Border Style="{StaticResource border style}" BorderThickness="5" BorderBrush="DarkRed">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+
+            <!-- title bar window-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Select Printer" Style="{StaticResource Header text}" VerticalAlignment="Center"
+                           Margin="20 0"/>
+
+                <!-- allow dragability of the window -->
+                <Border Grid.Column="1" Background="Transparent" Width="330" Height="30" HorizontalAlignment="Center" 
+                        VerticalAlignment="Top" MouseLeftButtonDown="Border_MouseLeftButtonDown"/>
+                
+                <Button Grid.Column="2" Foreground="Red" Content="close" Click="Button_Click" FontSize="20" Style="{StaticResource clear_items_button}" 
+                         Margin="10 0" FontFamily="./Font/#Font Awesome 6 Free Solid"/>
+            </Grid>
+
+            <TextBlock Grid.Row="1" Text="The selected printer will be used for printing of quotations and invoices."
+                       Foreground="#4b4b4b" Margin="25 10 10 20" Style="{StaticResource Header text}" FontSize="14"/>
+            <Grid Grid.Row="1" Margin="10 40 10 10">
+                <Border Background="#eff2f7" CornerRadius="10">
+                    <StackPanel>
+                        <Border Margin="10" CornerRadius="10" HorizontalAlignment="Stretch" Background="White">
+                            <ListView Name="printer_listview" Height="150" 
+                                    ScrollViewer.CanContentScroll="False" 
+                                    Style="{StaticResource notification style}" ItemsSource="{Binding Printer_list}"
+                                    HorizontalAlignment="Center" Margin="10">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Separator DockPanel.Dock="Bottom" BorderBrush="DarkRed" BorderThickness="2"/>
+                                            <Separator DockPanel.Dock="Top" BorderBrush="DarkRed" BorderThickness="2"/>
+
+
+                                            <TextBlock Text="print" Width="60" FontFamily="./Font/#Font Awesome 6 Free Solid" Margin="10" 
+                                                    DockPanel.Dock="Left" Style="{StaticResource Header text}" 
+                                                    FontSize="23" VerticalAlignment="Center" Foreground="#4b4b4b"/>
+
+                                            <TextBlock TextWrapping="Wrap" Margin="-30 10" Style="{StaticResource Header text}" 
+                                                    FontSize="14" VerticalAlignment="Center" Foreground="#4b4b4b">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}, Status: {1}">
+                                                        <Binding Path="Name"/>
+                                                        <Binding Path="Status"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewItem">
+                                                    <ContentPresenter HorizontalAlignment="Stretch" Width="500" VerticalAlignment="Stretch"/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <Border Margin="10" CornerRadius="10" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="8" Text="Selected Printer: " 
+                        VerticalAlignment="Center" Style="{StaticResource Header text}" FontSize="16"/>
+                        
+                        <TextBlock Margin="0 8" Text="{Binding ElementName=printer_listview, Path=SelectedItem.Name}" 
+                        VerticalAlignment="Center" Style="{StaticResource Header text}" FontSize="16"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <!-- save selected printer -->
+            <Button Grid.Row="2" Content="Save" Click="Button_Click_1" Style="{StaticResource add/edit}" Width="150"
+                    Command="{Binding save_printer_command}"
+                    CommandParameter="{Binding ElementName=printer_listview, Path=SelectedItem.Name}"/>
+        </Grid>
+    </Border>
+</Window>

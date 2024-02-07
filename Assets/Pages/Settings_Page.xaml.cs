@@ -17,11 +17,14 @@ namespace Stock_Management.Assets.Pages
 
         public Command_Class clear_txt4 => new(execute => TxtSearch.Clear());
 
+        internal static Settings_Page_ViewModel Settings_Page_ViewModel { get; set; }
+
         public Settings_Page()
         {
             InitializeComponent();
 
-            DataContext = new Settings_Page_ViewModel(MainWindow.AddConfiguration());
+            Settings_Page_ViewModel = new Settings_Page_ViewModel(MainWindow.AddConfiguration());
+            DataContext = Settings_Page_ViewModel;
 
             general_settings.DataContext = this;
             user_settings.DataContext = this;
@@ -186,6 +189,21 @@ namespace Stock_Management.Assets.Pages
         public settings_data()
         {
             
+        }
+    }
+
+    internal partial class printer_data : ObservableObject
+    {
+        [ObservableProperty]
+        private string name;
+
+        [ObservableProperty]
+        private string status;
+
+        public printer_data(string name, string status)
+        {
+            Name = name;
+            Status = status;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using Stock_Management.Assets.Pages;
 using System;
@@ -8,8 +9,10 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Security.Permissions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Stock_Management.Assets.ViewModel
@@ -21,6 +24,11 @@ namespace Stock_Management.Assets.ViewModel
         /// </summary>
         public Command_Class save_settings_command => new(execute => save_settings());
         public Command_Class reset_settings_command => new(execute => reset_settings());
+
+        public Command_Class choose_printer_command => new(select_printer);
+        public Command_Class save_printer_command => new(save_printer);
+
+        public Command_Class choose_quote_inv_receipt_command => new(choose_file);
 
         public Command_Class clearall4 => new(execute => clear_items());
 
@@ -63,6 +71,9 @@ namespace Stock_Management.Assets.ViewModel
         private string printer_name;
 
         [ObservableProperty]
+        private string receipt_printer;
+
+        [ObservableProperty]
         public static string currency_;
         
         [ObservableProperty]
@@ -78,7 +89,12 @@ namespace Stock_Management.Assets.ViewModel
         private string receipt_template;
 
         [ObservableProperty]
-        private ObservableCollection<settings_data> user_list;
+        public static ObservableCollection<settings_data> user_list;
+
+        [ObservableProperty]
+        private ObservableCollection<printer_data> printer_list;
+
+        private string Printer_Type = string.Empty;
 
         [ObservableProperty]
         private settings_data value4;
@@ -94,10 +110,12 @@ namespace Stock_Management.Assets.ViewModel
             populate_users("all");
             this.configuration = configuration;
             populate_properties();
+
+            Printer_list = new();
         }
         public Settings_Page_ViewModel()
         {
-            
+            Printer_list = new();
         }
 
         private void populate_properties()
@@ -105,6 +123,7 @@ namespace Stock_Management.Assets.ViewModel
             Email_backup = configuration.GetValue<int>("General_Settings:email_statistics");
             Backup_data = configuration.GetValue<int>("General_Settings:backup_data");
             Printer_name = configuration.GetValue<string>("General_Settings:printer_name");
+            Receipt_printer = configuration.GetValue<string>("General_Settings:receipt_printer");
             Currency_ = configuration.GetValue<string>("General_Settings:currency_value");
             Value_added_tax = configuration.GetValue<decimal>("General_Settings:vat_rate");
             Quotation_template = configuration.GetValue<string>("General_Settings:quotation_temp_location");
@@ -254,6 +273,65 @@ namespace Stock_Management.Assets.ViewModel
             edit_values = false;
         }
 
+        //open custom printer dialog to select printer of choice.
+        private void select_printer(object content)
+        {
+            var printerQuery = new ManagementObjectSearcher("SELECT * from Win32_Printer");
+            foreach (var printer in printerQuery.Get())
+            {
+                var name = printer.GetPropertyValue("Name");
+                var status = printer.GetPropertyValue("Status");
+
+                Printer_list.Add(new($"{name}", $"{status}"));
+
+            }
+
+            Printer_Type = content.ToString();
+
+            new Print_View().ShowDialog();
+
+        }
+
+
+        //assign name of printer to respective property
+        private void save_printer(object content)
+        {
+            if (content != null)
+            {
+                if (Printer_Type == "invoice/quotation")
+                {
+                    Printer_name = content.ToString();
+                }
+                else if (Printer_Type == "receipt")
+                {
+                    Receipt_printer = content.ToString();
+                }
+            }
+            Printer_Type = string.Empty;
+        }
+
+
+        //choose quote/invoice/receipt tempate using file dialog
+        private void choose_file(object content)
+        {
+            OpenFileDialog fileDialog = new();
+            if (fileDialog.ShowDialog() == true && !string.IsNullOrEmpty(fileDialog.FileName))
+            {
+                if (content.ToString() == "quotation")
+                {
+                    Quotation_template = fileDialog.FileName;
+                }
+                else if (content.ToString() == "invoice")
+                {
+                    Invoice_template = fileDialog.FileName;
+                }
+                else if (content.ToString() == "receipt")
+                {
+                    Receipt_template = fileDialog.FileName;
+                }
+            }
+        }
+
         private void save_settings()
         {
             if (!validate_settings())
@@ -262,9 +340,9 @@ namespace Stock_Management.Assets.ViewModel
             }
             else
             {
-                string[] section_key_names = { "General_Settings:email_statistics", "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:currency_value",
+                string[] section_key_names = { "General_Settings:email_statistics", "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:receipt_printer", "General_Settings:currency_value",
                                                 "General_Settings:vat_rate", "General_Settings:quotation_temp_location", "General_Settings:invoice_temp_location", "General_Settings:receipt_temp_location"};
-                string[] section_key_values = {Email_backup.ToString(), Backup_data.ToString(), Printer_name, Currency_, Value_added_tax.ToString(), Quotation_template, Invoice_template, Receipt_template};
+                string[] section_key_values = {Email_backup.ToString(), Backup_data.ToString(), Printer_name, Receipt_printer, Currency_, Value_added_tax.ToString(), Quotation_template, Invoice_template, Receipt_template};
                 
                 int counter = 0; //index value for section_key_value array
                 foreach (var item in section_key_names)
@@ -290,9 +368,9 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (MessageBox.Show("Reset all settings?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                string[] section_key_names = { "General_Settings:email_statistics", "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:currency_value",
+                string[] section_key_names = { "General_Settings:email_statistics", "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:receipt_printer", "General_Settings:currency_value",
                                                 "General_Settings:vat_rate", "General_Settings:quotation_temp_location", "General_Settings:invoice_temp_location", "General_Settings:receipt_temp_location"};
-                string[] section_key_values = { "7", "7", "Not set", "Not set", "16", "Not set", "Not set", "Not set" };
+                string[] section_key_values = { "7", "7", "Not set", "Not set", "Not set", "16", "Not set", "Not set", "Not set" };
 
                 int counter = 0; //index value for section_key_value array
                 foreach (var item in section_key_names)

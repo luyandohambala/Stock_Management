@@ -60,7 +60,7 @@
                     </Grid.RowDefinitions>
 
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="30 7 10 0">
-                        <ItemsControl x:Name="cat_grid" ItemsSource="{Binding Category_list}">
+                        <ItemsControl x:Name="cat_grid" ItemsSource="{Binding Path=Category_list}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
@@ -76,10 +76,10 @@
                     </ScrollViewer>
 
                     <ScrollViewer Grid.Row="1">
-                        <ItemsControl ItemsSource="{Binding Items_list}">
+                        <ItemsControl ItemsSource="{Binding Path=Items_list}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel DataContext="{StaticResource Sales_Page_ViewModel}" Orientation="Horizontal" FocusVisualStyle="{x:Null}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20"/>
+                                    <WrapPanel Orientation="Horizontal" FocusVisualStyle="{x:Null}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10 10 10 20"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
@@ -102,7 +102,8 @@
                             <Button DataContext="{StaticResource Sales_Page_ViewModel}" Content="Clear all" Command="{Binding clear_all}" Style="{StaticResource clear_items_button}"/>
                         </DockPanel>
 
-                        <Button DataContext="{StaticResource Sales_Page_ViewModel}" Command="{Binding purchase_items}" HorizontalAlignment="Stretch" Content="Purchase" DockPanel.Dock="Bottom" 
+                        <Button DataContext="{StaticResource Sales_Page_ViewModel}" Command="{Binding purchase_items}" 
+                                HorizontalAlignment="Stretch" Content="Purchase" DockPanel.Dock="Bottom" 
                                 VerticalAlignment="Bottom" Style="{StaticResource purchase_button}"/>
 
                         <Border Margin="10 5 10 10" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" CornerRadius="7" DockPanel.Dock="Bottom"  Background="#eff2f7">

@@ -39,6 +39,7 @@ namespace Stock_Management.Assets.ViewModel
         public Command_Class reduce => new(reduce_quantity);
         public Command_Class clear_all => new(execute => clear_items("clear"));
 
+
         public Command_Class purchase_items => new(execute => purchase_item(), canExecute => Checkout_Lists.Count > 0);
 
 
@@ -83,16 +84,13 @@ namespace Stock_Management.Assets.ViewModel
         /// </summary>
         private void populate_category()
         {
-            Category_list = new();
-            category_button category_Button = new();
+            Category_list = new()
+            {
+                //item below added to clear all search filters.
+                new("All", "All")
+            };
 
-            category_Button.Category_list = new(
-                stock_page_viewmodel.data_lists.Where(x => x.Category == "Product").Select(x => x.Type).Distinct()
-                );
-
-            //item below added to clear all search filters.
-            Category_list.Add(new("All", "All"));
-            foreach (var item in category_Button.Category_list)
+            foreach (var item in stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).Select(x => x.Type).Distinct())
             {
                 Category_list.Add(new(item, item));
             }
@@ -125,15 +123,10 @@ namespace Stock_Management.Assets.ViewModel
         {
             Items_list = new ObservableCollection<items_button>();
 
-            items_button items_Button = new()
+            foreach (var item in stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).
+                    Select(x => new items_button(x.Id, x.Name, x.Profit, x.Cost, x.Type)))
             {
-                Items_list = new(
-                    stock_page_viewmodel.data_lists.Where(x => x.Category == "Product").Select(x => new items_button(x.Id, x.Name, x.Purchase_amount, x.Cost, x.Type)))
-            };
-
-            foreach (var item in items_Button.Items_list)
-            {
-                Items_list.Add(new items_button(item.Button_id, item.Button_content, item.Button_order_price, item.Button_price, item.Button_category));
+                Items_list.Add(new items_button(item.Button_id, item.Button_content, item.Button_profit, item.Button_price, item.Button_category));
             }
         }
 
@@ -150,7 +143,6 @@ namespace Stock_Management.Assets.ViewModel
                 populate_items();
             }
         }
-
 
 
         /// <summary>
@@ -171,12 +163,11 @@ namespace Stock_Management.Assets.ViewModel
             var count = 0;//keep track of item index
             if (!String.IsNullOrEmpty(Amount_given))
             {
-                foreach (var item in Checkout_Lists)
+                if (double.Parse(Amount_given) >= Total_price)
                 {
-                    if (double.Parse(Amount_given) >= Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")))
+                    foreach (var item in Checkout_Lists)
                     {
-                        stock_page_viewmodel.sales_lists_.Add(new Sales_list_Class
-                        (
+                        Sales_list_Class sales_list = new(
 
                             DateTime.Now.ToString(),
                             item.Item_name,
@@ -184,16 +175,28 @@ namespace Stock_Management.Assets.ViewModel
                             item.Item_price,
                             $"{Settings_Page_ViewModel.currency_}{double.Parse(Amount_given) - Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}",
                             $"{Settings_Page_ViewModel.currency_}" +
-                            $"{((Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) / item.Quantity) -
-                            Convert.ToDouble(item.Item_order_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""))) * item.Quantity:N2}",
+                            $"{Convert.ToDouble(item.Item_profit.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * item.Quantity:N2}",
                             MainWindow.Current_user
-                        ));
+                        );
+
+                        Database_Connection_Class.Modify_Sales_Table(sales_list);
 
                         foreach (var item1 in stock_page_viewmodel.data_lists)
                         {
                             if (item1.Id == item.Item_id)
                             {
-                                item1.Quantity = (int.Parse(item1.Quantity) - item.Quantity).ToString();
+                                var new_quantity = (int.Parse(item1.Quantity) - item.Quantity).ToString();
+
+                                if (Database_Connection_Class.Modify_Stock_Table("modify_quantity", new(item1.Id, new_quantity)))
+                                {
+                                    if (int.Parse(new_quantity) <= 5)
+                                    {
+                                        Notification_List_Class notification = new(DateTime.Now.ToString(),
+                                            $"Item {item1.Name} has a quantity value of less than 5. Please restock.", false);
+
+                                        Database_Connection_Class.Modify_Notifications_Table("insert", notification);
+                                    }
+                                }
                             }
                         }
 
@@ -201,16 +204,19 @@ namespace Stock_Management.Assets.ViewModel
                         {
                             clear_items("purchase");
                             MessageBox.Show("Purchase successfull.");
+                            stock_page_viewmodel.repopulate_fields();
+                            Home_Page_ViewModel.notification_list = Database_Connection_Class.Load_Notifications();
+                            Home_Page_ViewModel.pending_reports = Home_Page_ViewModel.notification_list.Where(x => x.Read == false).Count();
                             break;
                         }
 
                         count++;
                     }
-                    else
-                    {
-                        MessageBox.Show("Amount received is less than required purchase amount.");
-                        break;
-                    }
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Amount received is less than required purchase amount.");
                 }
             }
             else
@@ -302,7 +308,7 @@ namespace Stock_Management.Assets.ViewModel
 
             if (Read_only_quantity)
             {
-                if (Value.Quantity > 1 && (Value.Quantity <
+                if (Value.Quantity > 1 && (Value.Quantity <=
                     int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity)))
                 {
                     //alter total price and quantity
@@ -317,7 +323,7 @@ namespace Stock_Management.Assets.ViewModel
                     Total_price += Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
 
                 }
-                else
+                else if (Value.Quantity < 1)
                 {
                     //alter total price and quantity
                     Total_price -= Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
@@ -326,7 +332,7 @@ namespace Stock_Management.Assets.ViewModel
             }
             else
             {
-                if (Value.Quantity > 1 && (Value.Quantity <
+                if (Value.Quantity > 1 && (Value.Quantity <=
                     int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == Value.Item_id).Quantity)))
                 {
                     Total_price -= Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
@@ -344,7 +350,7 @@ namespace Stock_Management.Assets.ViewModel
                     MessageBox.Show("Manual quantity entry disabled.");
 
                 }
-                else
+                else if (Value.Quantity < 1)
                 {
                     //alter total price and quantity
                     Total_price -= Convert.ToDouble(Multiple_price_value.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, ""));
@@ -359,21 +365,30 @@ namespace Stock_Management.Assets.ViewModel
         private void add_to_cart(object content)
         {
             var array_values = (object[]) content;
-            if (Checkout_Lists.Select(x => x.Item_id).Contains(array_values[4].ToString()))
+            
+            if (int.Parse(stock_page_viewmodel.data_lists.FirstOrDefault(x => x.Id == array_values[4].ToString()).Quantity) > 0)
             {
-                //Alert user of already existsing item
-                MessageBox.Show($"Item {array_values[0]} already added");
+                if (Checkout_Lists.Select(x => x.Item_id).Contains(array_values[4].ToString()))
+                {
+                    //Alert user of already existsing item
+                    MessageBox.Show($"Item {array_values[0]} already added");
+                }
+                else
+                {
+                    Checkout_Lists.Add(new(array_values[4].ToString(),
+                        array_values[0].ToString(),
+                        array_values[1].ToString(),
+                        array_values[2].ToString(),
+                        1,
+                        array_values[3].ToString()));
+                    Value = Checkout_Lists.First(x => x.Item_id == array_values[4].ToString());
+                    Total_price += (Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value.Quantity);
+                }
             }
             else
             {
-                Checkout_Lists.Add(new(array_values[4].ToString(), 
-                    array_values[0].ToString(),
-                    array_values[1].ToString(),
-                    array_values[2].ToString(), 
-                    1, 
-                    array_values[3].ToString()));
-                Value = Checkout_Lists.First(x => x.Item_id == array_values[4].ToString());
-                Total_price += (Convert.ToDouble(Value.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * Value.Quantity);
+                //Alert user of already existsing item
+                MessageBox.Show($"Item {array_values[0]} is out of stock.");
             }
         }
 

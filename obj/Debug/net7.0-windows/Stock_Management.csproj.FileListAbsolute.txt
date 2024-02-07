@@ -93,3 +93,8 @@ I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\runtimes\osx\native\libSkiaSha
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\runtimes\win-arm64\native\libSkiaSharp.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\runtimes\win-x64\native\libSkiaSharp.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\runtimes\win-x86\native\libSkiaSharp.dll
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Print_View.g.cs
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Print_View.baml
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.CodeDom.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.Management.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\runtimes\win\lib\net7.0\System.Management.dll
