@@ -230,6 +230,19 @@ namespace Stock_Management.Assets.ViewModel
             }
         }
 
+
+        private void export_to_excel()
+        {
+            try
+            {
+                  
+            }
+            catch (Exception ex)
+            { 
+                MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
+            }
+        }
+
         private void remove()
         {
             if (MessageBox.Show("Remove Record?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)

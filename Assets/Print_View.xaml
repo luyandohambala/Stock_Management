@@ -35,7 +35,7 @@
                          Margin="10 0" FontFamily="./Font/#Font Awesome 6 Free Solid"/>
             </Grid>
 
-            <TextBlock Grid.Row="1" Text="The selected printer will be used for printing of quotations and invoices."
+            <TextBlock Grid.Row="1" Text="The selected printer will be used for printing requests."
                        Foreground="#4b4b4b" Margin="25 10 10 20" Style="{StaticResource Header text}" FontSize="14"/>
             <Grid Grid.Row="1" Margin="10 40 10 10">
                 <Border Background="#eff2f7" CornerRadius="10">

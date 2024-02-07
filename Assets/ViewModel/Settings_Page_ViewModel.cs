@@ -318,70 +318,77 @@ namespace Stock_Management.Assets.ViewModel
             OpenFileDialog fileDialog = new();
             if (fileDialog.ShowDialog() == true && !string.IsNullOrEmpty(fileDialog.FileName))
             {
-                var path = @"./Assets/Templates";
-                if (content.ToString() == "quotation")
+                try
                 {
-                    if (!Directory.Exists(path + "/Quotation"))
+                    var path = @"./Assets/Templates";
+                    if (content.ToString() == "quotation")
                     {
-                        Directory.CreateDirectory(path + "/Quotation");
-                        File.Copy(fileDialog.FileName, path + "/Quotation/template.docx");
+                        if (!Directory.Exists(path + "/Quotation"))
+                        {
+                            Directory.CreateDirectory(path + "/Quotation");
+                            File.Copy(fileDialog.FileName, path + "/Quotation/template.docx");
 
-                        Quotation_template = path + "/Quotation/template.docx";
+                            Quotation_template = path + "/Quotation/template.docx";
+
+                        }
+                        else
+                        {
+                            foreach (var item in Directory.GetFiles(path + "/Quotation"))
+                            {
+                                File.Delete(item);
+                            }
+                            File.Copy(fileDialog.FileName, path + "/Quotation/template.docx");
+
+                            Quotation_template = path + "/Quotation/template.docx";
+                        }
+                    }
+                    else if (content.ToString() == "invoice")
+                    {
+                        if (!Directory.Exists(path + "/Invoice"))
+                        {
+                            Directory.CreateDirectory(path + "/Invoice");
+                            File.Copy(fileDialog.FileName, path + "/Invoice/template.docx");
+
+                            Invoice_template = path + "/Invoice/template.docx";
+
+                        }
+                        else
+                        {
+                            foreach (var item in Directory.GetFiles(path + "/Invoice"))
+                            {
+                                File.Delete(item);
+                            }
+                            File.Copy(fileDialog.FileName, path + "/Invoice/template.docx");
+
+                            Invoice_template = path + "/Invoice/template.docx";
+                        }
 
                     }
-                    else
+                    else if (content.ToString() == "receipt")
                     {
-                        foreach (var item in Directory.GetFiles(path + "/Quotation"))
+                        if (!Directory.Exists(path + "/Receipt"))
                         {
-                            File.Delete(item);
-                        }
-                        File.Copy(fileDialog.FileName, path + "/Quotation/template.docx");
+                            Directory.CreateDirectory(path + "/Receipt");
+                            File.Copy(fileDialog.FileName, path + "/Receipt/template.docx");
 
-                        Quotation_template = path + "/Quotation/template.docx";
+                            Receipt_template = path + "/Receipt/template.docx";
+
+                        }
+                        else
+                        {
+                            foreach (var item in Directory.GetFiles(path + "/Receipt"))
+                            {
+                                File.Delete(item);
+                            }
+                            File.Copy(fileDialog.FileName, path + "/Receipt/template.docx");
+
+                            Receipt_template = path + "/Receipt/template.docx";
+                        }
                     }
                 }
-                else if (content.ToString() == "invoice")
+                catch (Exception ex)
                 {
-                    if (!Directory.Exists(path + "/Invoice"))
-                    {
-                        Directory.CreateDirectory(path + "/Invoice");
-                        File.Copy(fileDialog.FileName, path + "/Invoice/template.docx");
-
-                        Invoice_template = path + "/Invoice/template.docx";
-
-                    }
-                    else
-                    {
-                        foreach (var item in Directory.GetFiles(path + "/Invoice"))
-                        {
-                            File.Delete(item);
-                        }
-                        File.Copy(fileDialog.FileName, path + "/Invoice/template.docx");
-
-                        Invoice_template = path + "/Invoice/template.docx";
-                    }
-
-                }
-                else if (content.ToString() == "receipt")
-                {
-                    if (!Directory.Exists(path + "/Receipt"))
-                    {
-                        Directory.CreateDirectory(path + "/Receipt");
-                        File.Copy(fileDialog.FileName, path + "/Receipt/template.docx");
-
-                        Receipt_template = path + "/Receipt/template.docx";
-
-                    }
-                    else
-                    {
-                        foreach (var item in Directory.GetFiles(path + "/Receipt"))
-                        {
-                            File.Delete(item);
-                        }
-                        File.Copy(fileDialog.FileName, path + "/Receipt/template.docx");
-
-                        Receipt_template = path + "/Receipt/template.docx";
-                    }
+                    MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
                 }
             }
         }
