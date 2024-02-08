@@ -72,6 +72,10 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "Spire.PDF": {
+              "target": "Package",
+              "version": "[10.2.2, )"
+            },
             "System.Data.SQLite": {
               "target": "Package",
               "version": "[1.0.118, )"

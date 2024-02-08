@@ -45,7 +45,7 @@
                                 <TextBlock Text="Notifications" Margin="10 12" DockPanel.Dock="Left" 
                                         HorizontalAlignment="Left" Style="{StaticResource Header text}" FontSize="14" Foreground="#4b4b4b"/>
 
-                                <Button Content="Clear all" Margin="10"  Command="{Binding clear_notifications_command}"
+                                <Button Content="Clear all" Margin="10"  Command="{Binding Source={StaticResource Home_Page_ViewModel}, Path=clear_notifications_command}"
                                         DockPanel.Dock="Right" VerticalAlignment="Top"
                                         HorizontalAlignment="Right" Style="{StaticResource clear_items_button}" FontSize="14"/>
                             </DockPanel>

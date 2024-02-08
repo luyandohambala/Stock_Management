@@ -9,16 +9,11 @@ namespace Stock_Management.Assets.Pages
 {
     public partial class Quotation_Page : Page
     {
-        public Command_Class quote_command => new(execute => change_color("quote"));
-        public Command_Class invoice_command => new(execute => change_color("invoice"));
         public Quotation_Page()
         {
             InitializeComponent();
 
             DataContext = new Quotation_Page_ViewModel();
-
-            Quote.DataContext = this;
-            Invoice.DataContext = this;
 
             change_color("quote");
         }
@@ -141,6 +136,16 @@ namespace Stock_Management.Assets.Pages
                     break;
                 }
             }
+        }
+
+        private void Quote_Click(object sender, RoutedEventArgs e)
+        {
+            change_color("quote");
+        }
+
+        private void Invoice_Click(object sender, RoutedEventArgs e)
+        {
+            change_color("invoice");
         }
     }
 

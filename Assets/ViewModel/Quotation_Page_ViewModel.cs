@@ -14,10 +14,13 @@ namespace Stock_Management.Assets.ViewModel
         //assign clear input fields command
         public Command_Class clearall3 => new(execute => clear_items());
 
+        public Command_Class clear_table_command => new(execute => empty_table("empty"));
 
         //assign remove command 
         public Command_Class remove_record2 => new(execute => remove(), canExecute => Value3 != null);
 
+
+        public Command_Class change_table_State => new(set_table_state);
 
         //assign print command
         public Command_Class print_quotation => new(execute => print_quote());
@@ -37,7 +40,7 @@ namespace Stock_Management.Assets.ViewModel
         /// view model properties section 
         /// </summary>
         [ObservableProperty]
-        private ObservableCollection<Quotation_Lists> quotation_list;
+        private ObservableCollection<Quotation_Lists> quotation_list = new();
 
         [ObservableProperty]
         private string serial_number = string.Empty;
@@ -55,22 +58,22 @@ namespace Stock_Management.Assets.ViewModel
         private string row_total_price;
 
         [ObservableProperty]
-        private double quot_total_price = 0;
+        public static double quot_total_price = 0;
         
         [ObservableProperty]
         private bool use_tax;
 
         [ObservableProperty]
-        private string quotation_number;
+        public static string quotation_number = string.Empty;
 
         [ObservableProperty]
-        private string invoice_reference_number;
+        public static string invoice_reference_number = string.Empty;
 
         [ObservableProperty]
         private string currency_value;
 
         [ObservableProperty]
-        private string tax_value;
+        public static string tax_value = string.Empty;
 
         [ObservableProperty]
         private Quotation_Lists value3;
@@ -80,13 +83,11 @@ namespace Stock_Management.Assets.ViewModel
 
         private bool edit_values = false;
 
+        private string table_state = "quote";
+
         public Quotation_Page_ViewModel()
         {
-            Use_tax = false;
-
             Currency_value = Settings_Page_ViewModel.currency_;
-            Quotation_list = new();
-
         }
 
 
@@ -169,12 +170,35 @@ namespace Stock_Management.Assets.ViewModel
             }
         }
 
+        private void set_table_state(object content)
+        {
+            table_state = content.ToString();
+        }
+
         private void print_quote()
         {
             if (Quotation_list.Count > 0 && Quotation_number != string.Empty)
             {
-                //Use_tax = false;
-                //empty_table();
+                
+                if (table_state == "quote")
+                {
+                    if (Print_Files_Class.print_quote_invoice(Quotation_list, "quote"))
+                    {
+                        Use_tax = false;
+                        empty_table("print");
+                        clear_items();
+                    }
+                }
+                else if (table_state == "invoice")
+                {
+                    if (Print_Files_Class.print_quote_invoice(Quotation_list, "invoice"))
+                    {
+                        Use_tax = false;
+                        empty_table("print");
+                        clear_items();
+                    }
+                }
+
             }
             else
             {
@@ -195,10 +219,27 @@ namespace Stock_Management.Assets.ViewModel
             }
         }
 
-        private void empty_table()
+        private void empty_table(string state)
         {
-            Quotation_list = new();
-            Tax_value = string.Empty;
+            if (state == "empty")
+            {
+                if (MessageBox.Show("Empty table?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    Quotation_list = new();
+                    Quot_total_price = 0;
+                    Tax_value = string.Empty;
+                    Quotation_number = string.Empty;
+                    Invoice_reference_number = string.Empty;
+                }
+            }
+            else if (state == "print")
+            {
+                Quotation_list = new();
+                Quot_total_price = 0;
+                Tax_value = string.Empty;
+                Quotation_number = string.Empty;
+                Invoice_reference_number = string.Empty;
+            }
         }
 
         private void remove()

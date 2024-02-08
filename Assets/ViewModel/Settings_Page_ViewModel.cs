@@ -282,8 +282,10 @@ namespace Stock_Management.Assets.ViewModel
             {
                 var name = printer.GetPropertyValue("Name");
                 var status = printer.GetPropertyValue("Status");
-
-                Printer_list.Add(new($"{name}", $"{status}"));
+                if (!Printer_list.Contains(new($"{name}", $"{status}")))
+                {
+                    Printer_list.Add(new($"{name}", $"{status}"));
+                }
 
             }
 
@@ -320,7 +322,8 @@ namespace Stock_Management.Assets.ViewModel
             {
                 try
                 {
-                    var path = @"./Assets/Templates";
+                    var path = System.IO.Path.GetFullPath(@"./Assets/Templates");
+
                     if (content.ToString() == "quotation")
                     {
                         if (!Directory.Exists(path + "/Quotation"))
@@ -328,7 +331,7 @@ namespace Stock_Management.Assets.ViewModel
                             Directory.CreateDirectory(path + "/Quotation");
                             File.Copy(fileDialog.FileName, path + "/Quotation/template.docx");
 
-                            Quotation_template = path + "/Quotation/template.docx";
+                            Quotation_template = path + @"\Quotation\template.docx";
 
                         }
                         else
@@ -339,7 +342,7 @@ namespace Stock_Management.Assets.ViewModel
                             }
                             File.Copy(fileDialog.FileName, path + "/Quotation/template.docx");
 
-                            Quotation_template = path + "/Quotation/template.docx";
+                            Quotation_template = path + @"\Quotation\template.docx";
                         }
                     }
                     else if (content.ToString() == "invoice")
@@ -349,7 +352,7 @@ namespace Stock_Management.Assets.ViewModel
                             Directory.CreateDirectory(path + "/Invoice");
                             File.Copy(fileDialog.FileName, path + "/Invoice/template.docx");
 
-                            Invoice_template = path + "/Invoice/template.docx";
+                            Invoice_template = path + @"\Invoice\template.docx";
 
                         }
                         else
@@ -360,7 +363,7 @@ namespace Stock_Management.Assets.ViewModel
                             }
                             File.Copy(fileDialog.FileName, path + "/Invoice/template.docx");
 
-                            Invoice_template = path + "/Invoice/template.docx";
+                            Invoice_template = path + @"\Invoice\template.docx";
                         }
 
                     }
@@ -371,7 +374,7 @@ namespace Stock_Management.Assets.ViewModel
                             Directory.CreateDirectory(path + "/Receipt");
                             File.Copy(fileDialog.FileName, path + "/Receipt/template.docx");
 
-                            Receipt_template = path + "/Receipt/template.docx";
+                            Receipt_template = path + @"\Receipt\template.docx";
 
                         }
                         else
@@ -382,7 +385,7 @@ namespace Stock_Management.Assets.ViewModel
                             }
                             File.Copy(fileDialog.FileName, path + "/Receipt/template.docx");
 
-                            Receipt_template = path + "/Receipt/template.docx";
+                            Receipt_template = path + @"\Receipt\template.docx";
                         }
                     }
                 }

@@ -96,3 +96,4 @@ I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.Management.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\runtimes\win\lib\net7.0\System.Management.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Office.Interop.Word.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\OFFICE.DLL
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Spire.Pdf.dll
