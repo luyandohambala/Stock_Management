@@ -6,9 +6,6 @@ I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Stock_Management.deps.json
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Stock_Management.runtimeconfig.json
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Stock_Management.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Stock_Management.pdb
-I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Caliburn.Micro.Platform.Core.dll
-I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Caliburn.Micro.Platform.dll
-I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Caliburn.Micro.Core.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\CommunityToolkit.Mvvm.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.Configuration.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -21,7 +18,6 @@ I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.FileProvi
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Extensions.Primitives.dll
-I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Xaml.Behaviors.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Newtonsoft.Json.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.Text.Encodings.Web.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.Text.Json.dll
@@ -98,3 +94,5 @@ I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Print_View.baml
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.CodeDom.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\System.Management.dll
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\runtimes\win\lib\net7.0\System.Management.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\Microsoft.Office.Interop.Word.dll
+I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\OFFICE.DLL

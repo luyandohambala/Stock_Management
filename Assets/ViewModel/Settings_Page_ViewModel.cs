@@ -69,10 +69,10 @@ namespace Stock_Management.Assets.ViewModel
         private int backup_data;
 
         [ObservableProperty]
-        private string printer_name;
+        public static string printer_name;
 
         [ObservableProperty]
-        private string receipt_printer;
+        public static string receipt_printer;
 
         [ObservableProperty]
         public static string currency_;
@@ -81,13 +81,13 @@ namespace Stock_Management.Assets.ViewModel
         public static decimal value_added_tax;
 
         [ObservableProperty]
-        private string quotation_template;
+        public static string quotation_template;
 
         [ObservableProperty]
-        private string invoice_template;
+        public static string invoice_template;
 
         [ObservableProperty]
-        private string receipt_template;
+        public static string receipt_template;
 
         [ObservableProperty]
         public static ObservableCollection<settings_data> user_list;

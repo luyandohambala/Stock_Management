@@ -202,6 +202,11 @@ namespace Stock_Management.Assets.ViewModel
 
                         if (count == Checkout_Lists.LongCount() - 1)
                         {
+                            if (MessageBox.Show("Print receipt?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            {
+                                Print_Files_Class.print_receipt(Checkout_Lists, $"{Total_price:N2}");
+                            }
+
                             clear_items("purchase");
                             MessageBox.Show("Purchase successfull.");
                             stock_page_viewmodel.repopulate_fields();
