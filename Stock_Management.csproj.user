@@ -31,6 +31,9 @@
     <Compile Update="Assets\Print_View.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Assets\Report_View.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Assets\Pages\Content_Page.xaml">
@@ -55,6 +58,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\Print_View.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\Report_View.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Main App.xaml">

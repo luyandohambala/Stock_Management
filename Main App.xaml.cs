@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Configuration;
+using Stock_Management.Assets;
 using Stock_Management.Assets.Pages;
 using System.IO;
 using System.Timers;
@@ -20,12 +21,14 @@ namespace Stock_Management
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
             Maximized = false;
             Content_Page = new Content_Page();
             Display_Frame.Content = Content_Page;
             DataContext = this;
             Current_user = "Welcome User!";
+
+            //Check_Reports();
         }
 
         public static IConfiguration AddConfiguration()
@@ -39,6 +42,16 @@ namespace Stock_Management
             builder.AddJsonFile("appsettings.Production.json", optional: true, reloadOnChange: true);
 #endif
             return builder.Build();
+        }
+
+        private async Task Check_Reports()
+        {
+            //check for unsent reports
+            if (await Task.Run(() => Send_Report_Class.Resend_Report()) == true)
+            {
+                MessageBox.Show("All unsent Sales Reports have been successfully sent");
+            }
+
         }
 
         //allows dragability of window

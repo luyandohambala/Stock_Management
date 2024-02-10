@@ -6,7 +6,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+	  <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+    <Page Remove="bin\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Font Awesome 6 Free-Solid-900.otf" />
@@ -15,6 +23,9 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Dapper" Version="2.1.28" />
+    <PackageReference Include="FluentEmail.Core" Version="3.0.2" />
+    <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
+    <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
     <PackageReference Include="LiveCharts.Core" Version="0.9.8">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
@@ -25,6 +36,7 @@
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RazorLight" Version="2.3.1" />
     <PackageReference Include="Spire.PDF" Version="10.2.2" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
     <PackageReference Include="System.Management" Version="8.0.0" />
@@ -41,7 +53,10 @@
     <Folder Include="Assets\History\Invoice\" />
     <Folder Include="Assets\History\Receipt\" />
     <Folder Include="Assets\History\Quotation\" />
+    <Folder Include="Assets\Sale Reports\" />
+    <Folder Include="Assets\Templates\Email\" />
     <Folder Include="Assets\Templates\Invoice\" />
+    <Folder Include="Assets\Templates\Report\" />
     <Folder Include="Assets\Templates\Receipt\" />
     <Folder Include="Assets\Templates\Quotation\" />
   </ItemGroup>

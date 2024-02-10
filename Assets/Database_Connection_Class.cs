@@ -70,6 +70,27 @@ namespace Stock_Management.Assets
             }
         }
 
+        public static ObservableCollection<settings_data> Load_Users()
+        {
+            using (IDbConnection db = new SQLiteConnection(Connect()))
+            {
+                var result = db.Query<settings_data>("SELECT * FROM User_Table");
+                return new ObservableCollection<settings_data>(result);
+
+            }
+        }
+
+        public static ObservableCollection<report_data> Load_Reports()
+        {
+            using (IDbConnection db = new SQLiteConnection(Connect()))
+            {
+                var result = db.Query<report_data>("SELECT Date, " +
+                    "CASE WHEN Sent = 1 THEN \"true\" ELSE \"false\" END as Sent FROM Report_Table");
+                return new ObservableCollection<report_data>(result);
+
+            }
+        }
+
        
         /// <summary>
         /// modify stock and notification data in database
@@ -175,16 +196,94 @@ namespace Stock_Management.Assets
         {
             using (IDbConnection db = new SQLiteConnection(Connect()))
             {
+                try
+                {
+                    db.Execute(@"INSERT INTO Sales_Table VALUES 
+                                                        (@Date,
+                                                        @Item_name,
+                                                        @Item_quantity,
+                                                        @Amount,
+                                                        @Change,
+                                                        @Profit,
+                                                        @Cashier)", Sales_List);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
+                    return false;
+                }
+            }
+        }
 
-                db.Execute(@"INSERT INTO Sales_Table VALUES 
-                                (@Date,
-                                @Item_name,
-                                @Item_quantity,
-                                @Amount,
-                                @Change,
-                                @Profit,
-                                @Cashier)", Sales_List);
-                return false;
+        public static bool Modify_User_Table(string to_do, settings_data User_Object)
+        {
+            using (IDbConnection db = new SQLiteConnection(Connect()))
+            {
+                try
+                {
+                    if (to_do == "insert")
+                    {
+                        db.Execute(@"INSERT INTO User_Table VALUES 
+                                                        (@First_name,
+                                                        @Last_name,
+                                                        @User_name,
+                                                        @Password_entry,
+                                                        @Authority_)", User_Object);
+                        return true;
+                    }
+                    else if (to_do == "modify")
+                    {
+                        db.Execute(@"UPDATE User_Table SET First_name = @First_name,
+                                                    Last_name = @Last_name,
+                                                    User_name = @User_name,
+                                                    Password_entry = @Password_entry,
+                                                    Authority_ = @Authority_
+                                                    WHERE User_name = @User_name", User_Object);
+                        return true;
+                    }
+                    else if (to_do == "delete")
+                    {
+                        db.Execute(@"DELETE FROM User_Table WHERE User_name = @User_name", User_Object);
+                        return true;
+                    }
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
+                    return false;
+                }
+            }
+            
+        }
+
+        public static bool Modify_Report_Table(string to_do, report_data Report_Object)
+        {
+            using (IDbConnection db = new SQLiteConnection(Connect()))
+            {
+                try
+                {
+                    if (to_do == "insert")
+                    {
+                        db.Execute(@"INSERT INTO Report_Table VALUES 
+                                                        (@Date,
+                                                        @Sent)", Report_Object);
+                        return true;
+                    }
+                    else if (to_do == "modify")
+                    {
+                        db.Execute(@"UPDATE User_Table SET Sent = @Sent
+                                                    WHERE Date = @Date", Report_Object);
+                        return true;
+                    }
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
+                    return false;
+                }
             }
         }
 

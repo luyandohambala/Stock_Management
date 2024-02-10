@@ -99,7 +99,7 @@ namespace Stock_Management.Assets
 
                 if (type == "quote")
                 {
-                    FindAndReplace("[Inq_Number]", "");
+                    FindAndReplace("[Inq_Number]", "        ");
                     save_location = System.IO.Path.GetFullPath($@".\Assets\History\Quotation\Quotation_{Quotation_Page_ViewModel.quotation_number}.pdf");
                 }
                 else if (type == "invoice")
@@ -215,6 +215,74 @@ namespace Stock_Management.Assets
         private void FindAndReplace(object FindText, object ReplaceText)
         {
             Word_App.Selection.Find.Execute(FindText, false, true, false, false, false, true, false, 1, ReplaceText, 2, false, false, false, false);
+        }
+
+        /// <summary>
+        /// sale report function below
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public bool prepare_report(ObservableCollection<Sales_list_Class> list)
+        {
+            try
+            {
+                string filelocation = System.IO.Path.GetFullPath(@"./Assets/Templates/Report/Sale Report Template.docx");
+
+                Word_App.Visible = false;
+                Word_Document =
+                Word_App.Documents.Open(filelocation, Missing.Value, Missing.Value, Missing.Value, Missing.Value,
+                Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value,
+                Missing.Value, Missing.Value, Missing.Value);
+
+                Word.Table table = Word_Document.Tables[1];
+
+                FindAndReplace("[Date]", DateTime.Now);
+
+                for (int i = 2; i <= list.Count + 1; i++)
+                {
+                    table.Rows.Add(Missing.Value);
+                    table.Cell(i, 1).Range.Text = list[i - 2].Date;
+                    table.Cell(i, 2).Range.Text = list[i - 2].Item_name;
+                    table.Cell(i, 3).Range.Text = list[i - 2].Item_quantity;
+                    table.Cell(i, 4).Range.Text = list[i - 2].Amount;
+                    table.Cell(i, 5).Range.Text = list[i - 2].Change;
+                    table.Cell(i, 6).Range.Text = list[i - 2].Profit;
+                    table.Cell(i, 7).Range.Text = list[i - 2].Cashier;
+
+                }
+
+                FindAndReplace("[Currency]", Settings_Page_ViewModel.currency_);
+
+                double total_cost = 0;
+                double total_profit = 0;
+                
+                foreach (var item in list)
+                {
+                    total_cost += Convert.ToDouble(item.Amount.Replace(Settings_Page_ViewModel.currency_, ""));
+                    total_profit += Convert.ToDouble(item.Profit.Replace(Settings_Page_ViewModel.currency_, ""));
+                }
+
+                FindAndReplace("[Total_Sales]", list.Where(x => DateTime.Parse(x.Date).ToString() == DateTime.Now.ToString()).Count());
+                FindAndReplace("[Total_Cost]", $"{Settings_Page_ViewModel.currency_}{total_cost:N2}");
+                FindAndReplace("[Total_Profit]", $"{Settings_Page_ViewModel.currency_}{total_profit:N2}");
+                FindAndReplace("[Cashier]", MainWindow.Current_user);
+                
+
+                string save_location = System.IO.Path.GetFullPath($@".\Assets\Sale Reports\Report_{DateTime.Now:d-MM-yyyy}.pdf");
+
+
+                Word_Document.ExportAsFixedFormat(save_location, Word.WdExportFormat.wdExportFormatPDF);
+
+                Word_Document.Close(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdOriginalDocumentFormat, false);
+                Word_App.Quit(Word.WdSaveOptions.wdDoNotSaveChanges);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
+                return false;
+            }
         }
     }
 

@@ -271,4 +271,21 @@ namespace Stock_Management.Assets.Pages
         }
     }
 
+    
+    //report list utilises class below
+    internal partial class report_data : ObservableObject
+    {
+        [ObservableProperty]
+        private string date;
+
+        [ObservableProperty]
+        private bool sent;
+
+        public report_data(string date, bool sent)
+        {
+            Date = date;
+            Sent = sent;
+        }
+    }
+
 }

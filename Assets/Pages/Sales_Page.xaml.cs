@@ -189,4 +189,5 @@ namespace Stock_Management.Assets.Pages
         }
 
     }
+
 }

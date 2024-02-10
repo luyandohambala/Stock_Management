@@ -48,6 +48,18 @@
               "target": "Package",
               "version": "[2.1.28, )"
             },
+            "FluentEmail.Core": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
+            "FluentEmail.Razor": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
+            "FluentEmail.Smtp": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
             "LiveCharts.Core": {
               "target": "Package",
               "version": "[0.9.8, )"
@@ -71,6 +83,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "RazorLight": {
+              "target": "Package",
+              "version": "[2.3.1, )"
             },
             "Spire.PDF": {
               "target": "Package",

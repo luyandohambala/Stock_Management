@@ -136,14 +136,7 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (to_populate == "all")
             {
-                User_list = new()
-                {
-                    new("luyando", "hambala", "lhambala", "gaming123", "admin"),
-                    new("bob", "mike", "bobmike", "gaming123", "non-admin"),
-                    new("joseph", "bob", "josephbob", "gaming123", "admin"),
-                    new("jill", "jack", "jilljack", "gaming123", "non-admin"),
-                    new("someone", "hams", "someonehams", "gaming123", "non-admin")
-                };
+                User_list = new(Database_Connection_Class.Load_Users());
             }
             else if(to_populate == "admin")
             {
@@ -171,11 +164,13 @@ namespace Stock_Management.Assets.ViewModel
                     }
                     else
                     {
-                        User_list.Add(
-                            new(First_name.Trim(), Last_name.Trim(), User_name.Trim(), Password_entry.Trim(), Authority_.Trim())
-                            );
+                        settings_data user = new(First_name.Trim(), Last_name.Trim(), User_name.Trim(), Password_entry.Trim(), Authority_.Trim());
 
-                        clear_items();
+                        if (Database_Connection_Class.Modify_User_Table("insert", user))
+                        {
+                            clear_items();
+                            populate_users("all");
+                        }
                     }
                 }
                 else if (to_do == "edit")
@@ -194,19 +189,17 @@ namespace Stock_Management.Assets.ViewModel
             {
                 if (Value4 != null && validate_entry())
                 {
-                    foreach (var item in User_list.Where(x => x.User_name.ToLower() == Value4.User_name.ToLower()))
-                    {
-                        item.First_name = First_name;
-                        item.Last_name = Last_name;
-                        item.User_name = User_name;
-                        item.Password_entry = Password_entry;
-                        item.Authority_ = Authority_;
-                    }
+                    
+                    settings_data user = new(First_name.Trim(), Last_name.Trim(), User_name.Trim(), Password_entry.Trim(), Authority_.Trim());
 
-                    Button_state = "Edit";
-                    edit_values = false;
-                    MessageBox.Show("User details edited.");
-                    clear_items();
+                    if (Database_Connection_Class.Modify_User_Table("modify", user))
+                    {
+                        Button_state = "Edit";
+                        edit_values = false;
+                        MessageBox.Show("User details edited.");
+                        clear_items();
+                        populate_users("all");
+                    }
                 }
             }
         }
@@ -232,8 +225,11 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (MessageBox.Show("Remove selected user?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                User_list.Remove(Value4);
-                MessageBox.Show("User deleted.");
+                if (Database_Connection_Class.Modify_User_Table("delete", Value4))
+                {
+                    populate_users("all");
+                    MessageBox.Show("User deleted.");
+                }
             }
         }
 
