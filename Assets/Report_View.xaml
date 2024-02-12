@@ -52,13 +52,11 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Name="Accept_Btn" Content="Accept" Click="Accept_Btn_Click" HorizontalAlignment="Right" Style="{StaticResource add/edit}" Width="120"
-                        Command="{Binding save_printer_command}"
-                        CommandParameter="{Binding ElementName=printer_listview, Path=SelectedItem.Name}"/>
+                <Button Name="Accept_Btn" Content="Accept" Click="Accept_Btn_Click" HorizontalAlignment="Right" Style="{StaticResource add/edit}" Width="120"/>
 
-                <Button Name="Not_Ready_Btn" Grid.Column="1" Content="Not Ready" HorizontalAlignment="Left" Click="Not_Ready_Btn_Click" Style="{StaticResource add/edit}" Width="120"
-                        Command="{Binding save_printer_command}"
-                        CommandParameter="{Binding ElementName=printer_listview, Path=SelectedItem.Name}"/>
+                <Button Name="Not_Ready_Btn" Grid.Column="1" Content="Not Ready" HorizontalAlignment="Left" Click="Not_Ready_Btn_Click" Style="{StaticResource add/edit}" Width="120"/>
+
+
             </Grid>
 
         </Grid>

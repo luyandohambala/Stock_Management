@@ -57,7 +57,7 @@ namespace Stock_Management.Assets.ViewModel
         public Home_Page_ViewModel()
         {
             stock_page_viewmodel.repopulate_fields();
-            
+
             Total_stock_available = stock_page_viewmodel.data_lists.Where(x => x.Category == "Product" && int.Parse(x.Quantity) > 0).Count();
             Total_sales_p_month = stock_page_viewmodel.sales_lists_.Where(x => DateTime.Parse(x.Date).Month.ToString() == DateTime.Now.Month.ToString()).Count();
 

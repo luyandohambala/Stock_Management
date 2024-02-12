@@ -14,7 +14,7 @@ namespace Stock_Management.Assets
             
         }
 
-        private static bool Check_Internet_Connection(int timeoutMs = 5000, string url = null)
+        public static bool Check_Internet_Connection(int timeoutMs = 5000, string url = null)
         {
             try
             {
@@ -48,9 +48,9 @@ namespace Stock_Management.Assets
             {
                 //resend report code below
                 //insert send email code below
-                Send_Email_Class send_Email_Class = new("", "Sale Report");
+                Send_Email_Class send_Email_Class = new("");
 
-                if (await Task.Run(() => send_Email_Class.send_email()))
+                if (await Task.Run(() => send_Email_Class.resend_email()))
                 {
                     return true;
                 }
@@ -64,7 +64,7 @@ namespace Stock_Management.Assets
             if (await Task.Run(() => new Print_Files_Class().prepare_report(list)))
             {
                 //insert send email code below
-                Send_Email_Class send_Email_Class = new("", "Sale Report");
+                Send_Email_Class send_Email_Class = new("");
                 
                 if (await Task.Run(() => send_Email_Class.send_email()))
                 {

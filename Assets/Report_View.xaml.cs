@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stock_Management.Assets.Pages;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -20,21 +21,12 @@ namespace Stock_Management.Assets
     /// </summary>
     public partial class Report_View : Window
     {
-        public bool Accept_Btn_Field { get; set; }
-        public bool NotReady_Btn_Field { get; set; }
+        
         public Report_View()
         {
             InitializeComponent();
-
-            Accept_Btn_Field = false;
-            NotReady_Btn_Field = false;
         }
 
-        ~Report_View()
-        {
-            Accept_Btn_Field = false;
-            NotReady_Btn_Field = false;
-        }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -46,15 +38,15 @@ namespace Stock_Management.Assets
 
         private void Accept_Btn_Click(object sender, RoutedEventArgs e)
         {
-            NotReady_Btn_Field = false;
-            Accept_Btn_Field = true;
+            MainWindow.NotReady_Btn_Field = false;
+            MainWindow.Accept_Btn_Field = true;
             Close();
         }
 
         private void Not_Ready_Btn_Click(object sender, RoutedEventArgs e)
         {
-            Accept_Btn_Field = false;
-            NotReady_Btn_Field = true;
+            MainWindow.Accept_Btn_Field = false;
+            MainWindow.NotReady_Btn_Field = true;
             Close();
         }
     }
