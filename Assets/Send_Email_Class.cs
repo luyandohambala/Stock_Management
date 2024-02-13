@@ -2,9 +2,11 @@
 using FluentEmail.Core;
 using FluentEmail.Razor;
 using FluentEmail.Smtp;
+using Stock_Management.Assets.Pages;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Mail;
-using System.Security.Cryptography.X509Certificates;
+using System.Windows;
 
 namespace Stock_Management.Assets
 {
@@ -37,7 +39,41 @@ namespace Stock_Management.Assets
             var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com", 587)
             {
                 EnableSsl = true,
-                Credentials = new NetworkCredential("luyandohambala240@gmail.com", "wnadmobvunjixrjk"),
+                Credentials = new NetworkCredential("luyandohambala240@gmail.com", "rbkjsepioyuflcdf"),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+            });
+
+            Email.DefaultSender = sender;
+            Email.DefaultRenderer = new RazorRenderer();
+
+            try
+            {
+                string file_name = $"Report_{DateTime.Now:d-MM-yyyy}.pdf";
+                var email = Email
+                .From("luyandohambala240@gmail.com", "Management")
+                .To(Reciever)
+                .Subject(subject)
+                .UsingTemplateFromFile(System.IO.Path.GetFullPath(@"./Assets/Templates/Email/SalesReportLayout.cshtml"), new { })
+                .AttachFromFilename(System.IO.Path.GetFullPath($@"./Assets/Sale Reports/{file_name}"), null, file_name);
+
+                await email.SendAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error code: {ex.Message}. Please try again later");
+                return false;
+            }
+
+        }
+
+        /*public async Task<bool> resend_email(ObservableCollection<report_data> list)
+        {
+            var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com", 587)
+            {
+                EnableSsl = true,
+                Credentials = new NetworkCredential("luyandohambala240@gmail.com", "rbkjsepioyuflcdf"),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
             });
 
@@ -49,22 +85,56 @@ namespace Stock_Management.Assets
                 var email = Email
                 .From("luyandohambala240@gmail.com", "Management")
                 .To(Reciever)
-                .Subject(subject)
-                .UsingTemplateFromFile(System.IO.Path.GetFullPath(@"./Assets/Templates/Email/"), new { })
-                .AttachFromFilename(System.IO.Path.GetFullPath($@"./Assets/Sale Reports/Report_{DateTime.Now:d-MM-yyyy}.pdf"), null, $"Sale Report_{DateTime.Now:d-MM-yyyy}")
-                .SendAsync();
+                .Subject("Unsent Reports")
+                .UsingTemplateFromFile(System.IO.Path.GetFullPath(@"./Assets/Templates/Email/SalesReportLayout.cshtml"), new { });
+                
+
+                foreach (var item in list)
+                { 
+                    await Task.Run(() => email.AttachFromFilename(System.IO.Path.GetFullPath(
+                        $@"./Assets/Sale Reports/Report_{DateTime.Parse(item.Date):d-MM-yyyy}.pdf"), null, $"Report_{DateTime.Parse(item.Date):d-MM-yyyy}.pdf"
+                        ));
+                }
+
+                await email.SendAsync();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show($"Error code: {ex.Message}. Please try again later");
                 return false;
             }
+        }*/
 
-        }
-
-        public async Task<bool> resend_email()
+        public async Task<bool> send_backup(string database_location)
         {
-            return false;
+            var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com", 587)
+            {
+                EnableSsl = true,
+                Credentials = new NetworkCredential("luyandohambala240@gmail.com", "rbkjsepioyuflcdf"),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+            });
+
+            Email.DefaultSender = sender;
+            Email.DefaultRenderer = new RazorRenderer();
+
+            try
+            {
+                var email = Email
+                .From("luyandohambala240@gmail.com", "Management")
+                .To(Reciever)
+                .Subject("Data Backup")
+                .UsingTemplateFromFile(System.IO.Path.GetFullPath(@"./Assets/Templates/Email/BackupReportLayout.cshtml"), new { })
+                .AttachFromFilename(System.IO.Path.GetFullPath(database_location), null, $"Resource_BackUp.db");
+                
+                await email.SendAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error code: {ex.Message}. Please try again later");
+                return false;
+            }
         }
 
 

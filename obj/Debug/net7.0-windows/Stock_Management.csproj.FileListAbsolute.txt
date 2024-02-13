@@ -450,3 +450,5 @@ I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\zh-Hans\Microsoft.CodeAnalysis
 I:\j\c#\Stock_Management\bin\Debug\net7.0-windows\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Report_View.g.cs
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Report_View.baml
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Internet_Alert.g.cs
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Internet_Alert.baml

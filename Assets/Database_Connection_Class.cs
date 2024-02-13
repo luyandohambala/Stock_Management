@@ -1,15 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using Stock_Management.Assets.Pages;
-using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.SQLite;
+using System.IO;
 using System.Windows;
 
 namespace Stock_Management.Assets
@@ -284,6 +279,18 @@ namespace Stock_Management.Assets
                     MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
                     return false;
                 }
+            }
+        }
+
+
+        //back up database after set amount of time
+        public static string Backup_Database()
+        {
+            using (IDbConnection db = new SQLiteConnection(Connect()))
+            {
+                string backup_location = System.IO.Path.GetFullPath(@".\Assets\Backup\Resource_BackUp.db");
+                db.Execute($"VACUUM INTO {backup_location}");
+                return backup_location;
             }
         }
 

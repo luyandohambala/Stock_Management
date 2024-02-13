@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using Microsoft.VisualBasic;
 
 namespace Stock_Management
 {
@@ -17,6 +18,7 @@ namespace Stock_Management
         private bool Maximized {get; set;}
 
         private System.Timers.Timer Timer { get; set;}
+        private string Report_Duration { get; set;} = string.Empty;
 
         public static bool Accept_Btn_Field { get; set; } = false;
         public static bool NotReady_Btn_Field { get; set; } = false;
@@ -39,8 +41,7 @@ namespace Stock_Management
             DataContext = this;
             Current_user = "Welcome User!";
 
-            Check_Reports();
-            Report_Timer();
+            Backup_Timer();
         }
 
         public static IConfiguration AddConfiguration()
@@ -56,7 +57,7 @@ namespace Stock_Management
             return builder.Build();
         }
 
-        private async Task Check_Reports()
+        /*private async Task Check_Reports()
         {
             //check for unsent reports
             if (await Task.Run(() => Send_Report_Class.Resend_Report()) == true)
@@ -64,9 +65,9 @@ namespace Stock_Management
                 MessageBox.Show("All previously unsent Sales Reports have been successfully sent");
             }
 
-        }
+        }*/
 
-        private async Task Report_Timer()
+        private async Task Backup_Timer()
         {
             Timer = new System.Timers.Timer
             {
@@ -79,47 +80,26 @@ namespace Stock_Management
         async void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             //if the current time is 5pm call the report_view window and notify user of report send function
-            if (DateTime.Now.ToString("t") == DateTime.Parse("12:32 pm").ToString("t"))
+            if (DateTime.Now.ToString("t") == DateTime.Parse("3:00 pm").ToString("t"))
             {
                 Timer.Stop();
-                Application.Current.Dispatcher.Invoke((Action)delegate {
+                Application.Current.Dispatcher.Invoke((Action)async delegate
+                {
                     // your code
                     Report_View report_View = new();
                     report_View.ShowDialog();
-                    if (Accept_Btn_Field == true)
+                    if (await Task.Run(() => Send_Report_Class.Check_Internet_Connection()) == true)
                     {
-                        /*while (await Task.Run(() => Send_Report_Class.Check_Internet_Connection()) == true)
+                        if (await Task.Run(() => Send_Report_Class.Send_Backup()))
                         {
-                            if (await Task.Run(() => Send_Report_Class.Send_Report(new ObservableCollection<Sales_list_Class>(Database_Connection_Class.Load_Sales().
-                                Where(x => DateTime.Parse(x.Date).ToString("d/MM/yyyy") == DateTime.Now.ToString("d/MM/yyyy"))))) == true)
-                            {
-                                break;
-                            }
-                        }*/
-                        MessageBox.Show("Ready");
-                        Accept_Btn_Field = false;
-                    }
-                    else if (NotReady_Btn_Field == true)
-                    {
-                        MessageBox.Show("Reports will be sent after an hour!");
-                        NotReady_Btn_Field = false;
-                        Timer.Elapsed -= timer_Elapsed;
-                        Timer.Elapsed += Timer_Elapsed;
-                        Timer.Start();
-                    }
-                });
-            }
-        }
+                            MessageBox.Show("Backup successfully created.");
+                        }
 
-        async void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            //if the current time is 5pm call the report_view window and notify user of report send function
-            if (DateTime.Now.ToString("t") == DateTime.Parse("12:33 pm").ToString("t"))
-            {
-                Timer.Stop();
-                Application.Current.Dispatcher.Invoke((Action)delegate {
-                    // your code
-                    MessageBox.Show("Report will now be sent");
+                    }
+                    else
+                    {
+                        new Internet_Alert().ShowDialog();
+                    }
                 });
             }
         }

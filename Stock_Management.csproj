@@ -53,6 +53,7 @@
     <Folder Include="Assets\History\Invoice\" />
     <Folder Include="Assets\History\Receipt\" />
     <Folder Include="Assets\History\Quotation\" />
+    <Folder Include="Assets\Backup\" />
     <Folder Include="Assets\Sale Reports\" />
     <Folder Include="Assets\Templates\Email\" />
     <Folder Include="Assets\Templates\Invoice\" />

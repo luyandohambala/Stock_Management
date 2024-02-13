@@ -236,7 +236,9 @@ namespace Stock_Management.Assets
 
                 Word.Table table = Word_Document.Tables[1];
 
-                FindAndReplace("[Date]", DateTime.Now);
+                var date = DateTime.Now.ToString("d/MM/yyyy");
+
+                FindAndReplace("[Date]", date);
 
                 for (int i = 2; i <= list.Count + 1; i++)
                 {
@@ -262,13 +264,13 @@ namespace Stock_Management.Assets
                     total_profit += Convert.ToDouble(item.Profit.Replace(Settings_Page_ViewModel.currency_, ""));
                 }
 
-                FindAndReplace("[Total_Sales]", list.Where(x => DateTime.Parse(x.Date).ToString() == DateTime.Now.ToString()).Count());
+                FindAndReplace("[Total_Sales]", list.Where(x => DateTime.Parse(x.Date).ToString("d/MM/yyyy") == date).Count());
                 FindAndReplace("[Total_Cost]", $"{Settings_Page_ViewModel.currency_}{total_cost:N2}");
                 FindAndReplace("[Total_Profit]", $"{Settings_Page_ViewModel.currency_}{total_profit:N2}");
                 FindAndReplace("[Cashier]", MainWindow.Current_user);
                 
 
-                string save_location = System.IO.Path.GetFullPath($@".\Assets\Sale Reports\Report_{DateTime.Now:d-MM-yyyy}.pdf");
+                string save_location = System.IO.Path.GetFullPath($@".\Assets\Sale Reports\Report_{DateTime.Parse(date):d-MM-yyyy}.pdf");
 
 
                 Word_Document.ExportAsFixedFormat(save_location, Word.WdExportFormat.wdExportFormatPDF);

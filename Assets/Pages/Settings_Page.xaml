@@ -75,24 +75,7 @@
                             <TextBlock HorizontalAlignment="Left" FontSize="17" Margin="20" VerticalAlignment="Center" Text="Backup and Printer settings"
                             Style="{StaticResource Header text}"/>
 
-                            <!-- backup and report interval -->
-                            <Grid HorizontalAlignment="Left" Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Email statistics"
-                                    Style="{StaticResource Header text}"/>
-
-                                <TextBox Grid.Column="1" Name="email_backup" Text="{Binding Email_backup, UpdateSourceTrigger=PropertyChanged}" TextChanged="email_backup_TextChanged" 
-                                         Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-
-                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Interval in days"
-                                    Style="{StaticResource Header text}"/>
-                            </Grid>
-
+                            <!-- backup interval -->
                             <Grid HorizontalAlignment="Left" Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>

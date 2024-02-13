@@ -205,9 +205,14 @@
                         </DataGrid>
                     </Border>
 
-                    <Border Grid.Row="1" Margin="10 10 10 10" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" CornerRadius="7">
+                    <Border Grid.Row="1" Margin="10 10 10 10" Height="40" Width="350" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="7">
                         <Grid>
-                            <Button Name="print_table" HorizontalAlignment="Left" Width="140" Content="Export To" Command="{Binding print_quotation}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button HorizontalAlignment="Left" Width="140" Content="Export To" Command="{Binding Export_table}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
+                            <Button Grid.Column="1" HorizontalAlignment="Left" Width="140" Content="Closing Report" Command="{Binding Send_Report_Command}" VerticalAlignment="Center" Style="{StaticResource add/edit}"/>
                         </Grid>
                     </Border>
 

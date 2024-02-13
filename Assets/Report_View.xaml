@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Stock_Management.Assets"
         mc:Ignorable="d"
         Title="Report_View" 
-        Background="Transparent" Height="320" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+        Background="Transparent" Height="290" Width="430" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
     <Border Style="{StaticResource border style}" BorderThickness="5" BorderBrush="DarkRed">
         <Grid>
             <Grid.RowDefinitions>
@@ -20,7 +20,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="3.5*"/>
+                    <ColumnDefinition Width="2.5*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Sales Report" Style="{StaticResource Header text}" VerticalAlignment="Center"
@@ -34,12 +34,12 @@
             <Grid Grid.Row="1" Margin="10 20 10 10">
                 <Border Background="#eff2f7" CornerRadius="10">
                     <Border Margin="10" CornerRadius="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
-                        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Center">
-                            <TextBlock Grid.Row="1" Text="The Sales Report will now be prepared and sent." HorizontalAlignment="Center" VerticalAlignment="Center"
-                            Foreground="#4b4b4b" Margin="10 30 10 20" Style="{StaticResource Header text}" FontSize="19"/>
+                        <StackPanel>
+                            <TextBlock Grid.Row="1" Text="The Sales Report will now be prepared and sent." TextWrapping="Wrap" TextAlignment="Center" 
+                                HorizontalAlignment="Center" Foreground="#4b4b4b" Margin="10 30 10 0" Style="{StaticResource Header text}" FontSize="19"/>
 
-                            <TextBlock Margin="8" Text="If sales aren't ready click the 'Not Ready' button below." HorizontalAlignment="Center"
-                            VerticalAlignment="Center" Foreground="IndianRed" Style="{StaticResource Header text}" FontSize="15"/>
+                            <TextBlock Grid.Row="1" Text="You will be notified once report is successfully sent." TextWrapping="Wrap" TextAlignment="Center" 
+                                HorizontalAlignment="Center" Foreground="#4b4b4b" Margin="10 5 10 20" Style="{StaticResource Header text}" FontSize="14"/>
                         </StackPanel>
                     </Border>
                 </Border>
@@ -54,8 +54,7 @@
 
                 <Button Name="Accept_Btn" Content="Accept" Click="Accept_Btn_Click" HorizontalAlignment="Right" Style="{StaticResource add/edit}" Width="120"/>
 
-                <Button Name="Not_Ready_Btn" Grid.Column="1" Content="Not Ready" HorizontalAlignment="Left" Click="Not_Ready_Btn_Click" Style="{StaticResource add/edit}" Width="120"/>
-
+                <Button Name="Not_Ready_Btn" Grid.Column="1" Content="Cancel" HorizontalAlignment="Left" Click="Not_Ready_Btn_Click" Style="{StaticResource remove}" Width="120"/>
 
             </Grid>
 

@@ -41,16 +41,16 @@ namespace Stock_Management.Assets
             }
         }
 
-        public static async Task<bool> Resend_Report()
+        /*public static async Task<bool> Resend_Report()
         {
             var reports_list = Database_Connection_Class.Load_Reports().Where(x => x.Sent == false);
             if (reports_list.Count() > 0)
             {
                 //resend report code below
                 //insert send email code below
-                Send_Email_Class send_Email_Class = new("");
+                Send_Email_Class send_Email_Class = new("luyandohambala.1@gmail.com");
 
-                if (await Task.Run(() => send_Email_Class.resend_email()))
+                if (await Task.Run(() => send_Email_Class.resend_email(new ObservableCollection<report_data>(reports_list))))
                 {
                     return true;
                 }
@@ -58,13 +58,13 @@ namespace Stock_Management.Assets
             }
             return false;
         }
-
+*/
         public static async Task<bool> Send_Report(ObservableCollection<Sales_list_Class> list)
         {
             if (await Task.Run(() => new Print_Files_Class().prepare_report(list)))
             {
                 //insert send email code below
-                Send_Email_Class send_Email_Class = new("");
+                Send_Email_Class send_Email_Class = new("luyandohambala.1@gmail.com");
                 
                 if (await Task.Run(() => send_Email_Class.send_email()))
                 {
@@ -72,6 +72,16 @@ namespace Stock_Management.Assets
                 }            
             }
             return false;
+        }
+
+        public static async Task<bool> Send_Backup()
+        {
+            var backup_location = Database_Connection_Class.Backup_Database();
+            if (!string.IsNullOrEmpty(await Task.Run(() => backup_location)) && await Task.Run(() => new Send_Email_Class("luyandohambala.1@gmail.com").send_backup(backup_location)))
+            {
+                return true;
+            }
+            else { return false; }
         }
 
 

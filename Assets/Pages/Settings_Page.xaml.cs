@@ -118,11 +118,6 @@ namespace Stock_Management.Assets.Pages
             return null;
         }
 
-        private void email_backup_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            email_backup.Text = validate_positive_integer(email_backup.Text, "integer");
-        }
-
         private void backup_data_txtbox_TextChanged(object sender, TextChangedEventArgs e)
         {
             backup_data_txtbox.Text = validate_positive_integer(backup_data_txtbox.Text, "integer");

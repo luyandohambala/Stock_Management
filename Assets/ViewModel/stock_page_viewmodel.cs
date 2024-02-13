@@ -17,10 +17,15 @@ namespace Stock_Management.Assets.ViewModel
         public Command_Class remove_record => new(execute => remove(), canExecute => Value2 != null);
 
         //assign add command 
-        public Command_Class add_record => new(execute => add_to_database("add"), canExecute => !edit_values1);
+        public Command_Class add_record => new(execute => add_to_database("add"), canExecute => edit_values1 != true);
 
         //assign edit command
         public Command_Class edit_users_command1 => new(execute => add_to_database("edit"), canExecute => Value2 != null);
+        
+        //assign sales report and export table command
+        public Command_Class Export_Table => new(execute => export_to_excel());
+
+        public Command_Class Send_Report_Command => new(execute => Send_Report());
 
         //assign search command 
         public Command_Class search_for2 => new(search_items);
@@ -70,7 +75,7 @@ namespace Stock_Management.Assets.ViewModel
             {
                 if (to_do == "add")
                 {
-                    if (validate_entry())
+                    if (!validate_entry())
                     {
                         MessageBox.Show("Fill in all fields before adding a record!");
                     }
@@ -230,7 +235,6 @@ namespace Stock_Management.Assets.ViewModel
             }
         }
 
-
         private void export_to_excel()
         {
             try
@@ -241,6 +245,14 @@ namespace Stock_Management.Assets.ViewModel
             { 
                 MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
             }
+        }
+
+        //call sales report view 
+        private async void Send_Report()
+        {
+            // your code
+            Report_View report_View = new();
+            report_View.ShowDialog();
         }
 
         private void remove()

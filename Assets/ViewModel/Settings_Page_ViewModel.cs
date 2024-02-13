@@ -1,20 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 using Stock_Management.Assets.Pages;
-using System;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Management;
-using System.Security.Permissions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Shapes;
 
 namespace Stock_Management.Assets.ViewModel
 {
@@ -25,7 +16,7 @@ namespace Stock_Management.Assets.ViewModel
         /// </summary>
         public Command_Class save_settings_command => new(execute => save_settings());
         public Command_Class reset_settings_command => new(execute => reset_settings());
-
+        
         public Command_Class choose_printer_command => new(select_printer);
         public Command_Class save_printer_command => new(save_printer);
 
@@ -61,9 +52,6 @@ namespace Stock_Management.Assets.ViewModel
         [ObservableProperty]
         private string authority_;
 
-
-        [ObservableProperty]
-        private int email_backup;
 
         [ObservableProperty]
         private int backup_data;
@@ -121,7 +109,6 @@ namespace Stock_Management.Assets.ViewModel
 
         private void populate_properties()
         { 
-            Email_backup = configuration.GetValue<int>("General_Settings:email_statistics");
             Backup_data = configuration.GetValue<int>("General_Settings:backup_data");
             Printer_name = configuration.GetValue<string>("General_Settings:printer_name");
             Receipt_printer = configuration.GetValue<string>("General_Settings:receipt_printer");
@@ -400,9 +387,9 @@ namespace Stock_Management.Assets.ViewModel
             }
             else
             {
-                string[] section_key_names = { "General_Settings:email_statistics", "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:receipt_printer", "General_Settings:currency_value",
+                string[] section_key_names = { "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:receipt_printer", "General_Settings:currency_value",
                                                 "General_Settings:vat_rate", "General_Settings:quotation_temp_location", "General_Settings:invoice_temp_location", "General_Settings:receipt_temp_location"};
-                string[] section_key_values = {Email_backup.ToString(), Backup_data.ToString(), Printer_name, Receipt_printer, Currency_, Value_added_tax.ToString(), Quotation_template, Invoice_template, Receipt_template};
+                string[] section_key_values = {Backup_data.ToString(), Printer_name, Receipt_printer, Currency_, Value_added_tax.ToString(), Quotation_template, Invoice_template, Receipt_template};
                 
                 int counter = 0; //index value for section_key_value array
                 foreach (var item in section_key_names)
@@ -428,9 +415,9 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (MessageBox.Show("Reset all settings?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                string[] section_key_names = { "General_Settings:email_statistics", "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:receipt_printer", "General_Settings:currency_value",
+                string[] section_key_names = { "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:receipt_printer", "General_Settings:currency_value",
                                                 "General_Settings:vat_rate", "General_Settings:quotation_temp_location", "General_Settings:invoice_temp_location", "General_Settings:receipt_temp_location"};
-                string[] section_key_values = { "7", "7", "Not set", "Not set", "Not set", "16", "Not set", "Not set", "Not set" };
+                string[] section_key_values = { "7", "Not set", "Not set", "Not set", "16", "Not set", "Not set", "Not set" };
 
                 int counter = 0; //index value for section_key_value array
                 foreach (var item in section_key_names)

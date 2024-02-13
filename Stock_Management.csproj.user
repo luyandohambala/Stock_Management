@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Assets\Internet_Alert.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Assets\Pages\Content_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -36,6 +39,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Assets\Internet_Alert.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Assets\Pages\Content_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
