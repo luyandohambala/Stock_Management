@@ -16,6 +16,7 @@ namespace Stock_Management.Assets.ViewModel
         /// </summary>
         public Command_Class save_settings_command => new(execute => save_settings());
         public Command_Class reset_settings_command => new(execute => reset_settings());
+        public Command_Class Restore_Backup_Command => new(execute => Restore_Backups());
         
         public Command_Class choose_printer_command => new(select_printer);
         public Command_Class save_printer_command => new(save_printer);
@@ -54,7 +55,13 @@ namespace Stock_Management.Assets.ViewModel
 
 
         [ObservableProperty]
-        private int backup_data;
+        public static string backup_data;
+
+        [ObservableProperty]
+        private ObservableCollection<string> backup_data_list = new()
+        {
+            "7", "28", "Not set"
+        };
 
         [ObservableProperty]
         public static string printer_name;
@@ -109,7 +116,7 @@ namespace Stock_Management.Assets.ViewModel
 
         private void populate_properties()
         { 
-            Backup_data = configuration.GetValue<int>("General_Settings:backup_data");
+            Backup_data = configuration.GetValue<string>("General_Settings:backup_data");
             Printer_name = configuration.GetValue<string>("General_Settings:printer_name");
             Receipt_printer = configuration.GetValue<string>("General_Settings:receipt_printer");
             Currency_ = configuration.GetValue<string>("General_Settings:currency_value");
@@ -389,7 +396,7 @@ namespace Stock_Management.Assets.ViewModel
             {
                 string[] section_key_names = { "General_Settings:backup_data", "General_Settings:printer_name", "General_Settings:receipt_printer", "General_Settings:currency_value",
                                                 "General_Settings:vat_rate", "General_Settings:quotation_temp_location", "General_Settings:invoice_temp_location", "General_Settings:receipt_temp_location"};
-                string[] section_key_values = {Backup_data.ToString(), Printer_name, Receipt_printer, Currency_, Value_added_tax.ToString(), Quotation_template, Invoice_template, Receipt_template};
+                string[] section_key_values = {Backup_data, Printer_name, Receipt_printer, Currency_, Value_added_tax.ToString(), Quotation_template, Invoice_template, Receipt_template};
                 
                 int counter = 0; //index value for section_key_value array
                 foreach (var item in section_key_names)
@@ -466,6 +473,35 @@ namespace Stock_Management.Assets.ViewModel
             catch (Exception ex)
             {
                 MessageBox.Show($"Error in saving settings. Error code: {ex.Message}");
+                return false;
+            }
+        }
+
+        private bool Restore_Backups()
+        {
+            try
+            {
+                string file_path = System.IO.Path.GetFullPath(@".\Assets\Backup\Resources_BackUp.db");
+                if (File.Exists(file_path) && MessageBox.Show("A backup has been located. Restore?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    foreach (var item in Directory.GetFiles(file_path))
+                    {
+                        File.Delete(item);
+                    }
+                    File.Copy(file_path, System.IO.Path.GetFullPath(@".\Assets\Resources_Database.db"));
+
+                    MessageBox.Show("Data successfully restored.");
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show($"No backups found.");
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Error code: {ex.Message}. Please try again later");
                 return false;
             }
         }

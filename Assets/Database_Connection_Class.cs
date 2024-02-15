@@ -288,9 +288,17 @@ namespace Stock_Management.Assets
         {
             using (IDbConnection db = new SQLiteConnection(Connect()))
             {
+                //delete previous backup
+                foreach (var item in Directory.GetFiles(@".\Assets\Backup"))
+                {
+                    File.Delete(item);
+                }
+
+                //prepare and store backup
                 string backup_location = System.IO.Path.GetFullPath(@".\Assets\Backup\Resource_BackUp.db");
-                db.Execute($"VACUUM INTO {backup_location}");
+                db.Execute($"VACUUM INTO \".\\Assets\\Backup\\Resource_BackUp.db\"");
                 return backup_location;
+
             }
         }
 

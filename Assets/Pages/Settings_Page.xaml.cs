@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Stock_Management.Assets.ViewModel;
-using System.Text.RegularExpressions;
+using System.Timers;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Stock_Management.Assets.Pages
 {
-    
+
     public partial class Settings_Page : Page
     {
         public Command_Class general_settings_command => new(execute => change_color("general"));
@@ -18,6 +18,8 @@ namespace Stock_Management.Assets.Pages
         public Command_Class clear_txt4 => new(execute => TxtSearch.Clear());
 
         internal static Settings_Page_ViewModel Settings_Page_ViewModel { get; set; }
+        
+        private System.Timers.Timer Timer { get; set; }
 
         public Settings_Page()
         {
@@ -30,6 +32,9 @@ namespace Stock_Management.Assets.Pages
             user_settings.DataContext = this;
 
             change_color("general");
+
+            Backup_Timer();
+
         }
 
         public void change_color(string nav)
@@ -99,7 +104,7 @@ namespace Stock_Management.Assets.Pages
         }
 
         //validate entry for numbers
-        private string? validate_positive_integer(string source, string to_match)
+/*        private string? validate_positive_integer(string source, string to_match)
         {
             if (to_match == "Decimal")
             {
@@ -116,13 +121,7 @@ namespace Stock_Management.Assets.Pages
                 return newNumber;
             }
             return null;
-        }
-
-        private void backup_data_txtbox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            backup_data_txtbox.Text = validate_positive_integer(backup_data_txtbox.Text, "integer");
-        }
-
+        }*/
 
         private void category_all_Click(object sender, RoutedEventArgs e)
         {
@@ -154,6 +153,73 @@ namespace Stock_Management.Assets.Pages
                 ((IInvokeProvider)(new ButtonAutomationPeer(TxtSearch_button).GetPattern(PatternInterface.Invoke))).Invoke();
                 clear_button.Content = "\uf002";
                 TxtSearch_button.IsEnabled = false;
+            }
+        }
+
+        private async Task Backup_Timer()
+        {
+            Timer = new System.Timers.Timer
+            {
+                Interval = 1000 // 1 hour updates
+            };
+            Timer.Elapsed += timer_Elapsed;
+            Timer.Start();
+        }
+
+        async void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (Settings_Page_ViewModel.backup_data == "7")
+            {
+                //if the current time is 5pm call the report_view window and notify user of report send function
+                if (DateTime.Now.ToString("dddd") == "Saturday" && DateTime.Now.ToString("t") == DateTime.Parse("9:59 pm").ToString("t"))
+                {
+                    Timer.Stop();
+                    Application.Current.Dispatcher.Invoke((Action)async delegate
+                    {
+                        // your code
+                        Backup_View backup_View = new();
+                        Task.Run(() => backup_View.ShowDialog());
+                        if (await Task.Run(() => Send_Report_Class.Check_Internet_Connection()) == true)
+                        {
+                            if (await Task.Run(() => Send_Report_Class.Send_Backup()))
+                            {
+                                MessageBox.Show("Backup successfully created.");
+                                backup_View.Close();
+                            }
+
+                        }
+                        else
+                        {
+                            new Internet_Alert().ShowDialog();
+                        }
+                    });
+                }
+            }
+            else if (Settings_Page_ViewModel.backup_data == "28")
+            {
+                if (DateTime.Now.ToString("d") == "28" && DateTime.Now.ToString("t") == DateTime.Parse("3:00 pm").ToString("t"))
+                {
+                    Timer.Stop();
+                    Application.Current.Dispatcher.Invoke((Action)async delegate
+                    {
+                        // your code
+                        Backup_View backup_View = new();
+                        backup_View.ShowDialog();
+                        if (await Task.Run(() => Send_Report_Class.Check_Internet_Connection()) == true)
+                        {
+                            if (await Task.Run(() => Send_Report_Class.Send_Backup()))
+                            {
+                                MessageBox.Show("Backup successfully created.");
+                                backup_View.Close();
+                            }
+
+                        }
+                        else
+                        {
+                            new Internet_Alert().ShowDialog();
+                        }
+                    });
+                }
             }
         }
     }

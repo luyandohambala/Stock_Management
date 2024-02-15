@@ -239,7 +239,23 @@ namespace Stock_Management.Assets.ViewModel
         {
             try
             {
-                  
+                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                dlg.FileName = "Sale Report"; // Default file name
+                dlg.DefaultExt = ".docx"; // Default file extension
+                dlg.Filter = "Word documents (.docx)|*.docx"; // Filter files by extension
+
+                // Show save file dialog box
+                Nullable<bool> result = dlg.ShowDialog();
+
+                // Process save file dialog box results
+                if (result == true)
+                {
+                    // Save document
+                    if (new Print_Files_Class().prepare_stock_report(data_lists, dlg.FileName)) //add save file dialog
+                    {
+                        MessageBox.Show("Successfully imported.");
+                    }
+                }
             }
             catch (Exception ex)
             { 

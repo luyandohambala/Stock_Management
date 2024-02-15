@@ -86,10 +86,13 @@
                                 <TextBlock Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Backup data"
                                     Style="{StaticResource Header text}"/>
 
-                                <TextBox Grid.Column="1" Name="backup_data_txtbox" Text="{Binding Backup_data, UpdateSourceTrigger=PropertyChanged}" TextChanged="backup_data_txtbox_TextChanged" 
-                                         Style="{StaticResource entrytextbox}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                                <Border Grid.Column="1" CornerRadius="7" Height="38" Background="White" Margin="10">
+                                    <ComboBox Name="Category_txtbox" FontSize="14" FontWeight="SemiBold" Foreground="#4b4b4b" 
+                                        SelectedItem="{Binding Backup_data, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" 
+                                        Margin="6" ItemsSource="{Binding Backup_data_list}"/>
+                                </Border>
 
-                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Interval in days"
+                                <TextBlock Grid.Column="2" HorizontalAlignment="Left" FontSize="17" Margin="10 0" VerticalAlignment="Center" Text="Back up interval"
                                     Style="{StaticResource Header text}"/>
                             </Grid>
 
@@ -275,14 +278,16 @@
 
                             <!-- save and reset buttons -->
 
-                            <Grid Width="320">
+                            <Grid Width="470">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Button Content="Save" Command="{Binding save_settings_command}" Style="{StaticResource add/edit}" />
-                                <Button Grid.Column="1" Command="{Binding reset_settings_command}" Content="Reset to Default" Style="{StaticResource remove}" />
+                                <Button Grid.Column="1" Command="{Binding Restore_Backup_Command}" Content="Restore backup" Style="{StaticResource add/edit}" />
+                                <Button Grid.Column="2" Command="{Binding reset_settings_command}" Content="Reset to Default" Style="{StaticResource remove}" />
                             </Grid>
                         </StackPanel>
                         

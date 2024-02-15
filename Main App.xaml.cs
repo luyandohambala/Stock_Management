@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using Microsoft.VisualBasic;
+using System.Configuration;
+using Stock_Management.Assets.ViewModel;
 
 namespace Stock_Management
 {
@@ -16,9 +18,6 @@ namespace Stock_Management
     {
         //bool value for maximized window
         private bool Maximized {get; set;}
-
-        private System.Timers.Timer Timer { get; set;}
-        private string Report_Duration { get; set;} = string.Empty;
 
         public static bool Accept_Btn_Field { get; set; } = false;
         public static bool NotReady_Btn_Field { get; set; } = false;
@@ -40,8 +39,6 @@ namespace Stock_Management
             Display_Frame.Content = Content_Page;
             DataContext = this;
             Current_user = "Welcome User!";
-
-            Backup_Timer();
         }
 
         public static IConfiguration AddConfiguration()
@@ -57,52 +54,6 @@ namespace Stock_Management
             return builder.Build();
         }
 
-        /*private async Task Check_Reports()
-        {
-            //check for unsent reports
-            if (await Task.Run(() => Send_Report_Class.Resend_Report()) == true)
-            {
-                MessageBox.Show("All previously unsent Sales Reports have been successfully sent");
-            }
-
-        }*/
-
-        private async Task Backup_Timer()
-        {
-            Timer = new System.Timers.Timer
-            {
-                Interval = 1000 // 1 hour updates
-            };
-            Timer.Elapsed += timer_Elapsed;
-            Timer.Start();
-        }
-
-        async void timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            //if the current time is 5pm call the report_view window and notify user of report send function
-            if (DateTime.Now.ToString("t") == DateTime.Parse("3:00 pm").ToString("t"))
-            {
-                Timer.Stop();
-                Application.Current.Dispatcher.Invoke((Action)async delegate
-                {
-                    // your code
-                    Report_View report_View = new();
-                    report_View.ShowDialog();
-                    if (await Task.Run(() => Send_Report_Class.Check_Internet_Connection()) == true)
-                    {
-                        if (await Task.Run(() => Send_Report_Class.Send_Backup()))
-                        {
-                            MessageBox.Show("Backup successfully created.");
-                        }
-
-                    }
-                    else
-                    {
-                        new Internet_Alert().ShowDialog();
-                    }
-                });
-            }
-        }
 
         //allows dragability of window
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)

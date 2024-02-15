@@ -140,6 +140,7 @@ namespace Stock_Management.Assets
 
         }
 
+
         /// <summary>
         /// receipt printing section
         /// </summary>
@@ -166,6 +167,8 @@ namespace Stock_Management.Assets
             
         }
 
+
+        //receipt
         private string prepare_document(ObservableCollection<checkout_list> list, string filelocation, string total_amount)
         {
 
@@ -274,6 +277,55 @@ namespace Stock_Management.Assets
 
 
                 Word_Document.ExportAsFixedFormat(save_location, Word.WdExportFormat.wdExportFormatPDF);
+
+                Word_Document.Close(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdOriginalDocumentFormat, false);
+                Word_App.Quit(Word.WdSaveOptions.wdDoNotSaveChanges);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error code: {ex.Message}. Please try again later.");
+                return false;
+            }
+        }
+
+
+        public bool prepare_stock_report(ObservableCollection<Database_list> list, string savelocation)
+        {
+            try
+            {
+                string filelocation = System.IO.Path.GetFullPath(@"./Assets/Templates/Report/Stock Report Template.docx");
+
+                Word_App.Visible = false;
+                Word_Document =
+                Word_App.Documents.Open(filelocation, Missing.Value, Missing.Value, Missing.Value, Missing.Value,
+                Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value,
+                Missing.Value, Missing.Value, Missing.Value);
+
+                Word.Table table = Word_Document.Tables[1];
+
+                var date = DateTime.Now.ToString("d/MM/yyyy");
+
+                FindAndReplace("[Date]", date);
+
+                for (int i = 2; i <= list.Count + 1; i++)
+                {
+                    table.Rows.Add(Missing.Value);
+                    table.Cell(i, 1).Range.Text = list[i - 2].Name;
+                    table.Cell(i, 2).Range.Text = list[i - 2].Type;
+                    table.Cell(i, 3).Range.Text = list[i - 2].Category;
+                    table.Cell(i, 4).Range.Text = list[i - 2].Quantity;
+                    table.Cell(i, 5).Range.Text = list[i - 2].Cost;
+                    table.Cell(i, 6).Range.Text = list[i - 2].Profit;
+
+                }
+
+                FindAndReplace("[Total_products]", list.Where(x => x.Category == "Product").Count());
+                FindAndReplace("[Total_services]", list.Where(x => x.Category == "Service").Count());
+
+
+                Word_Document.ExportAsFixedFormat(savelocation, Word.WdExportFormat.wdExportFormatPDF);
 
                 Word_Document.Close(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdOriginalDocumentFormat, false);
                 Word_App.Quit(Word.WdSaveOptions.wdDoNotSaveChanges);
