@@ -193,7 +193,7 @@ namespace Stock_Management.Assets
 
                 FindAndReplace("[Currency]", Settings_Page_ViewModel.currency_);
                 FindAndReplace("[total_amount]", total_amount);
-                FindAndReplace("[Cashier]", MainWindow.Current_user);
+                FindAndReplace("[Cashier]", MainWindowViewModel.current_user);
                 FindAndReplace("[Date]", DateTime.Now);
 
                 string save_location = System.IO.Path.GetFullPath($@".\Assets\History\Receipt\Receipt_{DateTime.Now:d-MM-yyyy}.pdf");
@@ -270,7 +270,7 @@ namespace Stock_Management.Assets
                 FindAndReplace("[Total_Sales]", list.Where(x => DateTime.Parse(x.Date).ToString("d/MM/yyyy") == date).Count());
                 FindAndReplace("[Total_Cost]", $"{Settings_Page_ViewModel.currency_}{total_cost:N2}");
                 FindAndReplace("[Total_Profit]", $"{Settings_Page_ViewModel.currency_}{total_profit:N2}");
-                FindAndReplace("[Cashier]", MainWindow.Current_user);
+                FindAndReplace("[Cashier]", MainWindowViewModel.current_user);
                 
 
                 string save_location = System.IO.Path.GetFullPath($@".\Assets\Sale Reports\Report_{DateTime.Parse(date):d-MM-yyyy}.pdf");

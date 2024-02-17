@@ -9,6 +9,7 @@
     <Application.Resources>
 
         <local2:MainWindow x:Key="MainWindow"/>
+        <local:Login_Page_ViewModel x:Key="Login_Page_ViewModel"/>
         <local:Home_Page_ViewModel x:Key="Home_Page_ViewModel"/>
         <local:Sales_Page_ViewModel x:Key="Sales_Page_ViewModel"/>
         <local:Services_Page_ViewModel x:Key="Services_Page_ViewModel"/>
@@ -1138,5 +1139,107 @@
         
         <!-- combobox styles -->
 
+        <!-- login page styles -->
+        <Style x:Key="login_page_login" TargetType="Button" BasedOn="{StaticResource purchase_button}">
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style x:Key="login_page_cancel" TargetType="Button" BasedOn="{StaticResource purchase_button}">
+            <Setter Property="Foreground" Value="IndianRed"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)"
+                            To="Red" Duration="0:0:.25" AutoReverse="True"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)"
+                            To="Red" Duration="0:0:.25" AutoReverse="True"/>
+
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Offset)"
+                            To=".4" From="0" Duration="0:0:.25" AutoReverse="True" />
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Offset)"
+                            To=".6" From="1" Duration="0:0:.25" AutoReverse="True"/>
+
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+
+                </Trigger>
+
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="Red" Offset="0"/>
+                                <GradientStop Color="Red" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="login_link_texts" TargetType="TextBlock" BasedOn="{StaticResource Header text}">
+            <Setter Property="Foreground" Value="#4b4b4b"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="DeepSkyBlue"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="Password_entry_style" TargetType="PasswordBox">
+            <Setter Property="Margin" Value="10 5"/>
+            <Setter Property="Foreground" Value="#b0b9c6"/>
+            <Setter Property="FontFamily" Value="Micro Sans Serif"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="16 12 35 0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#4b4b4b" Offset="0"/>
+                        <GradientStop Color="Red" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="White"/>
+
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border Name="Border1" CornerRadius="8" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderThickness" Value="1"/>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="Foreground" Value="#4b4b4b"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
     </Application.Resources>
 </Application>

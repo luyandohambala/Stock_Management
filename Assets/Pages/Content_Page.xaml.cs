@@ -150,9 +150,10 @@ namespace Stock_Management.Assets.Pages
 
         private void close_application()
         {
-            if (MessageBox.Show("Proceed to exit?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Logout?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                Application.Current.Shutdown();
+                MainWindow.MainWindowViewModel.Assign_Current_User("");
+                MainWindow.MainWindowViewModel.Change_View(false);
             }
         }
     }

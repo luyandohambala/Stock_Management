@@ -1,15 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Configuration;
-using Stock_Management.Assets;
 using Stock_Management.Assets.Pages;
+using Stock_Management.Assets.ViewModel;
 using System.IO;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
-using Microsoft.VisualBasic;
-using System.Configuration;
-using Stock_Management.Assets.ViewModel;
 
 namespace Stock_Management
 {
@@ -19,12 +15,7 @@ namespace Stock_Management
         //bool value for maximized window
         private bool Maximized {get; set;}
 
-        public static bool Accept_Btn_Field { get; set; } = false;
-        public static bool NotReady_Btn_Field { get; set; } = false;
-
-        public static string? Current_user { get; set; }
-
-        public static Content_Page Content_Page { get; set; }   
+        internal static MainWindowViewModel MainWindowViewModel { get; set;}
 
         public MainWindow()
         {
@@ -35,10 +26,10 @@ namespace Stock_Management
         private void Constructor_Methods()
         {
             Maximized = false;
-            Content_Page = new Content_Page();
-            Display_Frame.Content = Content_Page;
-            DataContext = this;
-            Current_user = "Welcome User!";
+
+            MainWindowViewModel = new();
+
+            DataContext = MainWindowViewModel;
         }
 
         public static IConfiguration AddConfiguration()

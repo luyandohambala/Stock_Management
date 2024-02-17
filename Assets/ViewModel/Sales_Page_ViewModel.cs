@@ -176,7 +176,7 @@ namespace Stock_Management.Assets.ViewModel
                             $"{Settings_Page_ViewModel.currency_}{double.Parse(Amount_given) - Convert.ToDouble(item.Item_price.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")):N2}",
                             $"{Settings_Page_ViewModel.currency_}" +
                             $"{Convert.ToDouble(item.Item_profit.Replace(",", "").Replace(Settings_Page_ViewModel.currency_, "")) * item.Quantity:N2}",
-                            MainWindow.Current_user
+                            MainWindowViewModel.current_user
                         );
 
                         Database_Connection_Class.Modify_Sales_Table(sales_list);

@@ -154,18 +154,18 @@ namespace Stock_Management.Assets.ViewModel
             
             if (content.ToString() == "stock")
             {
-                MainWindow.Content_Page.change_color(content.ToString());
+                MainWindowViewModel.Content_Page.change_color(content.ToString());
 
             }
             else if (content.ToString() == "stock_sales")
             {
-                MainWindow.Content_Page.change_color("stock");
-                MainWindow.Content_Page.stock_Page.change_color("sales");
+                MainWindowViewModel.Content_Page.change_color("stock");
+                MainWindowViewModel.Content_Page.stock_Page.change_color("sales");
             }
             else
             {
-                MainWindow.Content_Page.change_color(content.ToString());
-                MainWindow.Content_Page.settings_Page.change_color("user");
+                MainWindowViewModel.Content_Page.change_color(content.ToString());
+                MainWindowViewModel.Content_Page.settings_Page.change_color("user");
             }
         }
 

@@ -75,6 +75,20 @@ namespace Stock_Management.Assets
             }
         }
 
+        public static bool Verify_User(settings_data user_data)
+        {
+            using (IDbConnection db = new SQLiteConnection(Connect()))
+            {
+                var result = db.Query<settings_data>(@"Select User_name, Password_entry FROM User_Table 
+                                                        WHERE User_name = @User_name AND Password_entry = @Password_entry", user_data);
+                if (result.Count() > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public static ObservableCollection<report_data> Load_Reports()
         {
             using (IDbConnection db = new SQLiteConnection(Connect()))

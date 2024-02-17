@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 I:\j\c#\Stock_Management\App.xaml
-121808612773
+13-821875755
 
-28579830407
+31-432074975
 3611379447392
-Assets\Backup_View.xaml;Assets\Internet_Alert.xaml;Assets\Pages\Content_Page.xaml;Assets\Pages\Home_Page.xaml;Assets\Pages\Quotation_Page.xaml;Assets\Pages\Sales_Page.xaml;Assets\Pages\Services_Page.xaml;Assets\Pages\Settings_Page.xaml;Assets\Pages\stock_page.xaml;Assets\Print_View.xaml;Assets\Report_View.xaml;Main App.xaml;
+Assets\Backup_View.xaml;Assets\Internet_Alert.xaml;Assets\Pages\Content_Page.xaml;Assets\Pages\Home_Page.xaml;Assets\Pages\Login_Page.xaml;Assets\Pages\Quotation_Page.xaml;Assets\Pages\Sales_Page.xaml;Assets\Pages\Services_Page.xaml;Assets\Pages\Settings_Page.xaml;Assets\Pages\stock_page.xaml;Assets\Print_View.xaml;Assets\Report_View.xaml;Main App.xaml;
 
 False
 

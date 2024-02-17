@@ -247,6 +247,12 @@ namespace Stock_Management.Assets.Pages
             First_name = first; Last_name = last; User_name = user; Password_entry = password; Authority_ = authority;
         }
 
+
+        public settings_data(string user, string password)
+        {
+            User_name = user; Password_entry = password;
+        }
+
         public settings_data()
         {
             

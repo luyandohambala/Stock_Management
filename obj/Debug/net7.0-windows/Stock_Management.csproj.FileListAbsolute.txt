@@ -454,3 +454,5 @@ I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Internet_Alert.g.cs
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Internet_Alert.baml
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Backup_View.g.cs
 I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Backup_View.baml
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Login_Page.g.cs
+I:\j\c#\Stock_Management\obj\Debug\net7.0-windows\Assets\Pages\Login_Page.baml

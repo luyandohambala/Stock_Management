@@ -18,19 +18,25 @@ namespace Stock_Management.Assets
         [ObservableProperty]
         private string reciever;
 
-        /*[ObservableProperty]
-        private string user;*/
+        [ObservableProperty]
+        private string user;
 
         [ObservableProperty]
         private string subject;
 
-        /*[ObservableProperty]
-        private string password_C;*/
+        [ObservableProperty]
+        private string password_C;
 
 
         public Send_Email_Class(string rec)
         {
             Reciever = rec;
+        }
+
+        public Send_Email_Class(string user, string rec, string password)
+        {
+            Reciever = rec;
+            Password_C = password;
         }
 
 
@@ -68,7 +74,7 @@ namespace Stock_Management.Assets
 
         }
 
-        /*public async Task<bool> resend_email(ObservableCollection<report_data> list)
+        public async Task<bool> reset_password(ObservableCollection<report_data> list)
         {
             var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com", 587)
             {
@@ -85,18 +91,10 @@ namespace Stock_Management.Assets
                 var email = Email
                 .From("luyandohambala240@gmail.com", "Management")
                 .To(Reciever)
-                .Subject("Unsent Reports")
-                .UsingTemplateFromFile(System.IO.Path.GetFullPath(@"./Assets/Templates/Email/SalesReportLayout.cshtml"), new { });
-                
+                .Subject("Reset password")
+                .UsingTemplateFromFile(System.IO.Path.GetFullPath(@"./Assets/Templates/Email/SalesReportLayout.cshtml"), new { User = User, Password = Password_C })
+                .SendAsync();
 
-                foreach (var item in list)
-                { 
-                    await Task.Run(() => email.AttachFromFilename(System.IO.Path.GetFullPath(
-                        $@"./Assets/Sale Reports/Report_{DateTime.Parse(item.Date):d-MM-yyyy}.pdf"), null, $"Report_{DateTime.Parse(item.Date):d-MM-yyyy}.pdf"
-                        ));
-                }
-
-                await email.SendAsync();
                 return true;
             }
             catch (Exception ex)
@@ -104,7 +102,7 @@ namespace Stock_Management.Assets
                 MessageBox.Show($"Error code: {ex.Message}. Please try again later");
                 return false;
             }
-        }*/
+        }
 
         public async Task<bool> send_backup(string database_location)
         {

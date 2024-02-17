@@ -29,7 +29,7 @@
 
             <TextBlock Grid.Row="1" Name="Time_Text" FontSize="18" Margin="0 0 30 0" Text="{Binding Source = { StaticResource ticker }, Path = Now, Mode = OneWay, StringFormat='d MMM, yyyy h:mm tt'}" Style="{StaticResource Header text}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
-            <Frame Name="Display_Frame" Grid.Row="2" Style="{StaticResource frame style}"/>
+            <Frame Content="{Binding Current_View}" Grid.Row="2" Style="{StaticResource frame style}"/>
 
             <!-- footer section -->
             <TextBlock Grid.Row="3" Margin="20 10 0 10" Text="{Binding Source = { StaticResource ticker }, Path = Year, Mode = OneWay, StringFormat={}Copyright © 2023 - {0} Developed by Luyando Hambala.}" 

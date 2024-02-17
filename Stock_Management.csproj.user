@@ -19,6 +19,9 @@
     <Compile Update="Assets\Pages\Home_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Assets\Pages\Login_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Assets\Pages\Quotation_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +55,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\Pages\Home_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\Pages\Login_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Assets\Pages\Quotation_Page.xaml">
