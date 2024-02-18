@@ -32,6 +32,7 @@ namespace Stock_Management.Assets.Pages
                 Login_Grid.Visibility = Visibility.Visible;
                 SignUp_Grid.Visibility = Visibility.Collapsed;
                 Login_Page_View.Clear_Sign_up();
+                S_Passtxt.Password = "";
             }
         }
 
@@ -40,6 +41,7 @@ namespace Stock_Management.Assets.Pages
             Login_Grid.Visibility = Visibility.Collapsed;
             Reset_Password_Grid.Visibility = Visibility.Visible;
             Login_Page_View.Clear_Fields();
+            Passtxt.Password = "";
         }
 
         private void SignUp_Command_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -47,6 +49,7 @@ namespace Stock_Management.Assets.Pages
             Login_Grid.Visibility = Visibility.Collapsed;
             SignUp_Grid.Visibility = Visibility.Visible;
             Login_Page_View.Clear_Fields();
+            Passtxt.Password = "";
         }
 
         private void Passtxt_PasswordChanged(object sender, RoutedEventArgs e)

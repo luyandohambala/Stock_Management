@@ -152,6 +152,7 @@ namespace Stock_Management.Assets.Pages
         {
             if (MessageBox.Show("Logout?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
+                change_color("home");
                 MainWindow.MainWindowViewModel.Assign_Current_User("");
                 MainWindow.MainWindowViewModel.Change_View(false);
             }

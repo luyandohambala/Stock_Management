@@ -46,12 +46,21 @@ namespace Stock_Management.Assets.ViewModel
 
         [ObservableProperty]
         private string user_name;
+        
+        [ObservableProperty]
+        private string email_address;
 
         [ObservableProperty]
         private string password_entry;
 
         [ObservableProperty]
         private string authority_;
+
+        [ObservableProperty]
+        private ObservableCollection<string> authority_listItems = new()
+        {
+            "Admin", "Non-Admin"
+        };
 
 
         [ObservableProperty]
@@ -135,12 +144,12 @@ namespace Stock_Management.Assets.ViewModel
             else if(to_populate == "admin")
             {
                 populate_users("all");
-                User_list = new(User_list.Where(x => x.Authority_ == "admin"));
+                User_list = new(User_list.Where(x => x.Authority_ == "Admin"));
             }
             else if(to_populate == "non-admin")
             {
                 populate_users("all");
-                User_list = new(User_list.Where(x => x.Authority_ == "non-admin"));
+                User_list = new(User_list.Where(x => x.Authority_ == "Non-Admin"));
             }
 
         }
@@ -158,7 +167,7 @@ namespace Stock_Management.Assets.ViewModel
                     }
                     else
                     {
-                        settings_data user = new(First_name.Trim(), Last_name.Trim(), User_name.Trim(), Password_entry.Trim(), Authority_.Trim());
+                        settings_data user = new(First_name.Trim(), Last_name.Trim(), User_name.Trim(), Email_address.Trim(), Password_entry.Trim(), Authority_.Trim());
 
                         if (Database_Connection_Class.Modify_User_Table("insert", user))
                         {
@@ -172,6 +181,7 @@ namespace Stock_Management.Assets.ViewModel
                     First_name = Value4.First_name;
                     Last_name = Value4.Last_name;
                     User_name = Value4.User_name;
+                    Email_address = Value4.Email_address;
                     Password_entry = Value4.Password_entry;
                     Authority_ = Value4.Authority_;
                     
@@ -184,7 +194,7 @@ namespace Stock_Management.Assets.ViewModel
                 if (Value4 != null && validate_entry())
                 {
                     
-                    settings_data user = new(First_name.Trim(), Last_name.Trim(), User_name.Trim(), Password_entry.Trim(), Authority_.Trim());
+                    settings_data user = new(First_name.Trim(), Last_name.Trim(), User_name.Trim(), Email_address.Trim(), Password_entry.Trim(), Authority_.Trim());
 
                     if (Database_Connection_Class.Modify_User_Table("modify", user))
                     {
@@ -207,7 +217,8 @@ namespace Stock_Management.Assets.ViewModel
                 User_list = new(User_list.Where(
                 filtered => filtered.First_name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
                 filtered.Last_name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
-                filtered.User_name.Contains(content.ToString().ToLower().Trim())));
+                filtered.User_name.ToLower().Contains(content.ToString().ToLower().Trim()) ||
+                filtered.Email_address.Contains(content.ToString().ToLower().Trim())));
             }
             else
             {
@@ -230,7 +241,7 @@ namespace Stock_Management.Assets.ViewModel
         private bool validate_entry()
         {
             if (!String.IsNullOrEmpty(First_name) || !String.IsNullOrEmpty(Last_name) || !String.IsNullOrEmpty(User_name) ||
-                !String.IsNullOrEmpty(Password_entry) || !String.IsNullOrEmpty(Authority_))
+                !String.IsNullOrEmpty(Password_entry) || !String.IsNullOrEmpty(Email_address) || !String.IsNullOrEmpty(Authority_))
             {
                 return true;
             }
@@ -258,6 +269,7 @@ namespace Stock_Management.Assets.ViewModel
             First_name = string.Empty;
             Last_name = string.Empty;
             User_name = string.Empty;
+            Email_address = string.Empty;
             Password_entry = string.Empty;
             Authority_ = string.Empty;
 

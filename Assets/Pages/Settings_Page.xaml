@@ -354,6 +354,15 @@
                                                 </Style>
                                             </DataGridTextColumn.ElementStyle>
                                         </DataGridTextColumn>
+                                        
+                                        <!-- email address -->
+                                        <DataGridTextColumn  Header="Email" Binding="{Binding Email_address}" IsReadOnly="True" Width="*">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style>
+                                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
 
                                         <!-- password -->
                                         <DataGridTextColumn  Header="Password" Binding="{Binding Password_entry}" IsReadOnly="True" Width="*">
@@ -417,10 +426,13 @@
 
                                                 <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="L/ Name"
                                                         Style="{StaticResource Header text}"/>
-
+                                                
                                                 <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="U/ Name"
                                                         Style="{StaticResource Header text}"/>
-
+                                                
+                                                <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="E/ address"
+                                                        Style="{StaticResource Header text}"/>
+                                                
                                                 <TextBlock DockPanel.Dock="Left" Foreground="#4b4b4b" HorizontalAlignment="Left" FontSize="17" Margin="10 20 0 14" VerticalAlignment="Center" Text="Password"
                                                         Style="{StaticResource Header text}"/>
 
@@ -433,8 +445,13 @@
                                                 <TextBox Text="{Binding First_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
                                                 <TextBox Text="{Binding Last_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
                                                 <TextBox Text="{Binding User_name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                                <TextBox Text="{Binding Email_address, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
                                                 <TextBox Text="{Binding Password_entry, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
-                                                <TextBox Text="{Binding Authority_, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource entrytextbox}"/>
+                                                <Border Margin="10 8" CornerRadius="7" Height="38" Background="White">
+                                                    <ComboBox Name="Authority_txtbox" FontSize="14" FontWeight="SemiBold" Foreground="#4b4b4b" 
+                                                        SelectedItem="{Binding Authority_, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" 
+                                                        Margin="6" ItemsSource="{Binding Authority_listItems}"/>
+                                                </Border>
                                             </StackPanel>
                                         </Grid>
                                     </Border>

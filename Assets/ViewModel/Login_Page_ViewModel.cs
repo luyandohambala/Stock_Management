@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Stock_Management.Assets.Pages;
+using System.Net.Mail;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -72,7 +73,14 @@ namespace Stock_Management.Assets.ViewModel
         {
             if (validate_sign_up())
             {
+                settings_data user = new(Login_firstname.Trim(), Login_lastname.Trim(), Login_username.Trim(), Login_email.Trim(), Login_password.Trim(), "Admin");
 
+                if (Database_Connection_Class.Modify_User_Table("insert", user))
+                {
+                    MainWindow.MainWindowViewModel.Change_View(false);
+                    Login_Method();
+                    Clear_Sign_up();
+                }
             }
             else
             {

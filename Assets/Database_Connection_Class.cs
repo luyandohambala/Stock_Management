@@ -237,6 +237,7 @@ namespace Stock_Management.Assets
                                                         (@First_name,
                                                         @Last_name,
                                                         @User_name,
+                                                        @Email_address,
                                                         @Password_entry,
                                                         @Authority_)", User_Object);
                         return true;
@@ -246,6 +247,7 @@ namespace Stock_Management.Assets
                         db.Execute(@"UPDATE User_Table SET First_name = @First_name,
                                                     Last_name = @Last_name,
                                                     User_name = @User_name,
+                                                    Email_address = @Email_address,
                                                     Password_entry = @Password_entry,
                                                     Authority_ = @Authority_
                                                     WHERE User_name = @User_name", User_Object);

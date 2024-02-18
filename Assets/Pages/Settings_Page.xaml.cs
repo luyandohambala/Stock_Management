@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Stock_Management.Assets.ViewModel;
+using System.Net.Mail;
 using System.Timers;
 using System.Windows;
 using System.Windows.Automation.Peers;
@@ -237,14 +238,17 @@ namespace Stock_Management.Assets.Pages
         private string user_name;
 
         [ObservableProperty]
+        private string email_address;
+
+        [ObservableProperty]
         private string password_entry;
 
         [ObservableProperty]
         private string authority_;
 
-        public settings_data(string first, string last, string user, string password, string authority)
+        public settings_data(string first, string last, string user, string email, string password, string authority)
         {
-            First_name = first; Last_name = last; User_name = user; Password_entry = password; Authority_ = authority;
+            First_name = first; Last_name = last; User_name = user; Email_address = email; Password_entry = password; Authority_ = authority;
         }
 
 
@@ -256,6 +260,22 @@ namespace Stock_Management.Assets.Pages
         public settings_data()
         {
             
+        }
+
+        public bool email_validation()
+        {
+            var valid = true;
+
+            try
+            {
+                var emailAddress = new MailAddress(Email_address);
+            }
+            catch
+            {
+                valid = false;
+            }
+
+            return valid;
         }
     }
 
